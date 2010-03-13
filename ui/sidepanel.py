@@ -19,20 +19,13 @@ class SidePanel(gtk.VBox):
         for id in gtk.stock_list_ids():
             t = [id, id, self.render_icon(id, gtk.ICON_SIZE_MENU)]
             box.add_tool(t)
-        #~ for i in range(50):
-        #~     img = gtk.Image()
-        #~     img.set_from_stock(gtk.STOCK_HOME, gtk.ICON_SIZE_MENU)
-        #~     b = gtk.Button()
-        #~     b.add(img)
-        #~     b.set_relief(gtk.RELIEF_NONE)
-        #~     box.add_tool(b)
-        ####################
         self.add_expander('tree',       "Project tree",   gtk.Label("Hello !"))
         self.add_expander('struct',     "File structure", gtk.Label("Hello !"))
         self.add_expander('operators',  "Operators",      box              )
         self.add_expander('arrows',     "Arrows",         gtk.Label("Hello !"))
         self.add_expander('greek',      "Greek letters",  gtk.Label("Hello !"))
         self.add_expander('diacritics', "Diacritics",     gtk.Label("Hello !"))
+        ####################
         self.show_all()
         # Set the first expander as visible, and hide the others
         self.on_expander(self.expanders['tree'])

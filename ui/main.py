@@ -11,7 +11,7 @@ import sidepanel
 #------------------------------------------------------------------------------
 
 class EuphorbiaGUI:
-    """GUI of Euphorbia."""
+    """Graphical User Interface."""
     
     def __init__(self):
         self.build_interface()
