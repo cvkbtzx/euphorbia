@@ -3,7 +3,6 @@
 import pygtk
 pygtk.require('2.0')
 import gtk
-import gtk.glade
 
 import sidepanel
 
@@ -15,32 +14,44 @@ class EuphorbiaGUI:
     
     def __init__(self):
         self.build_interface()
-        self['window'].show()
+        self.win.set_transient_for(None)
+        self.win.show()
         return
     
     def build_interface(self):
         """Build the graphical interface."""
-        # Glade widgets loading
-        self.widgets = gtk.glade.XML("./ui/main.glade", 'window')
-        events = {
-            'on_window_delete_event':   self.ev_delete,
-            'on_window_destroy':        self.ev_destroy
-        }
-        self.widgets.signal_autoconnect(events)
+        # Widgets loading
+        self.builder = gtk.Builder()
+        self.builder.add_from_file("./ui/main.glade")
+        self.builder.connect_signals(self)
+        self.win = self.builder.get_object('window')
         # Other widgets
-        self['hpaned1'].get_child1().destroy()
-        self['hpaned1'].pack1(sidepanel.SidePanel(), False, True)
-        self['hpaned1'].set_position(175)
-        self['window'].set_transient_for(None)
+        hp = self.builder.get_object('hpaned1')
+        hp.get_child1().destroy()
+        hp.pack1(sidepanel.SidePanel(), False, True)
+        hp.set_position(175)
+        # Manager
+        self.uim = gtk.UIManager()
+        self.win.add_accel_group(self.uim.get_accel_group())
+        # Actions
+        ag = gtk.ActionGroup('base')
+        for w in self.builder.get_objects():
+            if type(w) is gtk.Action:
+                ag.add_action_with_accel(w, None)
+        self.uim.insert_action_group(ag, 0)
         return
     
-    def ev_delete(self, widget=None, event=None, data=None):
+    def ev_quit(self, *data):
+        ###self.save_conf()
+        self.ev_destroy()
+    
+    def ev_delete_event(self, *data):
         """Callback for 'delete_event' event."""
         print "'delete_event' event occurred"
         ###self.save_conf()
         return False
     
-    def ev_destroy(self, widget=None, data=None):
+    def ev_destroy(self, *data):
         """Callback for 'destroy' event."""
         print "'destroy' event occurred"
         gtk.main_quit()
@@ -49,10 +60,6 @@ class EuphorbiaGUI:
         """Main loop."""
         gtk.main()
         return 0
-    
-    def __getitem__(self, key):
-        """Get a widget by calling: self['widget_name']."""
-        return self.widgets.get_widget(key)
 
 
 #------------------------------------------------------------------------------
