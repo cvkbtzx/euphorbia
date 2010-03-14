@@ -59,10 +59,10 @@ class Document:
         return
     
     def on_b_close_clicked(self, widget=None, data=None):
-        self.destroy()
+        self.close()
         return
     
-    def destroy(self):
+    def close(self):
         self.notebook.remove_page(self.notebook.page_num(self.content))
         return
 
@@ -74,12 +74,14 @@ class EditView(gtk.ScrolledWindow):
     
     def __init__(self):
         gtk.ScrolledWindow.__init__(self)
+        self.set_policy(gtk.POLICY_AUTOMATIC, gtk.POLICY_ALWAYS)
         self.buffer = gtksv.Buffer()
         self.lang_manager = gtksv.LanguageManager()
         self.lang = self.lang_manager.get_language('latex')
         self.buffer.set_language(self.lang)
         self.buffer.set_highlight_syntax(True)
         self.view = gtksv.View(self.buffer)
+        self.view.set_show_line_marks(True)
         self.view.set_show_line_numbers(True)
         self.view.set_cursor_visible(True)
         self.view.set_wrap_mode(gtk.WRAP_WORD)
@@ -102,8 +104,7 @@ if __name__ == "__main__":
     Document(nb, "Hello")
     Document(nb)
     Document(nb, "Bye")
-    nb.show()
-    win.show()
+    win.show_all()
     gtk.main()
 
 

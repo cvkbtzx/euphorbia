@@ -4,7 +4,9 @@ import pygtk
 pygtk.require('2.0')
 import gtk
 
+import actions
 import sidepanel
+import document
 
 
 #------------------------------------------------------------------------------
@@ -14,6 +16,7 @@ class EuphorbiaGUI:
     
     def __init__(self):
         self.build_interface()
+        document.Document(self.builder.get_object('notebook_docs'))
         self.win.set_transient_for(None)
         self.win.show()
         return
@@ -30,15 +33,25 @@ class EuphorbiaGUI:
         hp.get_child1().destroy()
         hp.pack1(sidepanel.SidePanel(), False, True)
         hp.set_position(175)
-        # Manager
+        # UI Manager
         self.uim = gtk.UIManager()
+        # Accels
         self.win.add_accel_group(self.uim.get_accel_group())
         # Actions
-        ag = gtk.ActionGroup('base')
-        for w in self.builder.get_objects():
-            if type(w) is gtk.Action:
-                ag.add_action_with_accel(w, None)
-        self.uim.insert_action_group(ag, 0)
+        actg = gtk.ActionGroup('base')
+        actg.add_actions(actions.get(self))
+        self.uim.insert_action_group(actg, 0)
+        # Interface
+        self.uim.add_ui_from_file("./ui/main-ui.xml")
+        menu = self.uim.get_widget("/MainMenu")
+        self.builder.get_object('vbox1').pack_start(menu, False, True)
+        self.builder.get_object('vbox1').reorder_child(menu, 0)
+        toolbar = self.uim.get_widget("/MainToolbar")
+        toolbar.set_style(gtk.TOOLBAR_BOTH_HORIZ)
+        toolbar.set_icon_size(gtk.ICON_SIZE_MENU)
+        toolbar.set_tooltips(True)
+        toolbar.set_show_arrow(True)
+        self.builder.get_object('handlebox1').add(toolbar)
         return
     
     def ev_quit(self, *data):

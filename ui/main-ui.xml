@@ -1,0 +1,31 @@
+<ui>
+    <menubar name="MainMenu">
+        <menu action="FileMenu">
+            <menuitem action="NewdocAction" />
+            <menuitem action="OpenAction" />
+            <menuitem action="SaveAction" />
+            <menuitem action="SaveasAction" />
+            <separator />
+            <menuitem action="QuitAction" />
+        </menu>
+        <menu action="EditMenu">
+            <menuitem action="CutAction" />
+            <menuitem action="CopyAction" />
+            <menuitem action="PasteAction" />
+        </menu>
+        <menu action="DisplayMenu">
+            <placeholder />
+        </menu>
+        <menu action="HelpMenu">
+            <menuitem action="AboutAction" />
+        </menu>
+    </menubar>
+    <toolbar name="MainToolbar">
+        <toolitem action="NewdocAction" />
+        <toolitem action="OpenAction" />
+        <separator />
+        <toolitem action="CutAction" />
+        <toolitem action="CopyAction" />
+        <toolitem action="PasteAction" />
+    </toolbar>
+</ui>
