@@ -19,7 +19,6 @@ class EuphorbiaGUI:
         document.Document(self.builder.get_object('notebook_docs'))
         self.win.set_transient_for(None)
         self.win.show()
-        return
     
     def build_interface(self):
         """Build the graphical interface."""
@@ -29,7 +28,7 @@ class EuphorbiaGUI:
         self.builder.connect_signals(self)
         self.win = self.builder.get_object('window')
         # Other widgets
-        hp = self.builder.get_object('hpaned1')
+        hp = self.builder.get_object('hpaned')
         hp.get_child1().destroy()
         hp.pack1(sidepanel.SidePanel(), False, True)
         hp.set_position(175)
@@ -43,15 +42,15 @@ class EuphorbiaGUI:
         self.uim.insert_action_group(actg, 0)
         # Interface
         self.uim.add_ui_from_file("./ui/main-ui.xml")
-        menu = self.uim.get_widget("/MainMenu")
-        self.builder.get_object('vbox1').pack_start(menu, False, True)
-        self.builder.get_object('vbox1').reorder_child(menu, 0)
-        toolbar = self.uim.get_widget("/MainToolbar")
-        toolbar.set_style(gtk.TOOLBAR_BOTH_HORIZ)
-        toolbar.set_icon_size(gtk.ICON_SIZE_MENU)
-        toolbar.set_tooltips(True)
-        toolbar.set_show_arrow(True)
-        self.builder.get_object('handlebox1').add(toolbar)
+        menu = self.uim.get_widget("/menu_main")
+        self.builder.get_object('vbox_main').pack_start(menu, False, True)
+        self.builder.get_object('vbox_main').reorder_child(menu, 0)
+        toolbar = self.uim.get_widget("/toolbar_main")
+        ###toolbar.set_style(gtk.TOOLBAR_BOTH_HORIZ)
+        ###toolbar.set_icon_size(gtk.ICON_SIZE_MENU)
+        ###toolbar.set_tooltips(True)
+        ###toolbar.set_show_arrow(True)
+        self.builder.get_object('handlebox_main').add(toolbar)
         return
     
     def ev_quit(self, *data):

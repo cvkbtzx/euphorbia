@@ -1,4 +1,4 @@
-#!/usr/bin/python2
+#!/usr/bin/env python2
 # -*- coding:utf-8 -*-
 
 ##  EUPHORBIA - GTK LaTeX Editor
@@ -20,7 +20,6 @@
 
 #------------------------------------------------------------------------------
 
-
 """Euphorbia: LaTeX editor."""
 
 __version__ = '0.0.2'
@@ -29,18 +28,32 @@ __author__  = 'Bzoloid <bzoloid@gmail.com>'
 __licence__ = 'GNU GPL v2'
 
 import ui
-
-#~ try:
-#~     import psyco
-#~     psyco.full()
-#~     print "Psyco enabled."
-#~ except ImportError:
-#~     print "Psyco not installed, the program will just run slower."
+import prefs
 
 
-print "START"
-Euphorbia = ui.EuphorbiaGUI()
-Euphorbia.main()
-print "STOP"
+#------------------------------------------------------------------------------
+
+class Euphorbia:
+    """Main class."""
+    
+    def __init__(self):
+        self.pm = prefs.PrefsManager()
+        self.gui = ui.EuphorbiaGUI()
+        self.pm.build_widget_dict(self.gui.win)
+        self.pm.apply_all()
+    
+    def run(self):
+        self.gui.main()
+
+
+#------------------------------------------------------------------------------
+
+if __name__ == "__main__":
+    print "START"
+    Euphorbia().run()
+    print "STOP"
+
+
+#------------------------------------------------------------------------------
 
 

@@ -56,7 +56,6 @@ class Document:
         # Display
         hb.show_all()
         self.content.show_all()
-        return
     
     def on_b_close_clicked(self, widget=None, data=None):
         self.close()
@@ -87,7 +86,6 @@ class EditView(gtk.ScrolledWindow):
         self.view.set_wrap_mode(gtk.WRAP_WORD)
         self.view.set_highlight_current_line(True)
         self.add(self.view)
-        return
 
 
 #------------------------------------------------------------------------------

@@ -18,7 +18,7 @@ class Palette(gtk.ScrolledWindow):
         # Create the ListStore
         self.store = gtk.ListStore(str, str, gtk.gdk.Pixbuf)
         # Setup the IconView
-        SPACING = 3
+        SPACING = 1
         self.iw = gtk.IconView(self.store)
         self.iw.set_tooltip_column(1)
         self.iw.set_pixbuf_column(2)
@@ -32,7 +32,6 @@ class Palette(gtk.ScrolledWindow):
         # Display
         self.add(self.iw)
         self.iw.show_all()
-        return
     
     def add_tool(self, tool):
         """Add a tool to the palette: [ID(str), tooltip(str), icon(gtk.gdk.Pixbuf)]."""

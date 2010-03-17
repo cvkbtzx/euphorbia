@@ -1,31 +1,31 @@
 <ui>
-    <menubar name="MainMenu">
-        <menu action="FileMenu">
-            <menuitem action="NewdocAction" />
-            <menuitem action="OpenAction" />
-            <menuitem action="SaveAction" />
-            <menuitem action="SaveasAction" />
+    <menubar name="menu_main">
+        <menu action="menu_file">
+            <menuitem action="action_newdoc" />
+            <menuitem action="action_open" />
+            <menuitem action="action_save" />
+            <menuitem action="action_saveas" />
             <separator />
-            <menuitem action="QuitAction" />
+            <menuitem action="action_quit" />
         </menu>
-        <menu action="EditMenu">
-            <menuitem action="CutAction" />
-            <menuitem action="CopyAction" />
-            <menuitem action="PasteAction" />
+        <menu action="menu_edit">
+            <menuitem action="action_cut" />
+            <menuitem action="action_copy" />
+            <menuitem action="action_paste" />
         </menu>
-        <menu action="DisplayMenu">
+        <menu action="menu_display">
             <placeholder />
         </menu>
-        <menu action="HelpMenu">
-            <menuitem action="AboutAction" />
+        <menu action="menu_help">
+            <menuitem action="action_about" />
         </menu>
     </menubar>
-    <toolbar name="MainToolbar">
-        <toolitem action="NewdocAction" />
-        <toolitem action="OpenAction" />
+    <toolbar name="toolbar_main">
+        <toolitem action="action_newdoc" />
+        <toolitem action="action_open" />
         <separator />
-        <toolitem action="CutAction" />
-        <toolitem action="CopyAction" />
-        <toolitem action="PasteAction" />
+        <toolitem action="action_cut" />
+        <toolitem action="action_copy" />
+        <toolitem action="action_paste" />
     </toolbar>
 </ui>

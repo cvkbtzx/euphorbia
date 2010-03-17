@@ -10,13 +10,12 @@
     <signal name="destroy" handler="ev_destroy"/>
     <signal name="delete_event" handler="ev_delete_event"/>
     <child>
-      <object class="GtkVBox" id="vbox1">
+      <object class="GtkVBox" id="vbox_main">
         <property name="visible">True</property>
         <property name="orientation">vertical</property>
         <child>
-          <object class="GtkHandleBox" id="handlebox1">
+          <object class="GtkHandleBox" id="handlebox_main">
             <property name="visible">True</property>
-            <property name="shadow_type">none</property>
             <child>
               <placeholder/>
             </child>
@@ -27,7 +26,7 @@
           </packing>
         </child>
         <child>
-          <object class="GtkHPaned" id="hpaned1">
+          <object class="GtkHPaned" id="hpaned">
             <property name="visible">True</property>
             <property name="can_focus">True</property>
             <child>
@@ -41,7 +40,7 @@
               </packing>
             </child>
             <child>
-              <object class="GtkVPaned" id="vpaned1">
+              <object class="GtkVPaned" id="vpaned">
                 <property name="visible">True</property>
                 <property name="can_focus">True</property>
                 <property name="orientation">vertical</property>
@@ -114,7 +113,7 @@
           </packing>
         </child>
         <child>
-          <object class="GtkStatusbar" id="statusbar1">
+          <object class="GtkStatusbar" id="statusbar">
             <property name="visible">True</property>
             <property name="spacing">2</property>
           </object>
