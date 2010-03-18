@@ -1,5 +1,6 @@
 # -*- coding:utf-8 -*-
 
+import gobject
 import pygtk
 pygtk.require('2.0')
 import gtk
@@ -19,16 +20,12 @@ widget "*-euphorbia-tab" style "euphorbia-tab-style"
 
 #------------------------------------------------------------------------------
 
-class Document:
-    """Class for documents managing. Includes notebook tabs and edit zone."""
+class TabWrapper:
+    """Wrapper for notebook tabs."""
     
-    def __init__(self, notebook, filename=None, filetype=None):
+    def __init__(self, notebook, child):
         # Tab name
-        if filename:
-            self.filename = filename
-        else:
-            self.filename = "New document"
-        self.title = gtk.Label(self.filename)
+        self.title = gtk.Label()
         self.title.set_alignment(0.0, 0.5)
         # Tab close button
         img = gtk.Image()
@@ -36,34 +33,45 @@ class Document:
         b_close = gtk.Button()
         b_close.set_relief(gtk.RELIEF_NONE)
         b_close.set_focus_on_click(False)
-        b_close.connect('clicked', lambda w: self.on_b_close_clicked(w))
+        b_close.connect('clicked', lambda w: self.ev_close_clicked(w))
         b_close.set_name("b" + str(hash(str(b_close))) + "-euphorbia-tab")
         b_close.add(img)
-        # Tab packing
-        icon = gtk.Image()
-        icon.set_from_stock(gtk.STOCK_FILE, gtk.ICON_SIZE_MENU)
+        # Tab icon
+        self.icon = gtk.Image()
+        # Packing
         hb = gtk.HBox(False, 5)
-        hb.pack_start(icon, False, False)
+        hb.pack_start(self.icon, False, False)
         hb.pack_start(self.title, True, True)
         hb.pack_end(b_close, False, False)
-        # Child widget = GtkSourceView
-        self.content = EditView()
         # Add the tab to the notebook
+        self.content = child
         notebook.append_page(self.content, hb)
         notebook.set_tab_reorderable(self.content, True)
         notebook.set_current_page(notebook.page_num(self.content))
         self.notebook = notebook
         # Display
         hb.show_all()
-        self.content.show_all()
+        self.content.show()
     
-    def on_b_close_clicked(self, widget=None, data=None):
+    def ev_close_clicked(self, widget=None, data=None):
         self.close()
         return
     
     def close(self):
         self.notebook.remove_page(self.notebook.page_num(self.content))
         return
+
+
+#------------------------------------------------------------------------------
+
+class Document(TabWrapper):
+    """Class for documents managing. Includes notebook tabs and edit zone."""
+    
+    def __init__(self, notebook, filename=None, filetype=None):
+        TabWrapper.__init__(self, notebook, EditView())
+        self.filename = filename if filename else "New document"
+        self.title.set_text(self.filename)
+        self.icon.set_from_stock(gtk.STOCK_FILE, gtk.ICON_SIZE_MENU)
 
 
 #------------------------------------------------------------------------------
@@ -86,6 +94,8 @@ class EditView(gtk.ScrolledWindow):
         self.view.set_wrap_mode(gtk.WRAP_WORD)
         self.view.set_highlight_current_line(True)
         self.add(self.view)
+        self.show_all()
+        gobject.timeout_add(250, self.view.grab_focus)
 
 
 #------------------------------------------------------------------------------
