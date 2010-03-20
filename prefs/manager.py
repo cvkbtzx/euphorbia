@@ -46,7 +46,7 @@ class PrefsManager:
     def connect_prefs_by_type(self, obj):
         """Connect an object to all prefs matching its type."""
         if not hasattr(obj, 'name'):
-            return False
+            return
         name = obj.name
         clst = self.types[name] if name in self.types else set([])
         for t,c in self.types.iteritems():
@@ -54,7 +54,7 @@ class PrefsManager:
                 clst.update(c)
         for c in clst:
             self.connect_pref(obj, c)
-        return True
+        return
     
     def autoconnect_gtk(self, parentobj):
         """Scan GTK widgets recursively and connect prefs from type."""
@@ -75,11 +75,7 @@ class PrefsManager:
     
     def list_prefs(self, obj):
         """List prefs connected with given object."""
-        l = []
-        for c,v in self.codes.iteritems():
-            if obj in self.codes[c][0]:
-                l.append(c)
-        return l
+        return [c for c in self.codes.iterkeys() if obj in self.codes[c][0]]
     
     def set_pref(self, code, val):
         """Assign a value to a pref."""
@@ -92,16 +88,19 @@ class PrefsManager:
         else:
             return False
     
-    def get_values(self, code):
-        """Get allowed and current values."""
-        if code in self.codes:
-            return (self.codes[code][2], self.codes[code][-1])
-        else:
-            return None
+    def get_pref(self, code):
+        """Get pref's current value."""
+        return self.codes[code][-1] if code in self.codes else None
+    
+    def get_pref_values(self, code):
+        """Get allowed pref's values."""
+        return self.codes[code][2] if code in self.codes else None
     
     def apply_pref(self, code):
         """Execute the pref's function."""
         fname = self.codes[code][1]
+        if type(fname) is dict:
+            fname = fname[self.codes[code][-1]]
         for obj in self.codes[code][0]:
             f = getattr(obj, fname)
             f(self.codes[code][-1])

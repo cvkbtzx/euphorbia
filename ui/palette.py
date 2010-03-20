@@ -22,6 +22,8 @@ class Palette(gtk.ScrolledWindow):
         self.iw = gtk.IconView(self.store)
         self.iw.set_tooltip_column(1)
         self.iw.set_pixbuf_column(2)
+        self.iw.set_text_column(-1)   # deactivate text
+        self.iw.set_markup_column(-1)   # deactivate markup
         self.iw.set_selection_mode(gtk.SELECTION_NONE)
         self.iw.set_reorderable(False)
         self.iw.set_spacing(0)
