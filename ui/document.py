@@ -7,8 +7,7 @@ import gtk
 import gtksourceview2 as gtksv
 
 gtk.rc_parse_string ("""
-style "euphorbia-tab-style"
-{
+style "euphorbia-tab-style" {
     GtkWidget::focus-padding = 0
     GtkWidget::focus-line-width = 0
     xthickness = 0
@@ -88,11 +87,7 @@ class EditView(gtk.ScrolledWindow):
         self.buffer.set_language(self.lang)
         self.buffer.set_highlight_syntax(True)
         self.view = gtksv.View(self.buffer)
-        self.view.set_show_line_marks(True)
-        self.view.set_show_line_numbers(True)
-        self.view.set_cursor_visible(True)
-        self.view.set_wrap_mode(gtk.WRAP_WORD)
-        self.view.set_highlight_current_line(True)
+        self.view.set_name("editview")
         self.add(self.view)
         self.show_all()
         gobject.timeout_add(250, self.view.grab_focus)
@@ -101,6 +96,12 @@ class EditView(gtk.ScrolledWindow):
 #------------------------------------------------------------------------------
 
 if __name__ == "__main__":
+    def config(doc):
+        doc.content.view.set_show_line_marks(True)
+        doc.content.view.set_show_line_numbers(True)
+        doc.content.view.set_cursor_visible(True)
+        doc.content.view.set_wrap_mode(gtk.WRAP_WORD)
+        doc.content.view.set_highlight_current_line(True)
     win = gtk.Window()
     win.set_default_size(640, 480)
     win.set_position(gtk.WIN_POS_CENTER)
@@ -108,11 +109,12 @@ if __name__ == "__main__":
     nb = gtk.Notebook()
     nb.set_show_tabs(True)
     nb.set_scrollable(True)
+    nb.show()
     win.add(nb)
-    Document(nb, "Hello")
-    Document(nb)
-    Document(nb, "Bye")
-    win.show_all()
+    docs = [Document(nb,"Hello"), Document(nb), Document(nb,"Bye")]
+    for d in docs:
+        config(d)
+    win.show()
     gtk.main()
 
 

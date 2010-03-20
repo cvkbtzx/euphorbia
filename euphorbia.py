@@ -1,4 +1,4 @@
-#!/usr/bin/env python2
+#!/usr/bin/python2 -O
 # -*- coding:utf-8 -*-
 
 ##  EUPHORBIA - GTK LaTeX Editor
@@ -39,8 +39,8 @@ class Euphorbia:
     def __init__(self):
         self.pm = prefs.PrefsManager()
         self.gui = ui.EuphorbiaGUI()
-        self.pm.build_widget_dict(self.gui.win)
-        self.pm.apply_all()
+        self.pm.autoconnect_gtk(self.gui.win)
+        self.pm.apply_all_prefs()
     
     def run(self):
         self.gui.main()

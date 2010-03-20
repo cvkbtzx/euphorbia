@@ -31,7 +31,7 @@ class EuphorbiaGUI:
         hp = self.builder.get_object('hpaned')
         hp.get_child1().destroy()
         hp.pack1(sidepanel.SidePanel(), False, True)
-        hp.set_position(175)
+        hp.set_position(215)
         # UI Manager
         self.uim = gtk.UIManager()
         # Accels
