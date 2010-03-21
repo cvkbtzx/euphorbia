@@ -21,29 +21,47 @@ class PluginsManager:
         """Load plugin."""
         if plugin in self.instances:
             return False
-        for p in self.paths:
-            self.add_plugin_path(p)
-        __import__(plugin, None, None, [''])
-        for p in self.paths:
-            self.del_plugin_path(p)
-        sc = [sc for sc in euphorbia.Plugin.__subclasses__() if sc.__module__ == plugin]
-        if len(sc) != 1:
-            return False
-        plugclass = sc[0]
-        pluginstance = plugclass()
-        self.instances[plugin] = pluginstance
-        pluginstance.activate()
-        return
+        ret = False
+        try:
+            for p in self.paths:
+                self.add_plugin_path(p)
+            __import__(plugin, None, None, [''])
+            for p in self.paths:
+                self.del_plugin_path(p)
+            sc = [sc for sc in euphorbia.Plugin.__subclasses__() if sc.__module__ == plugin]
+            if len(sc) != 1:
+                raise AttributeError("Too much euphorbia.Plugin subclasses")
+            plugclass = sc[0]
+            pluginstance = plugclass()
+            pluginstance.activate()
+        except StandardError:
+            print ""
+            print "ERROR in plugin '%s':" % (plugin)
+            sys.excepthook(*sys.exc_info())
+            print ""
+        else:
+            self.instances[plugin] = pluginstance
+            ret = True
+        return ret
     
     def unload_plugin(self, plugin):
         """Unload plugin."""
         if plugin not in self.instances:
-            return
+            return False
         pluginstance = self.instances[plugin]
-        pluginstance.deactivate()
-        del self.instances[plugin]
-        del pluginstance
-        return
+        ret = False
+        try:
+            pluginstance.deactivate()
+            del self.instances[plugin]
+            del pluginstance
+        except StandardError:
+            print ""
+            print "ERROR in plugin '%s':" % (plugin)
+            sys.excepthook(*sys.exc_info())
+            print ""
+        else:
+            ret = True
+        return ret
     
     def add_plugin_path(self, path):
         """Add given path to PYTHONPATH."""

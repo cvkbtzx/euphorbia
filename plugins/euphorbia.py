@@ -1,7 +1,7 @@
 # -*- coding:utf-8 -*-
 
 from ui.palette import Palette
-from ui.document import TabWrapper, Document
+from ui.document import TabWrapper
 
 app = None
 

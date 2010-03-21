@@ -46,14 +46,23 @@ class EuphorbiaGUI:
         self.builder.get_object('vbox_main').pack_start(menu, False, True)
         self.builder.get_object('vbox_main').reorder_child(menu, 0)
         toolbar = self.uim.get_widget("/toolbar_main")
-        ###toolbar.set_style(gtk.TOOLBAR_BOTH_HORIZ)
-        ###toolbar.set_icon_size(gtk.ICON_SIZE_MENU)
-        ###toolbar.set_tooltips(True)
-        ###toolbar.set_show_arrow(True)
         self.builder.get_object('handlebox_main').add(toolbar)
         return
     
+    def get_widgets_by_name(self, wname, parent=None):
+        """Get widget(s) instance(s) from name."""
+        wlist = set()
+        parent = parent if parent else self.win
+        if hasattr(parent, 'name'):
+            if parent.name == wname:
+                wlist.add(parent)
+        if hasattr(parent, 'get_children'):
+            for c in parent.get_children():
+                wlist.update(self.get_widgets_by_name(wname,c))
+        return wlist
+    
     def ev_quit(self, *data):
+        """Callback for 'Quit' action."""
         ###self.save_conf()
         self.ev_destroy()
     

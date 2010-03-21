@@ -75,7 +75,7 @@ class PrefsManager:
     
     def list_prefs(self, obj):
         """List prefs connected with given object."""
-        return [c for c in self.codes.iterkeys() if obj in self.codes[c][0]]
+        return [c for c in self.codes if obj in self.codes[c][0]]
     
     def set_pref(self, code, val):
         """Assign a value to a pref."""
@@ -108,7 +108,7 @@ class PrefsManager:
     
     def apply_all_prefs(self):
         """Execute all pref's functions."""
-        for c in self.codes.iterkeys():
+        for c in self.codes:
             self.apply_pref(c)
         return
 
