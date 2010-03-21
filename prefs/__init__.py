@@ -1,6 +1,6 @@
 # -*- coding:utf-8 -*-
 
-PREFS_DIR = "./"
+"""Preferences management."""
 
 from manager import *
 

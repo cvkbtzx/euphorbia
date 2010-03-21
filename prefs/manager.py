@@ -1,5 +1,7 @@
 # -*- coding:utf-8 -*-
 
+"""Preferences manager."""
+
 from defaults import *
 
 

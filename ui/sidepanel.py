@@ -1,5 +1,7 @@
 # -*- coding:utf-8 -*-
 
+"""Side panel widget."""
+
 import pygtk
 pygtk.require('2.0')
 import gtk

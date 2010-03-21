@@ -1,5 +1,7 @@
 # -*- coding:utf-8 -*-
 
+"""Euphorbia plugin wrapper."""
+
 from ui.palette import Palette
 from ui.document import TabWrapper
 

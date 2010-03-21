@@ -1,10 +1,15 @@
 # -*- coding:utf-8 -*-
 
+"""Module with tab and document management classes."""
+
 import gobject
 import pygtk
 pygtk.require('2.0')
 import gtk
 import gtksourceview2 as gtksv
+
+
+#------------------------------------------------------------------------------
 
 gtk.rc_parse_string ("""
 style "euphorbia-tab-style" {

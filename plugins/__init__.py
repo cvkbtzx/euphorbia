@@ -1,5 +1,7 @@
 # -*- coding:utf-8 -*-
 
+"""Plugins management."""
+
 import sys
 import euphorbia
 

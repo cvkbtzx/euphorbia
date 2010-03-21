@@ -1,5 +1,10 @@
 # -*- coding:utf-8 -*-
 
+"""Definition of preferences."""
+
+
+#------------------------------------------------------------------------------
+
 DEFAULT_PREFS = [
     # Key, function, {allowed_values}, default_value, type]
     ["toolbar_arrow", 'set_show_arrow', 'bool', True, "toolbar*"],

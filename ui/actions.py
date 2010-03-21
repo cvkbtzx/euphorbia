@@ -1,6 +1,11 @@
 # -*- coding:utf-8 -*-
 
+"""Definition of default actions."""
+
 import gtk
+
+
+#------------------------------------------------------------------------------
 
 def get(cls):
     """Get actions with appropriate callbacks from specified class."""
@@ -21,5 +26,8 @@ def get(cls):
         ('action_about',  gtk.STOCK_ABOUT,   None, None, None, None)
     ]
     return actions
+
+
+#------------------------------------------------------------------------------
 
 
