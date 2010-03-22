@@ -40,7 +40,7 @@ class Euphorbia:
     def __init__(self):
         self.prefm = prefs.PrefsManager()
         self.plugm = exts.PluginsManager(self)
-        self.gui = ui.EuphorbiaGUI()
+        self.gui = ui.EuphorbiaGUI(self)
         ###self.plugm.load_plugin('pdfview')
         self.prefm.autoconnect_gtk(self.gui.win)
         self.prefm.apply_all_prefs()

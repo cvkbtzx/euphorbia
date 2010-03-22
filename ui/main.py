@@ -16,7 +16,8 @@ import document
 class EuphorbiaGUI:
     """Graphical User Interface."""
     
-    def __init__(self):
+    def __init__(self, app):
+        self.app = app
         self.build_interface()
         document.Document(self.builder.get_object('notebook_docs'))
         self.win.set_transient_for(None)
@@ -63,16 +64,23 @@ class EuphorbiaGUI:
                 wlist.update(self.get_widgets_by_name(wname,c))
         return wlist
     
+    def quit(self):
+        """Ensure the application quits correctly."""
+        self.app.plugm.stop_all_plugins()
+        return True
+    
     def ev_quit(self, *data):
         """Callback for 'Quit' action."""
-        ###self.save_conf()
-        self.ev_destroy()
+        q = self.quit()
+        if q:
+            self.ev_destroy()
+        return
     
     def ev_delete_event(self, *data):
         """Callback for 'delete_event' event."""
         print "'delete_event' event occurred"
-        ###self.save_conf()
-        return False
+        q = not self.quit()
+        return q
     
     def ev_destroy(self, *data):
         """Callback for 'destroy' event."""

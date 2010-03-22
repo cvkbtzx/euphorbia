@@ -78,6 +78,12 @@ class PluginsManager:
             sys.path.remove(path)
         return
     
+    def stop_all_plugins(self):
+        """Deactivate all plugins."""
+        for p in self.instances.keys():
+            self.unload_plugin(p)
+        return
+    
     def list_loaded_plugins(self):
         """List plugins which have been loaded."""
         return self.instances.keys()
