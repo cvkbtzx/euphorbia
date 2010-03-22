@@ -22,8 +22,8 @@
 
 """Euphorbia: LaTeX editor."""
 
-__version__ = '0.0.3'
-__date__    = '2010-03-17'
+__version__ = '0.0.4'
+__date__    = '2010-03-23'
 __author__  = 'Bzoloid <bzoloid@gmail.com>'
 __licence__ = 'GNU GPL v2'
 
