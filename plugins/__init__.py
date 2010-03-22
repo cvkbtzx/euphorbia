@@ -6,6 +6,7 @@ import sys
 import euphorbia
 
 sys.modules['euphorbia'] = sys.modules['plugins.euphorbia']
+PATHS = ['/'.join(__file__.split('/')[:-2] + ["archives","plugins"])]
 
 
 #------------------------------------------------------------------------------
@@ -14,7 +15,7 @@ class PluginsManager:
     """Class to manage plugins."""
     
     def __init__(self, mainapp):
-        self.paths = ["/mnt/data/prog/python/euphorbia/archives/plugins"]
+        self.paths = PATHS
         setattr(euphorbia, 'app', mainapp)
         self.instances = {}
         return

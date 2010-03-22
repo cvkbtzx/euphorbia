@@ -1,4 +1,4 @@
-#!/usr/bin/python2 -O
+#!/usr/bin/python2
 # -*- coding:utf-8 -*-
 
 ##  EUPHORBIA - GTK LaTeX Editor
@@ -29,6 +29,7 @@ __licence__ = 'GNU GPL v2'
 
 import ui
 import prefs
+import plugins
 
 
 #------------------------------------------------------------------------------
@@ -37,10 +38,12 @@ class Euphorbia:
     """Main class."""
     
     def __init__(self):
-        self.pm = prefs.PrefsManager()
+        self.prefm = prefs.PrefsManager()
+        self.plugm = plugins.PluginsManager(self)
         self.gui = ui.EuphorbiaGUI()
-        self.pm.autoconnect_gtk(self.gui.win)
-        self.pm.apply_all_prefs()
+        #self.plugm.load_plugin('pdfview')
+        self.prefm.autoconnect_gtk(self.gui.win)
+        self.prefm.apply_all_prefs()
     
     def run(self):
         self.gui.main()
