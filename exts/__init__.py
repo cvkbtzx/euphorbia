@@ -6,7 +6,7 @@ import sys
 import euphorbia
 
 sys.modules['euphorbia'] = sys.modules['exts.euphorbia']
-PATHS = ['/'.join(__file__.split('/')[:-2] + ["archives","plugins"])]
+PATHS = ['/'.join(__file__.split('/')[:-2] + ["plugins"])]
 
 
 #------------------------------------------------------------------------------
@@ -84,7 +84,7 @@ class PluginsManager:
     
     def get_available_plugins(self):
         """List available plugins."""
-        return ['kikoo']
+        return ['hello']
 
 
 #------------------------------------------------------------------------------
