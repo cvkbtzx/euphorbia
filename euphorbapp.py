@@ -29,7 +29,7 @@ __licence__ = 'GNU GPL v2'
 
 import ui
 import prefs
-import plugins
+import exts
 
 
 #------------------------------------------------------------------------------
@@ -39,7 +39,7 @@ class Euphorbia:
     
     def __init__(self):
         self.prefm = prefs.PrefsManager()
-        self.plugm = plugins.PluginsManager(self)
+        self.plugm = exts.PluginsManager(self)
         self.gui = ui.EuphorbiaGUI()
         #self.plugm.load_plugin('pdfview')
         self.prefm.autoconnect_gtk(self.gui.win)

@@ -5,7 +5,7 @@
 import sys
 import euphorbia
 
-sys.modules['euphorbia'] = sys.modules['plugins.euphorbia']
+sys.modules['euphorbia'] = sys.modules['exts.euphorbia']
 PATHS = ['/'.join(__file__.split('/')[:-2] + ["archives","plugins"])]
 
 
