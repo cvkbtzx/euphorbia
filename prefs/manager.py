@@ -79,6 +79,12 @@ class PrefsManager:
         """List prefs connected with given object."""
         return [c for c in self.codes if obj in self.codes[c][0]]
     
+    def iter_prefs(self):
+        """Iter on all prefs."""
+        for c,v in self.codes.iteritems():
+            yield (c, v[2], v[-1])
+        return
+    
     def set_pref(self, code, val):
         """Assign a value to a pref."""
         if code in self.codes:
@@ -98,14 +104,16 @@ class PrefsManager:
         """Get allowed pref's values."""
         return self.codes[code][2] if code in self.codes else None
     
-    def apply_pref(self, code, *user_data):
+    def apply_pref(self, code, val=None):
         """Execute the pref's function."""
+        if val is not None:
+            self.set_pref(code, val)
         fname = self.codes[code][1]
         if type(fname) is dict:
             fname = fname[self.codes[code][-1]]
         for obj in self.codes[code][0]:
             f = getattr(obj, fname)
-            f(self.codes[code][-1], *user_data)
+            f(self.codes[code][-1])
         return
     
     def apply_all_prefs(self):

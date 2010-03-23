@@ -13,8 +13,11 @@
             <menuitem action="action_copy" />
             <menuitem action="action_paste" />
         </menu>
-        <menu action="menu_display">
+        <menu action="menu_view">
             <placeholder />
+        </menu>
+        <menu action="menu_settings">
+            <menuitem action="action_prefs" />
         </menu>
         <menu action="menu_help">
             <menuitem action="action_about" />

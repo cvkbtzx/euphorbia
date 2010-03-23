@@ -13,12 +13,13 @@ import document
 
 #------------------------------------------------------------------------------
 
-class EuphorbiaGUI:
+class EuphorbiaGUI(actions.ActionsManager):
     """Graphical User Interface."""
     
     def __init__(self, app):
-        self.app = app
+        actions.ActionsManager.__init__(self, app)
         self.build_interface()
+        self.clipb = gtk.clipboard_get()
         document.Document(self.builder.get_object('notebook_docs'))
         self.win.set_transient_for(None)
         self.win.show()
@@ -39,10 +40,8 @@ class EuphorbiaGUI:
         self.uim = gtk.UIManager()
         # Accels
         self.win.add_accel_group(self.uim.get_accel_group())
-        # Actions
-        actg = gtk.ActionGroup('base')
-        actg.add_actions(actions.get(self))
-        self.uim.insert_action_group(actg, 0)
+        # Actions (actions.ActionsManager.actgrp)
+        self.uim.insert_action_group(self.actgrp, 0)
         # Interface
         self.uim.add_ui_from_file("./ui/main-ui.xml")
         menu = self.uim.get_widget("/menu_main")
@@ -64,22 +63,10 @@ class EuphorbiaGUI:
                 wlist.update(self.get_widgets_by_name(wname,c))
         return wlist
     
-    def quit(self):
-        """Ensure the application quits correctly."""
-        self.app.plugm.stop_all_plugins()
-        return True
-    
-    def ev_quit(self, *data):
-        """Callback for 'Quit' action."""
-        q = self.quit()
-        if q:
-            self.ev_destroy()
-        return
-    
     def ev_delete_event(self, *data):
         """Callback for 'delete_event' event."""
         print "'delete_event' event occurred"
-        q = not self.quit()
+        q = not self.do_quit()
         return q
     
     def ev_destroy(self, *data):

@@ -6,6 +6,7 @@ import gobject
 import pygtk
 pygtk.require('2.0')
 import gtk
+import pango
 import gtksourceview2 as gtksv
 
 
@@ -93,20 +94,26 @@ class EditView(gtk.ScrolledWindow):
         self.buffer.set_highlight_syntax(True)
         self.view = gtksv.View(self.buffer)
         self.view.set_name("editview")
+        self.view.set_show_line_marks(True)
+        self.view.set_show_line_numbers(True)
+        self.view.set_cursor_visible(True)
+        self.view.set_wrap_mode(gtk.WRAP_WORD)
+        self.view.set_highlight_current_line(True)
+        self.view.set_font = self.set_font
         self.add(self.view)
         self.show_all()
         gobject.timeout_add(250, self.view.grab_focus)
+    
+    def set_font(self, font):
+        """Set font."""
+        f = None if font is None else pango.FontDescription(font)
+        self.view.modify_font(f)
+        return
 
 
 #------------------------------------------------------------------------------
 
 if __name__ == "__main__":
-    def config(doc):
-        doc.content.view.set_show_line_marks(True)
-        doc.content.view.set_show_line_numbers(True)
-        doc.content.view.set_cursor_visible(True)
-        doc.content.view.set_wrap_mode(gtk.WRAP_WORD)
-        doc.content.view.set_highlight_current_line(True)
     win = gtk.Window()
     win.set_default_size(640, 480)
     win.set_position(gtk.WIN_POS_CENTER)
@@ -116,9 +123,9 @@ if __name__ == "__main__":
     nb.set_scrollable(True)
     nb.show()
     win.add(nb)
-    docs = [Document(nb,"Hello"), Document(nb), Document(nb,"Bye")]
-    for d in docs:
-        config(d)
+    Document(nb,"Hello")
+    Document(nb)
+    Document(nb,"Bye")
     win.show()
     gtk.main()
 

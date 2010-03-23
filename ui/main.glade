@@ -30,9 +30,8 @@
             <property name="visible">True</property>
             <property name="can_focus">True</property>
             <child>
-              <object class="GtkLabel" id="label0">
+              <object class="GtkLabel" id="label_sidepanel">
                 <property name="visible">True</property>
-                <property name="label" translatable="yes">label</property>
               </object>
               <packing>
                 <property name="resize">False</property>
@@ -61,7 +60,7 @@
                     <property name="can_focus">True</property>
                     <property name="tab_pos">left</property>
                     <child>
-                      <object class="GtkLabel" id="label5">
+                      <object class="GtkLabel" id="label1">
                         <property name="visible">True</property>
                         <property name="label" translatable="yes">compilation logs</property>
                       </object>
@@ -70,16 +69,16 @@
                       <object class="GtkImage" id="image1">
                         <property name="visible">True</property>
                         <property name="pixel_size">16</property>
-                        <property name="icon_name">system-run</property>
+                        <property name="icon_name">dialog-information</property>
                       </object>
                       <packing>
                         <property name="tab_fill">False</property>
                       </packing>
                     </child>
                     <child>
-                      <object class="GtkLabel" id="label4">
+                      <object class="GtkLabel" id="label2">
                         <property name="visible">True</property>
-                        <property name="label" translatable="yes">console</property>
+                        <property name="label" translatable="yes">compilation errors</property>
                       </object>
                       <packing>
                         <property name="position">1</property>
@@ -89,10 +88,30 @@
                       <object class="GtkImage" id="image2">
                         <property name="visible">True</property>
                         <property name="pixel_size">16</property>
-                        <property name="icon_name">utilities-terminal</property>
+                        <property name="icon_name">dialog-warning</property>
                       </object>
                       <packing>
                         <property name="position">1</property>
+                        <property name="tab_fill">False</property>
+                      </packing>
+                    </child>
+                    <child>
+                      <object class="GtkLabel" id="label3">
+                        <property name="visible">True</property>
+                        <property name="label" translatable="yes">console</property>
+                      </object>
+                      <packing>
+                        <property name="position">2</property>
+                      </packing>
+                    </child>
+                    <child type="tab">
+                      <object class="GtkImage" id="image3">
+                        <property name="visible">True</property>
+                        <property name="pixel_size">16</property>
+                        <property name="icon_name">utilities-terminal</property>
+                      </object>
+                      <packing>
+                        <property name="position">2</property>
                         <property name="tab_fill">False</property>
                       </packing>
                     </child>
