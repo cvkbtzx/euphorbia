@@ -98,14 +98,14 @@ class PrefsManager:
         """Get allowed pref's values."""
         return self.codes[code][2] if code in self.codes else None
     
-    def apply_pref(self, code):
+    def apply_pref(self, code, *user_data):
         """Execute the pref's function."""
         fname = self.codes[code][1]
         if type(fname) is dict:
             fname = fname[self.codes[code][-1]]
         for obj in self.codes[code][0]:
             f = getattr(obj, fname)
-            f(self.codes[code][-1])
+            f(self.codes[code][-1], *user_data)
         return
     
     def apply_all_prefs(self):

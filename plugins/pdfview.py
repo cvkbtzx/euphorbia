@@ -73,8 +73,9 @@ class EvinceView(gtk.VBox):
             b = gtk.ToolButton(getattr(gtk, "STOCK_"+n))
             b.connect('clicked', getattr(self, "ev_"+n.split('_')[-1].lower()))
             tb.insert(b, -1)
-        b = gtk.SeparatorToolItem()
-        b.set_draw(True)
+        b = gtk.ToolItem()
+        b.add(gtk.Label(""))
+        b.set_expand(True)
         tb.insert(b, -1)
         b = gtk.ToolItem()
         b.set_expand(False)
@@ -84,7 +85,9 @@ class EvinceView(gtk.VBox):
         cb.append_text("Zoom 100%")
         cb.set_active(2)
         cb.connect('changed', self.ev_combo)
-        b.add(cb)
+        al = gtk.Alignment(0.5, 0.5, 1.0, 0.0)
+        al.add(cb)
+        b.add(al)
         tb.insert(b, -1)
         return
     

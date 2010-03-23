@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <!DOCTYPE svg PUBLIC "-//W3C//DTD SVG 20010904//EN" "http://www.w3.org/TR/2001/REC-SVG-20010904/DTD/svg10.dtd">
-<svg xmlns="http://www.w3.org/2000/svg" xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.0" width="256" height="256" viewBox="0 0 256 256">
-  <title>Euphorbia</title>
+<svg xmlns="http://www.w3.org/2000/svg" xmlns:svg="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.0" width="256px" height="256px" viewBox="0 0 256 256">
+  <title>Euphorbia LaTeX editor</title>
   <desc>euphorbia trigona</desc>
   <defs id="defs1">
     <filter id="filter1" x="-0.336" y="-0.073043481" width="1.6720001" height="1.1460871" color-interpolation-filters="sRGB">

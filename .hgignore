@@ -1,0 +1,8 @@
+syntax: glob
+*.pyc
+*.pyo
+*~
+archive*
+*test-*
+*-test*
+*.old
