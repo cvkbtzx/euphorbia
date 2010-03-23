@@ -20,7 +20,9 @@ class EuphorbiaGUI(actions.ActionsManager):
         actions.ActionsManager.__init__(self, app)
         self.build_interface()
         self.clipb = gtk.clipboard_get()
-        document.Document(self.builder.get_object('notebook_docs'))
+        nb = self.builder.get_object('notebook_docs')
+        nb.tab_list = set()
+        document.Document(nb)
         self.win.set_transient_for(None)
         self.win.show()
     

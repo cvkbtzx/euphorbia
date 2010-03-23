@@ -52,7 +52,7 @@ class SidePanel(gtk.VBox):
             self.on_expander(c[0])
         return
     
-    def on_expander(self, widget=None):
+    def on_expander(self, widget):
         """Callback to execute when an Expander is selected."""
         for n,exp in self.expanders.iteritems():
             if exp is widget:
@@ -115,7 +115,7 @@ class Expander(gtk.VBox):
         """Return 'True' if the Expander is expanded."""
         return self.expanded
     
-    def on_button_selected(self, widget=None):
+    def on_button_selected(self, *data):
         """Callback to execute when the button is selected."""
         self.get_parent().on_expander(self)
         return

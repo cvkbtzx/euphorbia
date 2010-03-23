@@ -11,25 +11,38 @@ class PrefsWin(gtk.Dialog):
     """Preferences dialog."""
     
     def __init__(self, app):
+        # Dialog initialization
         flags = gtk.DIALOG_MODAL | gtk.DIALOG_DESTROY_WITH_PARENT
         buttons = (gtk.STOCK_CLOSE, gtk.RESPONSE_CLOSE)
         gtk.Dialog.__init__(self, "Preferences", app.gui.win, flags, buttons)
         self.app = app
-        self.set_default_size(450, 300)
+        self.set_default_size(500, 350)
         self.set_position(gtk.WIN_POS_CENTER_ON_PARENT)
-        self.build_prefs_list()
-        self.show_all()
+        self.set_has_separator(False)
+        self.set_default_response(gtk.RESPONSE_CLOSE)
+        # Populate
+        self.nbook = gtk.Notebook()
+        self.nbook.set_tab_pos(gtk.POS_LEFT)
+        self.nbook.set_border_width(7)
+        self.vbox.pack_start(self.nbook, True, True)
+        self.nbook.append_page(PrefsWinGeneral(app), gtk.Label("General"))
+        self.nbook.append_page(gtk.Label("empty"), gtk.Label("LaTeX"))
+        self.vbox.show_all()
+
+
+class PrefsWinGeneral(gtk.ScrolledWindow):
+    """'General' tab of the preferences dialog."""
     
-    def build_prefs_list(self):
-        """Build the list of all prefs with their corresponding widget."""
+    def __init__(self, app):
+        gtk.ScrolledWindow.__init__(self)
+        self.app = app
+        self.set_policy(gtk.POLICY_NEVER, gtk.POLICY_ALWAYS)
         container = gtk.VBox()
         container.set_homogeneous(True)
         container.set_spacing(3)
-        scroll = gtk.scroll = gtk.ScrolledWindow()
-        scroll.set_policy(gtk.POLICY_NEVER, gtk.POLICY_ALWAYS)
-        scroll.add_with_viewport(container)
+        container.set_border_width(5)
+        self.add_with_viewport(container)
         container.get_parent().set_shadow_type(gtk.SHADOW_NONE)
-        self.vbox.pack_start(scroll, True, True)
         for code,lv,cv in self.app.prefm.iter_prefs():
             l = gtk.Label(code)
             l.set_alignment(0, 0.5)
@@ -41,7 +54,6 @@ class PrefsWin(gtk.Dialog):
             hb.pack_start(l, True, True)
             hb.pack_start(t, False, True)
             container.pack_start(hb, False, False)
-        return
     
     def build_widget(self, code, lv, cv):
         """Detect the widget type and return an instance."""

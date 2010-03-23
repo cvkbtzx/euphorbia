@@ -53,16 +53,18 @@ class TabWrapper:
         notebook.append_page(self.content, hb)
         notebook.set_tab_reorderable(self.content, True)
         notebook.set_current_page(notebook.page_num(self.content))
+        notebook.tab_list.add(self)
         self.notebook = notebook
         # Display
         hb.show_all()
         self.content.show()
     
-    def ev_close_clicked(self, widget=None, data=None):
+    def ev_close_clicked(self, *data):
         self.close()
         return
     
     def close(self):
+        self.notebook.tab_list.remove(self)
         self.notebook.remove_page(self.notebook.page_num(self.content))
         return
 
@@ -121,6 +123,7 @@ if __name__ == "__main__":
     nb = gtk.Notebook()
     nb.set_show_tabs(True)
     nb.set_scrollable(True)
+    nb.tab_list = set()
     nb.show()
     win.add(nb)
     Document(nb,"Hello")
