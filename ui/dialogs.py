@@ -31,6 +31,7 @@ class PrefsWin(gtk.Dialog):
         self.vbox.show_all()
 
 
+
 class PrefsWinGeneral(gtk.ScrolledWindow):
     """'General' tab of the preferences dialog."""
     
@@ -66,6 +67,8 @@ class PrefsWinGeneral(gtk.ScrolledWindow):
                 w = self.build_checkbutton(code, lv, cv)
             if lv == 'font':
                 w = self.build_fontbutton(code, lv, cv)
+            if lv.startswith('int,'):
+                w = self.build_spinbutton(code, lv, cv)
         return w
     
     def build_checkbutton(self, code, lv, cv):
@@ -98,6 +101,23 @@ class PrefsWinGeneral(gtk.ScrolledWindow):
         self.app.prefm.apply_pref(code, lvals[w.get_active()])
         return
     
+    def build_spinbutton(self, code, lv, cv):
+        """Build a spinbutton."""
+        w = gtk.SpinButton()
+        w.set_numeric(True)
+        w.set_range(*tuple(map(int,s.split(',')[1:])))
+        w.set_digits(0)
+        w.set_increments(1, 5)
+        w.set_snap_to_ticks(True)
+        w.set_value(cv)
+        w.connect('changed', self.ev_spinbutton, code)
+        return w
+    
+    def ev_spinbutton(self, w, code):
+        """Callback for spinbuttons."""
+        self.app.prefm.apply_pref(code, w.get_value_as_int())
+        return
+    
     def build_fontbutton(self, code, lv, cv):
         """Build a fontbutton."""
         w = gtk.FontButton()
@@ -117,4 +137,46 @@ class PrefsWinGeneral(gtk.ScrolledWindow):
 
 
 #------------------------------------------------------------------------------
+
+class OpenWin(gtk.FileChooserDialog):
+    """Open file dialog."""
+    
+    def __init__(self):
+        # http://www.pygtk.org/docs/pygtk/class-gtkfilechooser.html
+        buttons = (gtk.STOCK_CANCEL, gtk.RESPONSE_CANCEL, gtk.STOCK_OPEN, gtk.RESPONSE_OK)
+        action = gtk.FILE_CHOOSER_ACTION_OPEN
+        gtk.FileChooserDialog.__init__(self, "Open...", app.gui.win, action, buttons)
+        self.set_position(gtk.WIN_POS_CENTER_ON_PARENT)
+        self.set_modal(True)
+        self.set_destroy_with_parent(True)
+        filters = {"All files":["*"], "LaTeX files":["*.tex","*.bib"]}
+        for txt,exts in filters.iteritems():
+            f = gtk.FileFilter()
+            f.set_name(txt)
+            for e in exts:
+                f.add_pattern(e)
+            self.add_filter(f)
+        self.set_filter(f)
+        ###.get_filename()
+
+
+#------------------------------------------------------------------------------
+
+class SaveWin(gtk.FileChooserDialog):
+    """Save file dialog."""
+    
+    def __init__(self, filename):
+        buttons = (gtk.STOCK_CANCEL, gtk.RESPONSE_CANCEL, gtk.STOCK_SAVE, gtk.RESPONSE_OK)
+        action = gtk.FILE_CHOOSER_ACTION_SAVE
+        gtk.FileChooserDialog.__init__(self, "Save...", app.gui.win, action, buttons)
+        self.set_position(gtk.WIN_POS_CENTER_ON_PARENT)
+        self.set_modal(True)
+        self.set_destroy_with_parent(True)
+        self.set_current_name(filename)
+        self.set_do_overwrite_confirmation(True)
+        ###.get_filename()
+
+
+#------------------------------------------------------------------------------
+
 

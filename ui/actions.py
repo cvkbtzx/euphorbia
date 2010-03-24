@@ -19,9 +19,9 @@ def get_actions_list(cls):
         ('action_saveas', gtk.STOCK_SAVE_AS,     None, None, None, None),
         ('action_quit',   gtk.STOCK_QUIT,        None, None, None, cls.act_quit),
         ('menu_edit',     None,                  "Edit"),
-        ('action_cut',    gtk.STOCK_CUT,         None, None, None, None),
-        ('action_copy',   gtk.STOCK_COPY,        None, None, None, None),
-        ('action_paste',  gtk.STOCK_PASTE,       None, None, None, None),
+        ('action_cut',    gtk.STOCK_CUT,         None, None, None, cls.act_cut),
+        ('action_copy',   gtk.STOCK_COPY,        None, None, None, cls.act_copy),
+        ('action_paste',  gtk.STOCK_PASTE,       None, None, None, cls.act_paste),
         ('action_search', gtk.STOCK_FIND,        None, None, None, cls.act_search),
         ('menu_view',     None,                  "View"),
         ('menu_settings', None,                  "Settings"),
@@ -47,6 +47,27 @@ class ActionsManager:
         dwin = dialogs.PrefsWin(self.app)
         dwin.run()
         dwin.destroy()
+        return
+    
+    def act_cut(self, *data):
+        """Callback for 'Cut' action."""
+        tab = self.get_current_tab()
+        if hasattr(tab, 'cut'):
+            tab.cut()
+        return
+    
+    def act_copy(self, *data):
+        """Callback for 'Copy' action."""
+        tab = self.get_current_tab()
+        if hasattr(tab, 'copy'):
+            tab.copy()
+        return
+    
+    def act_paste(self, *data):
+        """Callback for 'Paste' action."""
+        tab = self.get_current_tab()
+        if hasattr(tab, 'paste'):
+            tab.paste()
         return
     
     def act_search(self, *data):

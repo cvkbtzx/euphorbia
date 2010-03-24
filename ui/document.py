@@ -80,6 +80,24 @@ class Document(TabWrapper):
         self.filename = filename if filename else "New document"
         self.title.set_text(self.filename)
         self.icon.set_from_stock(gtk.STOCK_FILE, gtk.ICON_SIZE_MENU)
+        self.clipb = gtk.clipboard_get()
+    
+    def cut(self):
+        """Cut text into clipboard."""
+        tv = self.ev.view
+        self.ev.buffer.cut_clipboard(self.clipb, tv.get_editable())
+        return
+    
+    def copy(self):
+        """Copy text into clipboard."""
+        self.ev.buffer.copy_clipboard(self.clipb)
+        return
+    
+    def paste(self):
+        """Paste text from clipboard."""
+        tv = self.ev.view
+        self.ev.buffer.paste_clipboard(self.clipb, None, tv.get_editable())
+        return
     
     def search(self):
         """Show/hide search toolbar."""
