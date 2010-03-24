@@ -27,6 +27,7 @@ class PrefsWin(gtk.Dialog):
         self.vbox.pack_start(self.nbook, True, True)
         self.nbook.append_page(PrefsWinGeneral(app), gtk.Label("General"))
         self.nbook.append_page(gtk.Label("empty"), gtk.Label("LaTeX"))
+        self.nbook.append_page(gtk.Label("empty"), gtk.Label("Plugins"))
         self.vbox.show_all()
 
 

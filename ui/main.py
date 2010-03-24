@@ -37,7 +37,7 @@ class EuphorbiaGUI(actions.ActionsManager):
         hp = self.builder.get_object('hpaned')
         hp.get_child1().destroy()
         hp.pack1(sidepanel.SidePanel(), False, True)
-        hp.set_position(215)
+        ###hp.set_position(215)
         # UI Manager
         self.uim = gtk.UIManager()
         # Accels
@@ -64,6 +64,11 @@ class EuphorbiaGUI(actions.ActionsManager):
             for c in parent.get_children():
                 wlist.update(self.get_widgets_by_name(wname,c))
         return wlist
+    
+    def ev_hide_bottom(self, *data):
+        """Callback hide bottom notebook."""
+        self.builder.get_object('hbox_bottom').hide()
+        return
     
     def ev_delete_event(self, *data):
         """Callback for 'delete_event' event."""

@@ -111,9 +111,12 @@ class PrefsManager:
         fname = self.codes[code][1]
         if type(fname) is dict:
             fname = fname[self.codes[code][-1]]
+            args = ()
+        else:
+            args = (self.codes[code][-1],)
         for obj in self.codes[code][0]:
             f = getattr(obj, fname)
-            f(self.codes[code][-1])
+            f(*args)
         return
     
     def apply_all_prefs(self):

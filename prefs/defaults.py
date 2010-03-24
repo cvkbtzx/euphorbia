@@ -6,7 +6,9 @@
 #------------------------------------------------------------------------------
 
 DEFAULT_PREFS = [
-    # Key, function, {allowed_values}, default_value, type]
+    # Key, function, {allowed_values}, default_value, widget_name]
+    # Key, {functions}, None, default_value, widget_name]
+    ["window_max", {True:'maximize', False:'unmaximize'}, None, False, "window"],
     ["toolbar_arrow", 'set_show_arrow', 'bool', True, "toolbar*"],
     ["toolbar_iconsize", 'set_icon_size', {"menu":1,"small-tool":2,"large-tool":3,"button":4,"dnd":5,"dialog":6}, 2, "toolbar*"],
     ["toolbar_tooltips", 'set_tooltips', 'bool', True, "toolbar*"],
@@ -17,6 +19,7 @@ DEFAULT_PREFS = [
     ["editview_hlcurrentline", 'set_highlight_current_line', 'bool', True, "editview"],
     ["editview_wrapmode", 'set_wrap_mode', {"none":0,"char":1,"word":2,"word+char":3}, 0, "editview"],
     ["editview_font", 'set_font', 'font', "Monospace 10", "editview"],
+    ["nbook_bottom_show", {True:'show', False:'hide'}, None, True, "hbox_bottom"],
 ]
 
 

@@ -69,6 +69,7 @@ class EvinceView(gtk.VBox):
     
     def populate_toolbar(self, tb):
         """Add buttons to the toolbar."""
+        tb.set_name('toolbar_pdfview')
         for n in ["GO_UP", "GO_DOWN"]:
             b = gtk.ToolButton(getattr(gtk, "STOCK_"+n))
             b.connect('clicked', getattr(self, "ev_"+n.split('_')[-1].lower()))

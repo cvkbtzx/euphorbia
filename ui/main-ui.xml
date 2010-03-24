@@ -12,6 +12,8 @@
             <menuitem action="action_cut" />
             <menuitem action="action_copy" />
             <menuitem action="action_paste" />
+            <separator />
+            <menuitem action="action_search" />
         </menu>
         <menu action="menu_view">
             <placeholder />

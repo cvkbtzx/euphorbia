@@ -22,6 +22,7 @@ def get_actions_list(cls):
         ('action_cut',    gtk.STOCK_CUT,         None, None, None, None),
         ('action_copy',   gtk.STOCK_COPY,        None, None, None, None),
         ('action_paste',  gtk.STOCK_PASTE,       None, None, None, None),
+        ('action_search', gtk.STOCK_FIND,        None, None, None, cls.act_search),
         ('menu_view',     None,                  "View"),
         ('menu_settings', None,                  "Settings"),
         ('action_prefs',  gtk.STOCK_PREFERENCES, None, None, None, cls.act_prefs),
@@ -48,6 +49,13 @@ class ActionsManager:
         dwin.destroy()
         return
     
+    def act_search(self, *data):
+        """Callback for 'Search' action."""
+        tab = self.get_current_tab()
+        if hasattr(tab, 'search'):
+            tab.search()
+        return
+    
     def act_quit(self, *data):
         """Callback for 'Quit' action."""
         q = self.do_quit()
@@ -56,6 +64,13 @@ class ActionsManager:
         return
     
     # * * *
+    
+    def get_current_tab(self):
+        """Get the current tab object (TabWrapper subclass)."""
+        nb = self.app.gui.get_widgets_by_name('notebook_docs').pop()
+        obj = nb.get_nth_page(nb.get_current_page())
+        tab = [t for t in nb.tab_list if t.content is obj]
+        return tab[0] if len(tab)==1 else None
     
     def do_quit(self):
         """Ensure that the application quits correctly."""

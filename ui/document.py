@@ -75,20 +75,31 @@ class Document(TabWrapper):
     """Class for documents managing. Includes notebook tabs and edit zone."""
     
     def __init__(self, notebook, filename=None, filetype=None):
-        TabWrapper.__init__(self, notebook, EditView())
+        self.ev = EditView()
+        TabWrapper.__init__(self, notebook, self.ev)
         self.filename = filename if filename else "New document"
         self.title.set_text(self.filename)
         self.icon.set_from_stock(gtk.STOCK_FILE, gtk.ICON_SIZE_MENU)
+    
+    def search(self):
+        """Show/hide search toolbar."""
+        if self.ev.searchbar.props.visible:
+            self.ev.searchbar.hide()
+        else:
+            self.ev.searchbar.show()
+            self.ev.searchtxt.grab_focus()
+        return
 
 
 #------------------------------------------------------------------------------
 
-class EditView(gtk.ScrolledWindow):
+class EditView(gtk.VBox):
     """Edit view for the document."""
     
     def __init__(self):
-        gtk.ScrolledWindow.__init__(self)
-        self.set_policy(gtk.POLICY_AUTOMATIC, gtk.POLICY_ALWAYS)
+        gtk.VBox.__init__(self)
+        scroll = gtk.ScrolledWindow()
+        scroll.set_policy(gtk.POLICY_AUTOMATIC, gtk.POLICY_ALWAYS)
         self.buffer = gtksv.Buffer()
         self.lang_manager = gtksv.LanguageManager()
         self.lang = self.lang_manager.get_language('latex')
@@ -102,15 +113,87 @@ class EditView(gtk.ScrolledWindow):
         self.view.set_wrap_mode(gtk.WRAP_WORD)
         self.view.set_highlight_current_line(True)
         self.view.set_font = self.set_font
-        self.add(self.view)
+        scroll.add(self.view)
+        self.pack_start(scroll, True, True)
+        self.build_searchbar()
+        self.pack_start(self.searchbar, False, True)
         self.show_all()
+        self.searchbar.hide()
         gobject.timeout_add(250, self.view.grab_focus)
+    
+    def build_searchbar(self):
+        """Build the search toolbar."""
+        sb = gtk.Toolbar()
+        sb.set_name('toolbar_search')
+        sb.set_style(gtk.TOOLBAR_BOTH_HORIZ)
+        sb.set_icon_size(gtk.ICON_SIZE_SMALL_TOOLBAR)
+        sb.set_tooltips(True)
+        t = gtk.ToolItem()
+        t.add(gtk.Label("Search:"))
+        t.get_child().set_padding(5, 0)
+        sb.insert(t, -1)
+        t = gtk.ToolItem()
+        t.set_expand(False)
+        self.searchtxt = gtk.Entry()
+        self.searchtxt.connect('changed', lambda w: self.ev_search(w, 0))
+        t.add(self.searchtxt)
+        sb.insert(t, -1)
+        t = gtk.ToolButton(gtk.STOCK_GO_BACK)
+        t.connect('clicked', lambda w: self.ev_search(w, -1))
+        sb.insert(t, -1)
+        t = gtk.ToolButton(gtk.STOCK_GO_FORWARD)
+        t.connect('clicked', lambda w: self.ev_search(w, 1))
+        sb.insert(t, -1)
+        self.case = gtk.ToggleToolButton()
+        self.case.set_label("Case sensitive")
+        self.case.connect('toggled', lambda w: self.ev_search(w, 0))
+        sb.insert(self.case, -1)
+        t = gtk.ToolItem()
+        t.add(gtk.Label())
+        t.set_expand(True)
+        sb.insert(t, -1)
+        t = gtk.ToolButton(gtk.STOCK_CLOSE)
+        t.connect('clicked', self.ev_search_close)
+        sb.insert(t, -1)
+        vb = gtk.VBox()
+        vb.pack_start(gtk.HSeparator(), False, True)
+        vb.pack_start(sb, True, True)
+        self.searchbar = vb
+        return
     
     def set_font(self, font):
         """Set font."""
         f = None if font is None else pango.FontDescription(font)
         self.view.modify_font(f)
         return
+    
+    def ev_search(self, w, dir):
+        """Callback search."""
+        ###pos = self.buffer.props.cursor_position
+        ###iter = self.buffer.get_iter_at_offset(pos)
+        flags = gtksv.SEARCH_TEXT_ONLY | gtksv.SEARCH_VISIBLE_ONLY
+        if not self.case.get_active():
+            flags = flags | gtksv.SEARCH_CASE_INSENSITIVE
+        txt = self.searchtxt.get_text()
+        if dir > 0:
+            iter = self.buffer.get_iter_at_mark(self.buffer.get_selection_bound())
+            res = gtksv.iter_forward_search(iter, txt, flags, None)
+        elif dir < 0:
+            iter = self.buffer.get_iter_at_mark(self.buffer.get_insert())
+            res = gtksv.iter_backward_search(iter, txt, flags, None)
+        else:
+            iter = self.buffer.get_iter_at_mark(self.buffer.get_insert())
+            res = gtksv.iter_forward_search(iter, txt, flags, None)
+        if res is not None:
+            self.buffer.select_range(*res)
+            self.view.scroll_to_mark(self.buffer.get_insert(), 0, True)
+        return
+    
+    def ev_search_close(self, *data):
+        """Callback search close."""
+        self.searchbar.hide()
+        return
+    
 
 
 #------------------------------------------------------------------------------
