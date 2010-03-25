@@ -136,6 +136,7 @@
                             <property name="can_focus">True</property>
                             <property name="receives_default">True</property>
                             <property name="relief">none</property>
+                            <property name="focus_on_click">False</property>
                             <signal name="clicked" handler="ev_hide_bottom"/>
                             <child>
                               <object class="GtkImage" id="image_close">

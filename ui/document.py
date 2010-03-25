@@ -105,7 +105,85 @@ class Document(TabWrapper):
             self.ev.searchbar.hide()
         else:
             self.ev.searchbar.show()
-            self.ev.searchtxt.grab_focus()
+        return
+
+
+#------------------------------------------------------------------------------
+
+class SearchBar(gtk.VBox):
+    """Search toolbar for EditView."""
+    
+    def __init__(self, buffer, view):
+        gtk.VBox.__init__(self)
+        self.buffer = buffer
+        self.view = view
+        sb = gtk.Toolbar()
+        sb.set_name('toolbar_search')
+        sb.set_style(gtk.TOOLBAR_BOTH_HORIZ)
+        sb.set_icon_size(gtk.ICON_SIZE_SMALL_TOOLBAR)
+        sb.set_tooltips(True)
+        t = gtk.ToolItem()
+        t.add(gtk.Label("Search:"))
+        t.get_child().set_padding(5, 0)
+        sb.insert(t, -1)
+        t = gtk.ToolItem()
+        t.set_expand(False)
+        self.searchtxt = gtk.Entry()
+        self.searchtxt.connect('changed', lambda w: self.ev_search(w, 0))
+        t.add(self.searchtxt)
+        sb.insert(t, -1)
+        t = gtk.ToolButton(gtk.STOCK_GO_BACK)
+        t.connect('clicked', lambda w: self.ev_search(w, -1))
+        sb.insert(t, -1)
+        t = gtk.ToolButton(gtk.STOCK_GO_FORWARD)
+        t.connect('clicked', lambda w: self.ev_search(w, 1))
+        sb.insert(t, -1)
+        t = gtk.ToolItem()
+        self.case = gtk.CheckButton("Case sensitive")
+        self.case.set_focus_on_click(False)
+        self.case.connect('toggled', lambda w: self.ev_search(w, 0))
+        t.add(self.case)
+        sb.insert(t, -1)
+        t = gtk.ToolItem()
+        t.add(gtk.Label())
+        t.set_expand(True)
+        sb.insert(t, -1)
+        t = gtk.ToolButton(gtk.STOCK_CLOSE)
+        t.connect('clicked', self.ev_search_close)
+        sb.insert(t, -1)
+        self.pack_start(gtk.HSeparator(), False, True)
+        self.pack_start(sb, True, True)
+        self.show_all()
+        self.connect('show', self.ev_show)
+    
+    def ev_search(self, w, dir):
+        """Callback search."""
+        flags = gtksv.SEARCH_TEXT_ONLY | gtksv.SEARCH_VISIBLE_ONLY
+        if not self.case.get_active():
+            flags = flags | gtksv.SEARCH_CASE_INSENSITIVE
+        txt = self.searchtxt.get_text()
+        if dir > 0:
+            iter = self.buffer.get_iter_at_mark(self.buffer.get_selection_bound())
+            res = gtksv.iter_forward_search(iter, txt, flags, None)
+        elif dir < 0:
+            iter = self.buffer.get_iter_at_mark(self.buffer.get_insert())
+            res = gtksv.iter_backward_search(iter, txt, flags, None)
+        else:
+            iter = self.buffer.get_iter_at_mark(self.buffer.get_insert())
+            res = gtksv.iter_forward_search(iter, txt, flags, None)
+        if res is not None:
+            self.buffer.select_range(*res)
+            self.view.scroll_to_mark(self.buffer.get_insert(), 0, True)
+        return
+    
+    def ev_show(self, *data):
+        """Callback for 'show' event."""
+        self.searchtxt.grab_focus()
+        return
+    
+    def ev_search_close(self, *data):
+        """Callback search close."""
+        self.hide()
         return
 
 
@@ -133,85 +211,17 @@ class EditView(gtk.VBox):
         self.view.set_font = self.set_font
         scroll.add(self.view)
         self.pack_start(scroll, True, True)
-        self.build_searchbar()
+        self.searchbar = SearchBar(self.buffer, self.view)
         self.pack_start(self.searchbar, False, True)
         self.show_all()
         self.searchbar.hide()
         gobject.timeout_add(250, self.view.grab_focus)
-    
-    def build_searchbar(self):
-        """Build the search toolbar."""
-        sb = gtk.Toolbar()
-        sb.set_name('toolbar_search')
-        sb.set_style(gtk.TOOLBAR_BOTH_HORIZ)
-        sb.set_icon_size(gtk.ICON_SIZE_SMALL_TOOLBAR)
-        sb.set_tooltips(True)
-        t = gtk.ToolItem()
-        t.add(gtk.Label("Search:"))
-        t.get_child().set_padding(5, 0)
-        sb.insert(t, -1)
-        t = gtk.ToolItem()
-        t.set_expand(False)
-        self.searchtxt = gtk.Entry()
-        self.searchtxt.connect('changed', lambda w: self.ev_search(w, 0))
-        t.add(self.searchtxt)
-        sb.insert(t, -1)
-        t = gtk.ToolButton(gtk.STOCK_GO_BACK)
-        t.connect('clicked', lambda w: self.ev_search(w, -1))
-        sb.insert(t, -1)
-        t = gtk.ToolButton(gtk.STOCK_GO_FORWARD)
-        t.connect('clicked', lambda w: self.ev_search(w, 1))
-        sb.insert(t, -1)
-        self.case = gtk.ToggleToolButton()
-        self.case.set_label("Case sensitive")
-        self.case.connect('toggled', lambda w: self.ev_search(w, 0))
-        sb.insert(self.case, -1)
-        t = gtk.ToolItem()
-        t.add(gtk.Label())
-        t.set_expand(True)
-        sb.insert(t, -1)
-        t = gtk.ToolButton(gtk.STOCK_CLOSE)
-        t.connect('clicked', self.ev_search_close)
-        sb.insert(t, -1)
-        vb = gtk.VBox()
-        vb.pack_start(gtk.HSeparator(), False, True)
-        vb.pack_start(sb, True, True)
-        self.searchbar = vb
-        return
     
     def set_font(self, font):
         """Set font."""
         f = None if font is None else pango.FontDescription(font)
         self.view.modify_font(f)
         return
-    
-    def ev_search(self, w, dir):
-        """Callback search."""
-        ###pos = self.buffer.props.cursor_position
-        ###iter = self.buffer.get_iter_at_offset(pos)
-        flags = gtksv.SEARCH_TEXT_ONLY | gtksv.SEARCH_VISIBLE_ONLY
-        if not self.case.get_active():
-            flags = flags | gtksv.SEARCH_CASE_INSENSITIVE
-        txt = self.searchtxt.get_text()
-        if dir > 0:
-            iter = self.buffer.get_iter_at_mark(self.buffer.get_selection_bound())
-            res = gtksv.iter_forward_search(iter, txt, flags, None)
-        elif dir < 0:
-            iter = self.buffer.get_iter_at_mark(self.buffer.get_insert())
-            res = gtksv.iter_backward_search(iter, txt, flags, None)
-        else:
-            iter = self.buffer.get_iter_at_mark(self.buffer.get_insert())
-            res = gtksv.iter_forward_search(iter, txt, flags, None)
-        if res is not None:
-            self.buffer.select_range(*res)
-            self.view.scroll_to_mark(self.buffer.get_insert(), 0, True)
-        return
-    
-    def ev_search_close(self, *data):
-        """Callback search close."""
-        self.searchbar.hide()
-        return
-    
 
 
 #------------------------------------------------------------------------------

@@ -16,8 +16,8 @@ DEFAULT_PREFS = [
     ["editview_showlinemarks", 'set_show_line_marks', 'bool', True, "editview"],
     ["editview_showlinenumbers", 'set_show_line_numbers', 'bool', True, "editview"],
     ["editview_cursorvisible", 'set_cursor_visible', 'bool', True, "editview"],
-    ["editview_hlcurrentline", 'set_highlight_current_line', 'bool', True, "editview"],
-    ["editview_wrapmode", 'set_wrap_mode', {"none":0,"char":1,"word":2,"word+char":3}, 0, "editview"],
+    ["editview_highlightline", 'set_highlight_current_line', 'bool', True, "editview"],
+    ["editview_wrapmode", 'set_wrap_mode', {"none":0,"char":1,"word":2,"word+char":3}, 2, "editview"],
     ["editview_font", 'set_font', 'font', "Monospace 10", "editview"],
     ["nbook_bottom_show", {True:'show', False:'hide'}, None, True, "hbox_bottom"],
 ]
