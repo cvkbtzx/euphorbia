@@ -7,7 +7,7 @@ import gobject
 
 #------------------------------------------------------------------------------
 
-class SpawnManager():
+class SpawnManager:
     """Class that can run an external prog."""
     
     def __init__(self, exe, pwd, func):

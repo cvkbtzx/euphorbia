@@ -110,7 +110,7 @@ class Document(TabWrapper):
 
 #------------------------------------------------------------------------------
 
-class SearchBar(gtk.VBox):
+class SearchBarEditView(gtk.VBox):
     """Search toolbar for EditView."""
     
     def __init__(self, buffer, view):
@@ -211,7 +211,7 @@ class EditView(gtk.VBox):
         self.view.set_font = self.set_font
         scroll.add(self.view)
         self.pack_start(scroll, True, True)
-        self.searchbar = SearchBar(self.buffer, self.view)
+        self.searchbar = SearchBarEditView(self.buffer, self.view)
         self.pack_start(self.searchbar, False, True)
         self.show_all()
         self.searchbar.hide()
