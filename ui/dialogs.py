@@ -105,7 +105,7 @@ class PrefsWinGeneral(gtk.ScrolledWindow):
         """Build a spinbutton."""
         w = gtk.SpinButton()
         w.set_numeric(True)
-        w.set_range(*tuple(map(int,s.split(',')[1:])))
+        w.set_range(*tuple(map(int,lv.split(',')[1:])))
         w.set_digits(0)
         w.set_increments(1, 5)
         w.set_snap_to_ticks(True)

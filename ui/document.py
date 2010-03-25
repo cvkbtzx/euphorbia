@@ -158,10 +158,12 @@ class SearchBarEditView(gtk.VBox):
     
     def ev_search(self, w, dir):
         """Callback search."""
+        txt = self.searchtxt.get_text()
+        if txt == "":
+            return
         flags = gtksv.SEARCH_TEXT_ONLY | gtksv.SEARCH_VISIBLE_ONLY
         if not self.case.get_active():
             flags = flags | gtksv.SEARCH_CASE_INSENSITIVE
-        txt = self.searchtxt.get_text()
         if dir > 0:
             iter = self.buffer.get_iter_at_mark(self.buffer.get_selection_bound())
             res = gtksv.iter_forward_search(iter, txt, flags, None)
@@ -209,6 +211,8 @@ class EditView(gtk.VBox):
         self.view.set_wrap_mode(gtk.WRAP_WORD)
         self.view.set_highlight_current_line(True)
         self.view.set_font = self.set_font
+        self.view.set_max_undo_levels = self.buffer.set_max_undo_levels
+        self.view.set_highlight_matching_brackets = self.buffer.set_highlight_matching_brackets
         scroll.add(self.view)
         self.pack_start(scroll, True, True)
         self.searchbar = SearchBarEditView(self.buffer, self.view)
