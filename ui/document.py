@@ -74,13 +74,43 @@ class TabWrapper:
 class Document(TabWrapper):
     """Class for documents managing. Includes notebook tabs and edit zone."""
     
-    def __init__(self, notebook, filename=None, filetype=None):
+    def __init__(self, notebook, filename=None, highlight=None):
         self.ev = EditView()
         TabWrapper.__init__(self, notebook, self.ev)
-        self.filename = filename if filename else "New document"
-        self.title.set_text(self.filename)
+        filename = filename if filename else "New document"
+        self.title.set_text(filename)
         self.icon.set_from_stock(gtk.STOCK_FILE, gtk.ICON_SIZE_MENU)
+        self.datafile = {'file':None, 'encoding':None, 'highlight':highlight}
+        self.ev.set_language(highlight)
         self.clipb = gtk.clipboard_get()
+    
+    def set_file(self, f, enc=None, hl=None):
+        """Change file."""
+        if f.uri is not None or f.mime is not None:
+            hlguess = self.ev.lang_manager.guess_language(f.uri, f.mime)
+        self.datafile['file'] = f
+        self.datafile['encoding'] = enc if enc else 'utf-8'
+        self.datafile['highlight'] = hl if hl else hlguess.get_id()
+        f.encoding = self.datafile['encoding']
+        pix = f.get_icon(16)
+        if pix is None:
+            self.icon.set_from_stock(gtk.STOCK_FILE, gtk.ICON_SIZE_MENU)
+        else:
+            self.icon.set_from_pixbuf(pix)
+            ### Image.set_from_icon_name(icon_name, stock_size)
+        name = f.gfile.get_basename()
+        if name:
+            self.title.set_text(name)
+        self.ev.set_language(self.datafile['highlight'])
+        self.ev.buffer.set_modified(False)
+        return
+    
+    def open_file(self, f, enc=None, hl=None):
+        """Load given file as the document."""
+        self.set_file(f, enc, hl)
+        txt = f.read()
+        self.ev.buffer.set_text("" if txt is None else txt)
+        return
     
     def cut(self):
         """Cut text into clipboard."""
@@ -110,7 +140,7 @@ class Document(TabWrapper):
 
 #------------------------------------------------------------------------------
 
-class SearchBarEditView(gtk.VBox):
+class SearchBar(gtk.VBox):
     """Search toolbar for EditView."""
     
     def __init__(self, buffer, view):
@@ -180,6 +210,7 @@ class SearchBarEditView(gtk.VBox):
     
     def ev_show(self, *data):
         """Callback for 'show' event."""
+        ### TODO: put selection in searchtext
         self.searchtxt.grab_focus()
         return
     
@@ -198,10 +229,9 @@ class EditView(gtk.VBox):
         gtk.VBox.__init__(self)
         scroll = gtk.ScrolledWindow()
         scroll.set_policy(gtk.POLICY_AUTOMATIC, gtk.POLICY_ALWAYS)
+        self.lang_manager = gtksv.language_manager_get_default()
         self.buffer = gtksv.Buffer()
-        self.lang_manager = gtksv.LanguageManager()
-        self.lang = self.lang_manager.get_language('latex')
-        self.buffer.set_language(self.lang)
+        self.buffer.set_modified(False)
         self.buffer.set_highlight_syntax(True)
         self.view = gtksv.View(self.buffer)
         self.view.set_name("editview")
@@ -215,7 +245,7 @@ class EditView(gtk.VBox):
         self.view.set_highlight_matching_brackets = self.buffer.set_highlight_matching_brackets
         scroll.add(self.view)
         self.pack_start(scroll, True, True)
-        self.searchbar = SearchBarEditView(self.buffer, self.view)
+        self.searchbar = SearchBar(self.buffer, self.view)
         self.pack_start(self.searchbar, False, True)
         self.show_all()
         self.searchbar.hide()
@@ -225,6 +255,15 @@ class EditView(gtk.VBox):
         """Set font."""
         f = None if font is None else pango.FontDescription(font)
         self.view.modify_font(f)
+        return
+    
+    def set_language(self, id):
+        """Set language."""
+        if id is None:
+            self.buffer.set_language(None)
+        else:
+            lang = self.lang_manager.get_language(id)
+            self.buffer.set_language(lang)
         return
 
 

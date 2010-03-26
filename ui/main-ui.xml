@@ -28,6 +28,7 @@
     <toolbar name="toolbar_main">
         <toolitem action="action_newdoc" />
         <toolitem action="action_open" />
+        <toolitem action="action_save" />
         <separator />
         <toolitem action="action_cut" />
         <toolitem action="action_copy" />

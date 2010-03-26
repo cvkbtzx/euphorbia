@@ -4,6 +4,8 @@
 
 import gtk
 import dialogs
+import document
+import utils.iofiles
 
 
 #------------------------------------------------------------------------------
@@ -13,8 +15,8 @@ def get_actions_list(cls):
     actions = [
         # Name, Stock, Label, Accelerator, Tooltip, Callback
         ('menu_file',     None,                  "File"),
-        ('action_newdoc', gtk.STOCK_NEW,         None, None, None, None),
-        ('action_open',   gtk.STOCK_OPEN,        None, None, None, None),
+        ('action_newdoc', gtk.STOCK_NEW,         None, None, None, cls.act_new),
+        ('action_open',   gtk.STOCK_OPEN,        None, None, None, cls.act_open),
         ('action_save',   gtk.STOCK_SAVE,        None, None, None, None),
         ('action_saveas', gtk.STOCK_SAVE_AS,     None, None, None, None),
         ('action_quit',   gtk.STOCK_QUIT,        None, None, None, cls.act_quit),
@@ -47,6 +49,22 @@ class ActionsManager:
         dwin = dialogs.PrefsWin(self.app)
         dwin.run()
         dwin.destroy()
+        return
+    
+    def act_new(self, *data):
+        """Callback for 'New' action."""
+        self.do_open(None, hl='latex')
+        return
+    
+    def act_open(self, *data):
+        """Callback for 'Open' action."""
+        dwin = dialogs.OpenWin(self.app)
+        resp = dwin.run()
+        if resp == gtk.RESPONSE_OK:
+            uris = dwin.get_uris()
+        dwin.destroy()
+        for u in uris:
+            self.do_open(u)
         return
     
     def act_cut(self, *data):
@@ -92,6 +110,17 @@ class ActionsManager:
         obj = nb.get_nth_page(nb.get_current_page())
         tab = [t for t in nb.tab_list if t.content is obj]
         return tab[0] if len(tab)==1 else None
+    
+    def do_open(self, filename, enc=None, hl=None):
+        """Open file in new tab."""
+        nb = self.app.gui.get_widgets_by_name('notebook_docs').pop()
+        d = document.Document(nb, highlight=hl)
+        self.app.prefm.autoconnect_gtk(d.ev)
+        if filename is not None:
+            f = utils.iofiles.FileManager(filename, enc)
+            f.update_infos()
+            d.open_file(f, enc, hl)
+        return
     
     def do_quit(self):
         """Ensure that the application quits correctly."""

@@ -22,7 +22,6 @@ class EuphorbiaGUI(actions.ActionsManager):
         self.build_interface()
         nb = self.builder.get_object('notebook_docs')
         nb.tab_list = set()
-        document.Document(nb)
         self.win.set_transient_for(None)
         self.win.show()
     

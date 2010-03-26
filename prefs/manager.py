@@ -41,6 +41,7 @@ class PrefsManager:
         """Connect an object to a pref."""
         if code in self.codes:
             self.codes[code][0].add(obj)
+            self.apply_pref(code, object=obj)
             return True
         else:
             return False
@@ -104,7 +105,7 @@ class PrefsManager:
         """Get allowed pref's values."""
         return self.codes[code][2] if code in self.codes else None
     
-    def apply_pref(self, code, val=None):
+    def apply_pref(self, code, val=None, object=None):
         """Execute the pref's function."""
         if val is not None:
             self.set_pref(code, val)
@@ -114,7 +115,8 @@ class PrefsManager:
             args = ()
         else:
             args = (self.codes[code][-1],)
-        for obj in self.codes[code][0]:
+        objs = self.codes[code][0] if object is None else [object]
+        for obj in objs:
             f = getattr(obj, fname)
             f(*args)
         return

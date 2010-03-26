@@ -141,7 +141,7 @@ class PrefsWinGeneral(gtk.ScrolledWindow):
 class OpenWin(gtk.FileChooserDialog):
     """Open file dialog."""
     
-    def __init__(self):
+    def __init__(self, app):
         # http://www.pygtk.org/docs/pygtk/class-gtkfilechooser.html
         buttons = (gtk.STOCK_CANCEL, gtk.RESPONSE_CANCEL, gtk.STOCK_OPEN, gtk.RESPONSE_OK)
         action = gtk.FILE_CHOOSER_ACTION_OPEN
@@ -165,7 +165,7 @@ class OpenWin(gtk.FileChooserDialog):
 class SaveWin(gtk.FileChooserDialog):
     """Save file dialog."""
     
-    def __init__(self, filename):
+    def __init__(self, app, filename):
         buttons = (gtk.STOCK_CANCEL, gtk.RESPONSE_CANCEL, gtk.STOCK_SAVE, gtk.RESPONSE_OK)
         action = gtk.FILE_CHOOSER_ACTION_SAVE
         gtk.FileChooserDialog.__init__(self, "Save...", app.gui.win, action, buttons)
