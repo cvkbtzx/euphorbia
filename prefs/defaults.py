@@ -29,7 +29,8 @@ DEFAULT_PREFS = [
     ["editview_indentontab", 'set_indent_on_tab', 'bool', False, "editview"],
     ["editview_autoindent", 'set_auto_indent', 'bool', True, "editview"],
     ["editview_smarthomeend", 'set_smart_home_end', {"disabled":0,"before":1,"after":2,"always":3}, 3, "editview"],
-    ["nbook_bottom_show", {True:'show', False:'hide'}, None, True, "hbox_bottom"]
+    ["nbook_bottom_show", {True:'show', False:'hide'}, None, True, "hbox_bottom"],
+    ["search_loop", None, 'bool', False, None],
 ]
 
 

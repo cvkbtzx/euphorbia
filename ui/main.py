@@ -9,6 +9,7 @@ import gtk
 import actions
 import sidepanel
 import document
+import searchbar
 
 
 #------------------------------------------------------------------------------
@@ -32,11 +33,16 @@ class EuphorbiaGUI(actions.ActionsManager):
         self.builder.add_from_file("./ui/main.glade")
         self.builder.connect_signals(self)
         self.win = self.builder.get_object('window')
-        # Other widgets
+        # Side panel
         hp = self.builder.get_object('hpaned')
         hp.get_child1().destroy()
         hp.pack1(sidepanel.SidePanel(), False, True)
         ###hp.set_position(215)
+        # Searchbar
+        sb = searchbar.SearchBar(self.app)
+        self.builder.get_object('vbox_docs').pack_start(sb, False, True)
+        sb.hide()
+        self.searchb = sb
         # UI Manager
         self.uim = gtk.UIManager()
         # Accels

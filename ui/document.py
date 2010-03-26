@@ -38,7 +38,7 @@ class TabWrapper:
         b_close = gtk.Button()
         b_close.set_relief(gtk.RELIEF_NONE)
         b_close.set_focus_on_click(False)
-        b_close.connect('clicked', lambda w: self.ev_close_clicked(w))
+        b_close.connect('clicked', self.close)
         b_close.set_name("b" + str(hash(str(b_close))) + "-euphorbia-tab")
         b_close.add(img)
         # Tab icon
@@ -59,11 +59,7 @@ class TabWrapper:
         hb.show_all()
         self.content.show()
     
-    def ev_close_clicked(self, *data):
-        self.close()
-        return
-    
-    def close(self):
+    def close(self, *data):
         self.notebook.tab_list.remove(self)
         self.notebook.remove_page(self.notebook.page_num(self.content))
         return
@@ -110,6 +106,7 @@ class Document(TabWrapper):
         self.set_file(f, enc, hl)
         txt = f.read()
         self.ev.buffer.set_text("" if txt is None else txt)
+        self.ev.buffer.place_cursor(self.ev.buffer.get_start_iter())
         return
     
     def cut(self):
@@ -129,126 +126,68 @@ class Document(TabWrapper):
         self.ev.buffer.paste_clipboard(self.clipb, None, tv.get_editable())
         return
     
-    def search(self):
-        """Show/hide search toolbar."""
-        if self.ev.searchbar.props.visible:
-            self.ev.searchbar.hide()
-        else:
-            self.ev.searchbar.show()
-        return
-
-
-#------------------------------------------------------------------------------
-
-class SearchBar(gtk.VBox):
-    """Search toolbar for EditView."""
-    
-    def __init__(self, buffer, view):
-        gtk.VBox.__init__(self)
-        self.buffer = buffer
-        self.view = view
-        sb = gtk.Toolbar()
-        sb.set_name('toolbar_search')
-        sb.set_style(gtk.TOOLBAR_BOTH_HORIZ)
-        sb.set_icon_size(gtk.ICON_SIZE_SMALL_TOOLBAR)
-        sb.set_tooltips(True)
-        t = gtk.ToolItem()
-        t.add(gtk.Label("Search:"))
-        t.get_child().set_padding(5, 0)
-        sb.insert(t, -1)
-        t = gtk.ToolItem()
-        t.set_expand(False)
-        self.searchtxt = gtk.Entry()
-        self.searchtxt.connect('changed', lambda w: self.ev_search(w, 0))
-        t.add(self.searchtxt)
-        sb.insert(t, -1)
-        t = gtk.ToolButton(gtk.STOCK_GO_BACK)
-        t.connect('clicked', lambda w: self.ev_search(w, -1))
-        sb.insert(t, -1)
-        t = gtk.ToolButton(gtk.STOCK_GO_FORWARD)
-        t.connect('clicked', lambda w: self.ev_search(w, 1))
-        sb.insert(t, -1)
-        t = gtk.ToolItem()
-        self.case = gtk.CheckButton("Case sensitive")
-        self.case.set_focus_on_click(False)
-        self.case.connect('toggled', lambda w: self.ev_search(w, 0))
-        t.add(self.case)
-        sb.insert(t, -1)
-        t = gtk.ToolItem()
-        t.add(gtk.Label())
-        t.set_expand(True)
-        sb.insert(t, -1)
-        t = gtk.ToolButton(gtk.STOCK_CLOSE)
-        t.connect('clicked', self.ev_search_close)
-        sb.insert(t, -1)
-        self.pack_start(gtk.HSeparator(), False, True)
-        self.pack_start(sb, True, True)
-        self.show_all()
-        self.connect('show', self.ev_show)
-    
-    def ev_search(self, w, dir):
-        """Callback search."""
-        txt = self.searchtxt.get_text()
-        if txt == "":
-            return
+    def search(self, txt, case_sensitive, dir, loop):
+        """Search text in document."""
         flags = gtksv.SEARCH_TEXT_ONLY | gtksv.SEARCH_VISIBLE_ONLY
-        if not self.case.get_active():
+        if not case_sensitive:
             flags = flags | gtksv.SEARCH_CASE_INSENSITIVE
+        ibegin, iend = self.ev.buffer.get_bounds()
         if dir > 0:
-            iter = self.buffer.get_iter_at_mark(self.buffer.get_selection_bound())
+            iter = self.ev.buffer.get_iter_at_mark(self.ev.buffer.get_selection_bound())
             res = gtksv.iter_forward_search(iter, txt, flags, None)
+            if res is None and loop:
+                res = gtksv.iter_forward_search(ibegin, txt, flags, None)
         elif dir < 0:
-            iter = self.buffer.get_iter_at_mark(self.buffer.get_insert())
+            iter = self.ev.buffer.get_iter_at_mark(self.ev.buffer.get_insert())
             res = gtksv.iter_backward_search(iter, txt, flags, None)
+            if res is None and loop:
+                res = gtksv.iter_backward_search(iend, txt, flags, None)
         else:
-            iter = self.buffer.get_iter_at_mark(self.buffer.get_insert())
+            iter = self.ev.buffer.get_iter_at_mark(self.ev.buffer.get_insert())
             res = gtksv.iter_forward_search(iter, txt, flags, None)
+            if res is None and loop:
+                res = gtksv.iter_forward_search(ibegin, txt, flags, None)
         if res is not None:
-            self.buffer.select_range(*res)
-            self.view.scroll_to_mark(self.buffer.get_insert(), 0, True)
+            self.ev.buffer.select_range(*res)
+            self.ev.view.scroll_to_mark(self.ev.buffer.get_insert(), 0, True)
+        elif loop:
+            self.ev.buffer.place_cursor(iter)
         return
     
-    def ev_show(self, *data):
-        """Callback for 'show' event."""
-        ### TODO: put selection in searchtext
-        self.searchtxt.grab_focus()
-        return
+    def get_selection(self):
+        """Get selected text."""
+        if self.ev.buffer.get_has_selection():
+            ibeg, iend = self.ev.buffer.get_selection_bounds()
+            txt = self.ev.buffer.get_text(ibeg, iend, False)
+        else:
+            txt = None
+        return txt
     
-    def ev_search_close(self, *data):
-        """Callback search close."""
-        self.hide()
+    def focus(self):
+        """Set the focus to the tab."""
+        self.ev.view.grab_focus()
         return
 
 
 #------------------------------------------------------------------------------
 
-class EditView(gtk.VBox):
+class EditView(gtk.ScrolledWindow):
     """Edit view for the document."""
     
     def __init__(self):
-        gtk.VBox.__init__(self)
-        scroll = gtk.ScrolledWindow()
-        scroll.set_policy(gtk.POLICY_AUTOMATIC, gtk.POLICY_ALWAYS)
+        gtk.ScrolledWindow.__init__(self)
+        self.set_policy(gtk.POLICY_AUTOMATIC, gtk.POLICY_ALWAYS)
         self.lang_manager = gtksv.language_manager_get_default()
         self.buffer = gtksv.Buffer()
         self.buffer.set_modified(False)
         self.buffer.set_highlight_syntax(True)
         self.view = gtksv.View(self.buffer)
         self.view.set_name("editview")
-        self.view.set_show_line_marks(True)
-        self.view.set_show_line_numbers(True)
-        self.view.set_cursor_visible(True)
-        self.view.set_wrap_mode(gtk.WRAP_WORD)
-        self.view.set_highlight_current_line(True)
         self.view.set_font = self.set_font
         self.view.set_max_undo_levels = self.buffer.set_max_undo_levels
         self.view.set_highlight_matching_brackets = self.buffer.set_highlight_matching_brackets
-        scroll.add(self.view)
-        self.pack_start(scroll, True, True)
-        self.searchbar = SearchBar(self.buffer, self.view)
-        self.pack_start(self.searchbar, False, True)
+        self.add(self.view)
         self.show_all()
-        self.searchbar.hide()
         gobject.timeout_add(250, self.view.grab_focus)
     
     def set_font(self, font):
@@ -283,6 +222,12 @@ if __name__ == "__main__":
     Document(nb,"Hello")
     Document(nb)
     Document(nb,"Bye")
+    for d in nb.tab_list:
+        d.ev.view.set_show_line_marks(True)
+        d.ev.view.set_show_line_numbers(True)
+        d.ev.view.set_cursor_visible(True)
+        d.ev.view.set_wrap_mode(gtk.WRAP_WORD)
+        d.ev.view.set_highlight_current_line(True)
     win.show()
     gtk.main()
 

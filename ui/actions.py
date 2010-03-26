@@ -60,8 +60,7 @@ class ActionsManager:
         """Callback for 'Open' action."""
         dwin = dialogs.OpenWin(self.app)
         resp = dwin.run()
-        if resp == gtk.RESPONSE_OK:
-            uris = dwin.get_uris()
+        uris = dwin.get_uris() if resp == gtk.RESPONSE_OK else []
         dwin.destroy()
         for u in uris:
             self.do_open(u)
@@ -90,9 +89,10 @@ class ActionsManager:
     
     def act_search(self, *data):
         """Callback for 'Search' action."""
-        tab = self.get_current_tab()
-        if hasattr(tab, 'search'):
-            tab.search()
+        if self.searchb.props.visible:
+            self.searchb.hide()
+        else:
+            self.searchb.show()
         return
     
     def act_quit(self, *data):

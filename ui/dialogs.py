@@ -156,8 +156,7 @@ class OpenWin(gtk.FileChooserDialog):
             for e in exts:
                 f.add_pattern(e)
             self.add_filter(f)
-        self.set_filter(f)
-        ###.get_filename()
+        self.set_select_multiple(True)
 
 
 #------------------------------------------------------------------------------
@@ -174,7 +173,6 @@ class SaveWin(gtk.FileChooserDialog):
         self.set_destroy_with_parent(True)
         self.set_current_name(filename)
         self.set_do_overwrite_confirmation(True)
-        ###.get_filename()
 
 
 #------------------------------------------------------------------------------

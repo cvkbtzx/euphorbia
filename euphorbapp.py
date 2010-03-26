@@ -43,7 +43,6 @@ class Euphorbia:
         self.gui = ui.EuphorbiaGUI(self)
         ###self.plugm.load_plugin('pdfview')
         self.prefm.autoconnect_gtk(self.gui.win)
-        ###self.prefm.apply_all_prefs()
         self.gui.act_new()
     
     def run(self):
