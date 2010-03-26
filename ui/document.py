@@ -150,7 +150,7 @@ class Document(TabWrapper):
         if res is not None:
             self.ev.buffer.select_range(*res)
             self.ev.view.scroll_to_mark(self.ev.buffer.get_insert(), 0, True)
-        elif loop:
+        elif loop or txt != self.get_selection():
             self.ev.buffer.place_cursor(iter)
         return
     

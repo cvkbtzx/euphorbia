@@ -15,7 +15,7 @@ import gtksourceview2 as gtksv
 class SearchBar(gtk.Toolbar):
     """Search toolbar for EditView."""
     
-    def __init__(self, app):
+    def __init__(self, app, accels):
         gtk.Toolbar.__init__(self)
         self.app = app
         self.set_name('toolbar_search')
@@ -34,6 +34,8 @@ class SearchBar(gtk.Toolbar):
         self.insert(t, -1)
         t = gtk.ToolButton(gtk.STOCK_GO_FORWARD)
         t.connect('clicked', lambda w: self.ev_search(w, 1))
+        ak, am = gtk.accelerator_parse("F3")
+        t.add_accelerator('clicked', accels, ak, am, gtk.ACCEL_VISIBLE)
         self.insert(t, -1)
         t = gtk.ToolItem()
         self.case = gtk.CheckButton("Case sensitive")
@@ -46,10 +48,12 @@ class SearchBar(gtk.Toolbar):
         t.set_expand(True)
         self.insert(t, -1)
         t = gtk.ToolButton(gtk.STOCK_CLOSE)
-        t.connect('clicked', self.ev_search_close)
+        t.connect('clicked', lambda w: self.hide())
         self.insert(t, -1)
         self.show_all()
+        self.hide()
         self.connect('show', self.ev_show)
+        self.connect('hide', self.ev_hide)
     
     def ev_search(self, w, dir):
         """Callback search."""
@@ -71,11 +75,11 @@ class SearchBar(gtk.Toolbar):
                 if '\n' not in txt and '\t' not in txt and len(txt) < 32:
                     self.searchtxt.set_text(txt)
         self.searchtxt.grab_focus()
-        self.ev_search(None, 0)
+        self.searchtxt.select_region(0, -1)
         return
     
-    def ev_search_close(self, *data):
-        """Callback search close."""
+    def ev_hide(self, *data):
+        """Callback for 'hide' event."""
         self.hide()
         tab = self.app.gui.get_current_tab()
         if hasattr(tab, 'focus'):

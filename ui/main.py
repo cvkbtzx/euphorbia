@@ -38,15 +38,11 @@ class EuphorbiaGUI(actions.ActionsManager):
         hp.get_child1().destroy()
         hp.pack1(sidepanel.SidePanel(), False, True)
         ###hp.set_position(215)
-        # Searchbar
-        sb = searchbar.SearchBar(self.app)
-        self.builder.get_object('vbox_docs').pack_start(sb, False, True)
-        sb.hide()
-        self.searchb = sb
         # UI Manager
         self.uim = gtk.UIManager()
         # Accels
-        self.win.add_accel_group(self.uim.get_accel_group())
+        accg = self.uim.get_accel_group()
+        self.win.add_accel_group(accg)
         # Actions (actions.ActionsManager.actgrp)
         self.uim.insert_action_group(self.actgrp, 0)
         # Interface
@@ -56,6 +52,10 @@ class EuphorbiaGUI(actions.ActionsManager):
         self.builder.get_object('vbox_main').reorder_child(menu, 0)
         toolbar = self.uim.get_widget("/toolbar_main")
         self.builder.get_object('handlebox_main').add(toolbar)
+        # Searchbar
+        sb = searchbar.SearchBar(self.app, accg)
+        self.builder.get_object('vbox_docs').pack_start(sb, False, True)
+        self.searchb = sb
         return
     
     def get_widgets_by_name(self, wname, parent=None):
