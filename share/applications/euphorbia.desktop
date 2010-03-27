@@ -1,0 +1,10 @@
+[Desktop Entry]
+Name=Euphorbia
+GenericName=LaTeX Editor
+Comment=Euphorbia LaTeX Editor
+Exec=euphorbia %U
+Icon=euphorbia
+Terminal=false
+Type=Application
+MimeType=application/x-latex;application/x-tex;
+Categories=GTK;Office;
