@@ -16,7 +16,7 @@ class PrefsWin(gtk.Dialog):
         buttons = (gtk.STOCK_CLOSE, gtk.RESPONSE_CLOSE)
         gtk.Dialog.__init__(self, "Preferences", app.gui.win, flags, buttons)
         self.app = app
-        self.set_default_size(500, 350)
+        self.set_default_size(600, 400)
         self.set_position(gtk.WIN_POS_CENTER_ON_PARENT)
         self.set_has_separator(False)
         self.set_default_response(gtk.RESPONSE_CLOSE)
@@ -31,6 +31,7 @@ class PrefsWin(gtk.Dialog):
         self.vbox.show_all()
 
 
+#------------------------------------------------------------------------------
 
 class PrefsWinGeneral(gtk.ScrolledWindow):
     """'General' tab of the preferences dialog."""
@@ -40,8 +41,8 @@ class PrefsWinGeneral(gtk.ScrolledWindow):
         self.app = app
         self.set_policy(gtk.POLICY_NEVER, gtk.POLICY_ALWAYS)
         container = gtk.VBox()
-        container.set_spacing(15)
-        container.set_border_width(7)
+        container.set_spacing(21)
+        container.set_border_width(15)
         categs = {}
         for code,lv,cv in self.app.prefm.iter_prefs_data():
             cg = code.split('_')[0]
@@ -59,11 +60,11 @@ class PrefsWinGeneral(gtk.ScrolledWindow):
             vb = gtk.VBox()
             vb.set_homogeneous(True)
             vb.set_spacing(3)
-            vb.set_border_width(5)
+            vb.set_border_width(7)
             for code,w in sorted(categs[cg], cmp=lambda x,y: cmp(x[0],y[0])):
                 l = gtk.Label(code)
                 l.set_alignment(0, 0.5)
-                l.set_padding(5, 0)
+                l.set_padding(7, 0)
                 hb = gtk.HBox()
                 hb.pack_start(l, True, True)
                 hb.pack_start(w, False, True)
