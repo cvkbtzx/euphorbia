@@ -2,10 +2,7 @@
 
 """Files management."""
 
-import gtk
 import gio
-
-ICONTHEME = gtk.icon_theme_get_default()
 
 
 #------------------------------------------------------------------------------
@@ -106,19 +103,13 @@ class FileManager:
         type = "" if self.mime is None else self.mime
         return gio.app_info_get_default_for_type(self.mime, False)
     
-    def get_icon(self, size):
+    def get_icons(self):
         """Get icon pixbuf."""
-        # pixbuf_from_stock = gtk.Widget.render_icon(stock, size)
-        pixbuf = None
-        try:
-            flag = gtk.ICON_LOOKUP_USE_BUILTIN
+        if hasattr(self.infos['icon'], 'get_names'):
             names = self.infos['icon'].get_names()
-            iconinfo = ICONTHEME.choose_icon(names, size, flag)
-            if iconinfo is not None:
-                pixbuf = iconinfo.load_icon()
-        except:
-            pass
-        return pixbuf
+        else:
+            names = []
+        return names
 
 
 #------------------------------------------------------------------------------

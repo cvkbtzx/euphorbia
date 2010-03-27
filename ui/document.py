@@ -9,6 +9,8 @@ import gtk
 import pango
 import gtksourceview2 as gtksv
 
+ICONTHEME = gtk.icon_theme_get_default()
+
 
 #------------------------------------------------------------------------------
 
@@ -59,7 +61,17 @@ class TabWrapper:
         hb.show_all()
         self.content.show()
     
+    def set_icon(self, names):
+        """Set icon from its name."""
+        for n in names:
+            if ICONTHEME.has_icon(n):
+                self.icon.set_from_icon_name(n, gtk.ICON_SIZE_MENU)
+                return
+        self.icon.set_from_stock(gtk.STOCK_FILE, gtk.ICON_SIZE_MENU)
+        return
+    
     def close(self, *data):
+        """Close the tab."""
         self.notebook.tab_list.remove(self)
         self.notebook.remove_page(self.notebook.page_num(self.content))
         return
@@ -88,12 +100,7 @@ class Document(TabWrapper):
         self.datafile['encoding'] = enc if enc else 'utf-8'
         self.datafile['highlight'] = hl if hl else hlguess.get_id()
         f.encoding = self.datafile['encoding']
-        pix = f.get_icon(16)
-        if pix is None:
-            self.icon.set_from_stock(gtk.STOCK_FILE, gtk.ICON_SIZE_MENU)
-        else:
-            self.icon.set_from_pixbuf(pix)
-            ### Image.set_from_icon_name(icon_name, stock_size)
+        self.set_icon(f.get_icons())
         name = f.gfile.get_basename()
         if name:
             self.title.set_text(name)
