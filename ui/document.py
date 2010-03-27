@@ -115,6 +115,20 @@ class Document(TabWrapper):
         self.ev.buffer.cut_clipboard(self.clipb, tv.get_editable())
         return
     
+    def undo(self):
+        """Undo last action."""
+        if self.ev.buffer.can_undo():
+            self.ev.buffer.undo()
+            self.ev.view.scroll_mark_onscreen(self.ev.buffer.get_insert())
+        return
+    
+    def redo(self):
+        """Redo last action."""
+        if self.ev.buffer.can_redo():
+            self.ev.buffer.redo()
+            self.ev.view.scroll_mark_onscreen(self.ev.buffer.get_insert())
+        return
+    
     def copy(self):
         """Copy text into clipboard."""
         self.ev.buffer.copy_clipboard(self.clipb)

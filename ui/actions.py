@@ -19,11 +19,14 @@ def get_actions_list(cls):
         ('action_open',   gtk.STOCK_OPEN,        None, None, None, cls.act_open),
         ('action_save',   gtk.STOCK_SAVE,        None, None, None, None),
         ('action_saveas', gtk.STOCK_SAVE_AS,     None, None, None, None),
+        ('action_close',  gtk.STOCK_CLOSE,       None, None, None, cls.act_close),
         ('action_quit',   gtk.STOCK_QUIT,        None, None, None, cls.act_quit),
         ('menu_edit',     None,                  "Edit"),
-        ('action_cut',    gtk.STOCK_CUT,         None, None, None, cls.act_cut),
-        ('action_copy',   gtk.STOCK_COPY,        None, None, None, cls.act_copy),
-        ('action_paste',  gtk.STOCK_PASTE,       None, None, None, cls.act_paste),
+        ('action_undo',   gtk.STOCK_UNDO,        None, None, None, cls.act_undo),
+        ('action_redo',   gtk.STOCK_REDO,        None, None, None, cls.act_redo),
+        ('action_cut',    gtk.STOCK_CUT,         None, '',   None, cls.act_cut),
+        ('action_copy',   gtk.STOCK_COPY,        None, '',   None, cls.act_copy),
+        ('action_paste',  gtk.STOCK_PASTE,       None, '',   None, cls.act_paste),
         ('action_search', gtk.STOCK_FIND,        None, None, None, cls.act_search),
         ('menu_view',     None,                  "View"),
         ('menu_settings', None,                  "Settings"),
@@ -64,6 +67,27 @@ class ActionsManager:
         dwin.destroy()
         for u in uris:
             self.do_open(u)
+        return
+    
+    def act_close(self, *data):
+        """Callback for 'Close' action."""
+        tab = self.get_current_tab()
+        if hasattr(tab, 'close'):
+            tab.close()
+        return
+    
+    def act_undo(self, *data):
+        """Callback for 'Undo' action."""
+        tab = self.get_current_tab()
+        if hasattr(tab, 'undo'):
+            tab.undo()
+        return
+    
+    def act_redo(self, *data):
+        """Callback for 'Redo' action."""
+        tab = self.get_current_tab()
+        if hasattr(tab, 'redo'):
+            tab.redo()
         return
     
     def act_cut(self, *data):

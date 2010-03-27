@@ -30,6 +30,8 @@ DEFAULT_PREFS = [
     ["editview_autoindent", 'set_auto_indent', 'bool', True, "editview"],
     ["editview_smarthomeend", 'set_smart_home_end', {"disabled":0,"before":1,"after":2,"always":3}, 3, "editview"],
     ["nbook_bottom_show", {True:'show', False:'hide'}, None, True, "hbox_bottom"],
+    ["file_trash", None, 'bool', True, None],
+    ["file_backup", None, 'bool', False, None],
     ["search_loop", None, 'bool', False, None],
 ]
 
