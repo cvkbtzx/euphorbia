@@ -80,7 +80,7 @@ class PrefsManager:
         """List prefs connected with given object."""
         return [c for c in self.codes if obj in self.codes[c][0]]
     
-    def iter_prefs(self):
+    def iter_prefs_data(self):
         """Iter on all prefs."""
         for c,v in self.codes.iteritems():
             yield (c, v[2], v[-1])

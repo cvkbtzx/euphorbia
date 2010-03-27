@@ -40,22 +40,38 @@ class PrefsWinGeneral(gtk.ScrolledWindow):
         self.app = app
         self.set_policy(gtk.POLICY_NEVER, gtk.POLICY_ALWAYS)
         container = gtk.VBox()
-        container.set_homogeneous(True)
-        container.set_spacing(3)
-        container.set_border_width(5)
+        container.set_spacing(15)
+        container.set_border_width(7)
+        categs = {}
+        for code,lv,cv in self.app.prefm.iter_prefs_data():
+            cg = code.split('_')[0]
+            w = self.build_widget(code, lv, cv)
+            if w is not None:
+                if cg in categs:
+                    categs[cg].append((code,w))
+                else:
+                    categs[cg] = [(code,w)]
+        for cg in sorted(categs.keys(), reverse=True):
+            f = gtk.Frame("")
+            f.props.label_widget.set_alignment(0, 0.5)
+            f.props.label_widget.set_padding(3, 0)
+            f.props.label_widget.set_markup("<b>"+cg.capitalize()+"</b>")
+            vb = gtk.VBox()
+            vb.set_homogeneous(True)
+            vb.set_spacing(3)
+            vb.set_border_width(5)
+            for code,w in sorted(categs[cg], cmp=lambda x,y: cmp(x[0],y[0])):
+                l = gtk.Label(code)
+                l.set_alignment(0, 0.5)
+                l.set_padding(5, 0)
+                hb = gtk.HBox()
+                hb.pack_start(l, True, True)
+                hb.pack_start(w, False, True)
+                vb.pack_start(hb, False, False)
+            f.add(vb)
+            container.pack_start(f, False, False)
         self.add_with_viewport(container)
         container.get_parent().set_shadow_type(gtk.SHADOW_NONE)
-        for code,lv,cv in self.app.prefm.iter_prefs():
-            l = gtk.Label(code)
-            l.set_alignment(0, 0.5)
-            l.set_padding(5, 0)
-            t = self.build_widget(code, lv, cv)
-            if t is None:
-                continue
-            hb = gtk.HBox()
-            hb.pack_start(l, True, True)
-            hb.pack_start(t, False, True)
-            container.pack_start(hb, False, False)
     
     def build_widget(self, code, lv, cv):
         """Detect the widget type and return an instance."""
