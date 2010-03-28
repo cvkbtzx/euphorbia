@@ -61,8 +61,8 @@ class TabWrapper:
         hb.show_all()
         self.content.show()
     
-    def set_icon(self, names):
-        """Set icon from its name."""
+    def set_icon(self, *names):
+        """Set icon from its name(s)."""
         for n in names:
             if ICONTHEME.has_icon(n):
                 self.icon.set_from_icon_name(n, gtk.ICON_SIZE_MENU)
@@ -96,11 +96,12 @@ class Document(TabWrapper):
         """Change file."""
         if f.uri is not None or f.mime is not None:
             hlguess = self.ev.lang_manager.guess_language(f.uri, f.mime)
+            hlguess = None if hlguess is None else hlguess.get_id()
         self.datafile['file'] = f
         self.datafile['encoding'] = enc if enc else 'utf-8'
-        self.datafile['highlight'] = hl if hl else hlguess.get_id()
+        self.datafile['highlight'] = hl if hl else hlguess
         f.encoding = self.datafile['encoding']
-        self.set_icon(f.get_icons())
+        self.set_icon(*f.get_icons())
         name = f.gfile.get_basename()
         if name:
             self.title.set_text(name)

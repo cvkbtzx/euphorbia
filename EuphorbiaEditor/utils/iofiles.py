@@ -27,7 +27,7 @@ class FileManager:
         """Update file infos."""
         try:
             qi = self.gfile.query_info("standard::*,access::*")
-        except:
+        except StandardError:
             for a in self.infos:
                 self.infos[a] = None
             self.mime = None
@@ -61,9 +61,9 @@ class FileManager:
             return None
         try:
             data, length, etag = self.gfile.load_contents()
-            if self.encoding not in [None, 'utf-8', 'UTF-8']:
+            if self.encoding.lower() not in [None, 'utf-8', 'utf8']:
                 data = data.decode(self.encoding).encode('utf-8')
-        except:
+        except StandardError:
             data = None
         return data
     
@@ -72,10 +72,10 @@ class FileManager:
         if self.infos['can-write'] is False:
             return False
         try:
-            if self.encoding not in [None, 'utf-8', 'UTF-8']:
+            if self.encoding.lower() not in [None, 'utf-8', 'utf8']:
                 data = data.decode('utf-8').encode(self.encoding)
             self.gfile.replace_contents(data, None, backup)
-        except:
+        except StandardError:
             return False
         return True
     

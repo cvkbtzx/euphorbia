@@ -36,7 +36,7 @@ class EuphorbiaGUI(actions.ActionsManager):
         # Main window
         self.win = self.builder.get_object('window')
         self.win.set_transient_for(None)
-        img, sizes = os.path.join(datadir,"euphorbia.svg"), [16,22,24,32,36,48,64]
+        img, sizes = os.path.join(datadir,"euphorbia.svg"), [16,24,32,48,64]
         icons = (gtk.gdk.pixbuf_new_from_file_at_size(img,s,s) for s in sizes)
         self.win.set_icon_list(*icons)
         # Side panel

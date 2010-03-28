@@ -159,13 +159,29 @@ class OpenWin(gtk.FileChooserDialog):
     """Open file dialog."""
     
     def __init__(self, app):
-        # http://www.pygtk.org/docs/pygtk/class-gtkfilechooser.html
         buttons = (gtk.STOCK_CANCEL, gtk.RESPONSE_CANCEL, gtk.STOCK_OPEN, gtk.RESPONSE_OK)
         action = gtk.FILE_CHOOSER_ACTION_OPEN
         gtk.FileChooserDialog.__init__(self, "Open...", app.gui.win, action, buttons)
+        # Window
         self.set_position(gtk.WIN_POS_CENTER_ON_PARENT)
         self.set_modal(True)
         self.set_destroy_with_parent(True)
+        # Encoding
+        hb = gtk.HBox()
+        l = gtk.Label("Character encoding:")
+        l.set_alignment(1, 0.5)
+        l.set_padding(7, 0)
+        hb.pack_start(l, True, True)
+        cb = gtk.combo_box_entry_new_text()
+        cb.append_text("UTF-8")
+        cb.append_text("Latin1")
+        cb.append_text("Latin9")
+        cb.append_text("Windows-1252")
+        cb.set_active(0)
+        hb.pack_start(cb, False, True)
+        self.set_extra_widget(hb)
+        hb.show_all()
+        # Files
         filters = {"All files":["*"], "LaTeX files":["*.tex","*.bib"]}
         for txt,exts in filters.iteritems():
             f = gtk.FileFilter()
@@ -185,9 +201,11 @@ class SaveWin(gtk.FileChooserDialog):
         buttons = (gtk.STOCK_CANCEL, gtk.RESPONSE_CANCEL, gtk.STOCK_SAVE, gtk.RESPONSE_OK)
         action = gtk.FILE_CHOOSER_ACTION_SAVE
         gtk.FileChooserDialog.__init__(self, "Save...", app.gui.win, action, buttons)
+        # Window
         self.set_position(gtk.WIN_POS_CENTER_ON_PARENT)
         self.set_modal(True)
         self.set_destroy_with_parent(True)
+        # Files
         self.set_current_name(filename)
         self.set_do_overwrite_confirmation(True)
 

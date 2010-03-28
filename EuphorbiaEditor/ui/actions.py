@@ -65,9 +65,10 @@ class ActionsManager:
         dwin = dialogs.OpenWin(self.app)
         resp = dwin.run()
         uris = dwin.get_uris() if resp == gtk.RESPONSE_OK else []
+        code = dwin.get_extra_widget().get_children()[1].get_active_text()
         dwin.destroy()
         for u in uris:
-            self.do_open(u)
+            self.do_open(u, enc=code)
         return
     
     def act_close(self, *data):
