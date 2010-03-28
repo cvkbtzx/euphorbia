@@ -23,7 +23,7 @@ class PrefsWin(gtk.Dialog):
         # Populate
         self.nbook = gtk.Notebook()
         self.nbook.set_tab_pos(gtk.POS_LEFT)
-        self.nbook.set_border_width(7)
+        self.nbook.set_border_width(9)
         self.vbox.pack_start(self.nbook, True, True)
         self.nbook.append_page(PrefsWinGeneral(app), gtk.Label("General"))
         self.nbook.append_page(gtk.Label("empty"), gtk.Label("LaTeX"))
@@ -61,7 +61,7 @@ class PrefsWinGeneral(gtk.ScrolledWindow):
             vb.set_homogeneous(True)
             vb.set_spacing(3)
             vb.set_border_width(7)
-            for code,w in sorted(categs[cg], cmp=lambda x,y: cmp(x[0],y[0])):
+            for code,w in sorted(categs[cg], key=lambda x: x[0]):
                 l = gtk.Label(code)
                 l.set_alignment(0, 0.5)
                 l.set_padding(7, 0)
