@@ -4,8 +4,8 @@
 
 import sys
 import os.path
-import euphorbia
 
+import euphorbia
 sys.modules['euphorbia'] = sys.modules['EuphorbiaEditor.exts.euphorbia']
 
 

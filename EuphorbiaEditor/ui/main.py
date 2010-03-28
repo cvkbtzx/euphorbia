@@ -24,7 +24,6 @@ class EuphorbiaGUI(actions.ActionsManager):
         self.build_interface()
         nb = self.builder.get_object('notebook_docs')
         nb.tab_list = set()
-        self.win.set_transient_for(None)
         self.win.show()
     
     def build_interface(self):
@@ -34,12 +33,16 @@ class EuphorbiaGUI(actions.ActionsManager):
         self.builder = gtk.Builder()
         self.builder.add_from_file(os.path.join(datadir, "main.glade"))
         self.builder.connect_signals(self)
+        # Main window
         self.win = self.builder.get_object('window')
+        self.win.set_transient_for(None)
+        img, sizes = os.path.join(datadir,"euphorbia.svg"), [16,22,24,32,36,48,64]
+        icons = (gtk.gdk.pixbuf_new_from_file_at_size(img,s,s) for s in sizes)
+        self.win.set_icon_list(*icons)
         # Side panel
         hp = self.builder.get_object('hpaned')
         hp.get_child1().destroy()
         hp.pack1(sidepanel.SidePanel(), False, True)
-        ###hp.set_position(215)
         # UI Manager
         self.uim = gtk.UIManager()
         # Accels

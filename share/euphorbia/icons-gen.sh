@@ -3,7 +3,7 @@
 
 cd $(dirname "$0")
 
-for dim in 16 22 24 32 48 64 72 96 128 256 "scalable" ; do
+for dim in 16 22 24 32 36 48 64 72 96 128 192 256 "scalable" ; do
     if [[ ${dim} == "scalable" ]] ; then
         dimdir="scalable"
         ext="svg"
