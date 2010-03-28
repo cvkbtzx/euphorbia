@@ -1,0 +1,23 @@
+
+EUPHORBIA - LaTeX editor
+========================
+
+
+WARNING!
+THIS SOFTWARE IS STILL VERY INCOMPLETE AND LACKS A LOT OF FEATURES.
+
+
+Test without install:
+    python euphorbia --test
+
+
+Install instructions:
+
+    python setup.py build
+    python setup.py install
+
+
+More infos:
+http://code.google.com/p/euphorbia/
+
+

@@ -1,19 +1,16 @@
 # -*- coding:utf-8 -*-
 
-"""Module with tab and document management classes."""
+"""Search toolbar."""
 
-import gobject
 import pygtk
 pygtk.require('2.0')
 import gtk
-import pango
-import gtksourceview2 as gtksv
 
 
 #------------------------------------------------------------------------------
 
 class SearchBar(gtk.Toolbar):
-    """Search toolbar for EditView."""
+    """Search toolbar."""
     
     def __init__(self, app, accels):
         gtk.Toolbar.__init__(self)

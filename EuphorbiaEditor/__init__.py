@@ -27,6 +27,10 @@ __date__    = '2010-03-27'
 __author__  = 'Bzoloid <bzoloid@gmail.com>'
 __licence__ = 'GNU GPL v2'
 
+import sys
+import os
+import os.path
+
 import ui
 import prefs
 import exts
@@ -38,12 +42,23 @@ class Euphorbia:
     """Main class."""
     
     def __init__(self):
+        args = sys.argv[1:]
+        root = os.path.dirname(__path__[0]) if "--test" in args else sys.prefix
+        datadir = os.path.join(root, 'share', 'euphorbia')
+        homedir = os.path.join(os.getenv('HOME'), '.config', 'euphorbia')
         self.prefm = prefs.PrefsManager()
+        self.prefm.set_pref('system_datadir', datadir)
+        self.prefm.set_pref('system_homedir', homedir)
         self.plugm = exts.PluginsManager(self)
         self.gui = ui.EuphorbiaGUI(self)
         ###self.plugm.load_plugin('pdfview')
         self.prefm.autoconnect_gtk(self.gui.win)
-        self.gui.act_new()
+        args = [a for a in args if not a.startswith("--")]
+        if args:
+            for f in args:
+                self.gui.do_open(f)
+        else:
+            self.gui.act_new()
     
     def run(self):
         self.gui.main()

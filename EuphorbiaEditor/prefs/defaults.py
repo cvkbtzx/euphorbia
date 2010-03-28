@@ -33,6 +33,8 @@ DEFAULT_PREFS = [
     ["files_trash", None, 'bool', True, None],
     ["files_backup", None, 'bool', False, None],
     ["search_loop", None, 'bool', False, None],
+    ["system_homedir", None, None, '', None],
+    ["system_datadir", None, None, '', None],
 ]
 
 

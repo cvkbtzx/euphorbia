@@ -2,6 +2,7 @@
 
 """GUI constructor."""
 
+import os.path
 import pygtk
 pygtk.require('2.0')
 import gtk
@@ -28,9 +29,10 @@ class EuphorbiaGUI(actions.ActionsManager):
     
     def build_interface(self):
         """Build the graphical interface."""
+        datadir = self.app.prefm.get_pref('system_datadir')
         # Widgets loading
         self.builder = gtk.Builder()
-        self.builder.add_from_file("./ui/main.glade")
+        self.builder.add_from_file(os.path.join(datadir, "main.glade"))
         self.builder.connect_signals(self)
         self.win = self.builder.get_object('window')
         # Side panel
@@ -46,7 +48,7 @@ class EuphorbiaGUI(actions.ActionsManager):
         # Actions (actions.ActionsManager.actgrp)
         self.uim.insert_action_group(self.actgrp, 0)
         # Interface
-        self.uim.add_ui_from_file("./ui/main-ui.xml")
+        self.uim.add_ui_from_file(os.path.join(datadir, "main-ui.xml"))
         menu = self.uim.get_widget("/menu_main")
         self.builder.get_object('vbox_main').pack_start(menu, False, True)
         self.builder.get_object('vbox_main').reorder_child(menu, 0)

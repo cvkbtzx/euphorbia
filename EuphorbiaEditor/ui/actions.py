@@ -3,9 +3,10 @@
 """Definition of default actions."""
 
 import gtk
+
 import dialogs
 import document
-import utils.iofiles
+import EuphorbiaEditor.utils.iofiles as iofiles
 
 
 #------------------------------------------------------------------------------
@@ -141,7 +142,7 @@ class ActionsManager:
         d = document.Document(nb, highlight=hl)
         self.app.prefm.autoconnect_gtk(d.ev)
         if filename is not None:
-            f = utils.iofiles.FileManager(filename, enc)
+            f = iofiles.FileManager(filename, enc)
             f.update_infos()
             d.open_file(f, enc, hl)
         return

@@ -3,10 +3,10 @@
 """Plugins management."""
 
 import sys
+import os.path
 import euphorbia
 
-sys.modules['euphorbia'] = sys.modules['exts.euphorbia']
-PATHS = ['/'.join(__file__.split('/')[:-2] + ["plugins"])]
+sys.modules['euphorbia'] = sys.modules['EuphorbiaEditor.exts.euphorbia']
 
 
 #------------------------------------------------------------------------------
@@ -15,8 +15,9 @@ class PluginsManager:
     """Class to manage plugins."""
     
     def __init__(self, mainapp):
-        self.paths = PATHS
-        setattr(euphorbia, 'app', mainapp)
+        self.app = mainapp
+        self.find_plugins_paths()
+        setattr(euphorbia, 'app', self.app)
         self.instances = {}
         return
     
@@ -91,6 +92,14 @@ class PluginsManager:
     def get_available_plugins(self):
         """List available plugins."""
         return ['hello']
+    
+    def find_plugins_paths(self):
+        """Setup plugins paths."""
+        self.paths = []
+        for d in ["datadir", "homedir"]:
+            d = self.app.prefm.get_pref("system_"+d)
+            self.paths.append(os.path.join(d, "plugins"))
+        return
 
 
 #------------------------------------------------------------------------------

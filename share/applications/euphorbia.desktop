@@ -1,7 +1,7 @@
 [Desktop Entry]
 Name=Euphorbia
-GenericName=LaTeX Editor
-Comment=Euphorbia LaTeX Editor
+GenericName=LaTeX editor
+Comment=Euphorbia LaTeX editor
 Exec=euphorbia %U
 Icon=euphorbia
 Terminal=false
