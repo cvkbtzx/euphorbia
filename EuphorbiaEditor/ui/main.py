@@ -6,6 +6,7 @@ import os.path
 import pygtk
 pygtk.require('2.0')
 import gtk
+import gtksourceview2 as gtksv
 
 import actions
 import sidepanel
@@ -61,6 +62,10 @@ class EuphorbiaGUI(actions.ActionsManager):
         sb = searchbar.SearchBar(self.app, accg)
         self.builder.get_object('vbox_docs').pack_start(sb, False, True)
         self.searchb = sb
+        # Sourceview styles
+        ssm = gtksv.style_scheme_manager_get_default()
+        s = [(ssm.get_scheme(id).get_name(),id) for id in ssm.get_scheme_ids()]
+        self.app.prefm.set_pref_values('editview_style', dict(s))
         return
     
     def get_widgets_by_name(self, wname, parent=None):

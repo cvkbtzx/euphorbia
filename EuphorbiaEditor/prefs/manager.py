@@ -38,7 +38,7 @@ class PrefsManager:
         return
     
     def connect_pref(self, obj, code):
-        """Connect an object to a pref."""
+        """Connect a pref to an object."""
         if code in self.codes:
             self.codes[code][0].add(obj)
             self.apply_pref(code, object=obj)
@@ -47,7 +47,7 @@ class PrefsManager:
             return False
     
     def connect_prefs_by_type(self, obj):
-        """Connect an object to all prefs matching its type."""
+        """Connect all prefs matching an object type to this object."""
         if not hasattr(obj, 'name'):
             return
         name = obj.name
@@ -100,6 +100,12 @@ class PrefsManager:
     def get_pref(self, code):
         """Get pref's current value."""
         return self.codes[code][-1] if code in self.codes else None
+    
+    def set_pref_values(self, code, vals):
+        """Set allowed pref's values."""
+        if code in self.codes:
+            self.codes[code][2] = vals
+        return
     
     def get_pref_values(self, code):
         """Get allowed pref's values."""

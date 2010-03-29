@@ -1,7 +1,8 @@
 #!/bin/bash
 # -*- coding:utf-8 -*-
 
-cd $(dirname "$0")
+dn=$(dirname "$0")
+cd "${dn}/../share/euphorbia/"
 
 for dim in 16 22 24 32 36 48 64 72 96 128 192 256 "scalable" ; do
     if [[ ${dim} == "scalable" ]] ; then

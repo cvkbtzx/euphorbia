@@ -10,6 +10,7 @@ import pango
 import gtksourceview2 as gtksv
 
 ICONTHEME = gtk.icon_theme_get_default()
+STYLEM = gtksv.style_scheme_manager_get_default()
 
 
 #------------------------------------------------------------------------------
@@ -83,8 +84,10 @@ class Document(TabWrapper):
     """Class for documents managing. Includes notebook tabs and edit zone."""
     
     def __init__(self, notebook, filename=None, highlight=None):
+        hp = gtk.HPaned()
+        TabWrapper.__init__(self, notebook, hp)
         self.ev = EditView()
-        TabWrapper.__init__(self, notebook, self.ev)
+        hp.pack1(self.ev, True, False)
         filename = filename if filename else "New document"
         self.title.set_text(filename)
         self.icon.set_from_stock(gtk.STOCK_FILE, gtk.ICON_SIZE_MENU)
@@ -208,6 +211,7 @@ class EditView(gtk.ScrolledWindow):
         self.view.set_font = self.set_font
         self.view.set_max_undo_levels = self.buffer.set_max_undo_levels
         self.view.set_highlight_matching_brackets = self.buffer.set_highlight_matching_brackets
+        self.view.set_stylescheme = self.set_stylescheme
         self.add(self.view)
         self.show_all()
         gobject.timeout_add(250, self.view.grab_focus)
@@ -216,6 +220,11 @@ class EditView(gtk.ScrolledWindow):
         """Set font."""
         f = None if font is None else pango.FontDescription(font)
         self.view.modify_font(f)
+        return
+    
+    def set_stylescheme(self, id):
+        """Set style scheme."""
+        self.buffer.set_style_scheme(STYLEM.get_scheme(id))
         return
     
     def set_language(self, id):

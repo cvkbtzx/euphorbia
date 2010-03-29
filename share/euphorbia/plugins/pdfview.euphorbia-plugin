@@ -1,0 +1,11 @@
+[Euphorbia Plugin]
+Module=pdfview
+API=1
+Name=PDF view
+Name[fr]=Aperçu PDF
+Description=Display DVI, PS and PDF documents in a new tab
+Description[fr]=Affiche les documents DVI, PS et PDF dans un nouvel onglet
+Authors=Bzoloid <bzoloid@gmail.com>
+Copyright=Copyright © 2010
+Licence=GNU-GPL v2
+Website=http://code.google.com/p/euphorbia/
