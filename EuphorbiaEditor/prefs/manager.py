@@ -16,6 +16,10 @@ class PrefsManager:
         for p in DEFAULT_PREFS:
             self.add_pref(*p)
     
+    def has_pref(self, code):
+        """Get if a pref exists."""
+        return code in self.codes
+    
     def add_pref(self, code, func, lvals, val, type=None):
         """Add a pref from (code, func, list_values, default_value)."""
         self.codes[code] = [set(), func, lvals, val]

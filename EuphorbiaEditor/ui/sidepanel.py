@@ -49,7 +49,7 @@ class SidePanel(gtk.VBox):
     def check_expand_status(self):
         """Check if one of the Expanders is indeed expanded."""
         c = self.get_children()
-        if len(c)>0 and not any(map(lambda x: x.get_expanded(), c)):
+        if len(c)>0 and not any(w.get_expanded() for w in c):
             self.on_expander(c[0])
         return
     
