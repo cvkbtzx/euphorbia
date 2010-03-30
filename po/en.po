@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Euphorbia 0.0.X\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-03-30 01:10+0200\n"
+"POT-Creation-Date: 2010-03-30 10:56+0200\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Bzoloid <bzoloid@gmail.com>\n"
 "Language-Team: \n"
@@ -100,7 +100,7 @@ msgid "nbook_bottom_show"
 msgstr "Show logs"
 
 msgid "files_trash"
-msgstr "Put in trash when deleting"
+msgstr "Try to put in the trash"
 
 msgid "files_backup"
 msgstr "Backup before saving"
@@ -117,3 +117,59 @@ msgstr "Data directory"
 msgid "Euphorbia"
 msgstr "Euphorbia"
 
+msgid "File"
+msgstr "_File"
+
+msgid "Edit"
+msgstr "_Edit"
+
+msgid "View"
+msgstr "_View"
+
+msgid "Settings"
+msgstr "_Settings"
+
+msgid "Help"
+msgstr "_Help"
+
+msgid "Preferences"
+msgstr "Preferences"
+
+msgid "General"
+msgstr "General"
+
+msgid "LaTeX"
+msgstr "LaTeX"
+
+msgid "Plugins"
+msgstr "Plugins"
+
+msgid "opt_"
+msgstr "opt_"
+
+msgid "Open..."
+msgstr "Open..."
+
+msgid "Character encoding:"
+msgstr "Character encoding:"
+
+msgid "All files"
+msgstr "All files"
+
+msgid "LaTeX files"
+msgstr "LaTeX files"
+
+msgid "Save..."
+msgstr "Save..."
+
+msgid "New document"
+msgstr "New document"
+
+msgid "Search:"
+msgstr "Search:"
+
+msgid "Case sensitive"
+msgstr "Case sensitive"
+
+#~ msgid "comboopt_"
+#~ msgstr "comboopt_"

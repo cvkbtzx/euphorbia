@@ -88,7 +88,7 @@ class Document(TabWrapper):
         TabWrapper.__init__(self, notebook, hp)
         self.ev = EditView()
         hp.pack1(self.ev, True, False)
-        filename = filename if filename else "New document"
+        filename = filename if filename else _("New document")
         self.title.set_text(filename)
         self.icon.set_from_stock(gtk.STOCK_FILE, gtk.ICON_SIZE_MENU)
         self.datafile = {'file':None, 'encoding':None, 'highlight':highlight}
@@ -207,7 +207,7 @@ class EditView(gtk.ScrolledWindow):
         self.buffer.set_modified(False)
         self.buffer.set_highlight_syntax(True)
         self.view = gtksv.View(self.buffer)
-        self.view.set_name("editview")
+        self.view.set_name('editview')
         self.view.set_font = self.set_font
         self.view.set_max_undo_levels = self.buffer.set_max_undo_levels
         self.view.set_highlight_matching_brackets = self.buffer.set_highlight_matching_brackets
@@ -240,6 +240,7 @@ class EditView(gtk.ScrolledWindow):
 #------------------------------------------------------------------------------
 
 if __name__ == "__main__":
+    setattr(__builtins__, '_', str)
     win = gtk.Window()
     win.set_default_size(640, 480)
     win.set_position(gtk.WIN_POS_CENTER)

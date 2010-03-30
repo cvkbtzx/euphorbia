@@ -17,7 +17,7 @@ class SearchBar(gtk.Toolbar):
         self.app = app
         self.set_name('toolbar_search')
         t = gtk.ToolItem()
-        t.add(gtk.Label("Search:"))
+        t.add(gtk.Label(_("Search:")))
         t.get_child().set_padding(5, 0)
         self.insert(t, -1)
         t = gtk.ToolItem()
@@ -35,7 +35,7 @@ class SearchBar(gtk.Toolbar):
         t.add_accelerator('clicked', accels, ak, am, gtk.ACCEL_VISIBLE)
         self.insert(t, -1)
         t = gtk.ToolItem()
-        self.case = gtk.CheckButton("Case sensitive")
+        self.case = gtk.CheckButton(_("Case sensitive"))
         self.case.set_focus_on_click(False)
         self.case.connect('toggled', lambda w: self.ev_search(w, 0))
         t.add(self.case)

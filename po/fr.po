@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Euphorbia 0.0.X\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-03-30 01:10+0200\n"
+"POT-Creation-Date: 2010-03-30 10:56+0200\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Bzoloid <bzoloid@gmail.com>\n"
 "Language-Team: \n"
@@ -64,7 +64,7 @@ msgid "editview_font"
 msgstr "Police"
 
 msgid "editview_maxundo"
-msgstr "Nombre d'annulations"
+msgstr "Nombre maxi d'annulations"
 
 msgid "editview_tabwidth"
 msgstr "Taille des tabulations"
@@ -117,3 +117,59 @@ msgstr "Dossier de données"
 msgid "Euphorbia"
 msgstr "Euphorbia"
 
+msgid "File"
+msgstr "_Fichier"
+
+msgid "Edit"
+msgstr "É_dition"
+
+msgid "View"
+msgstr "_Affichage"
+
+msgid "Settings"
+msgstr "_Options"
+
+msgid "Help"
+msgstr "A_ide"
+
+msgid "Preferences"
+msgstr "Préférences"
+
+msgid "General"
+msgstr "Général"
+
+msgid "LaTeX"
+msgstr "LaTeX"
+
+msgid "Plugins"
+msgstr "Plugins"
+
+msgid "opt_"
+msgstr "opt_"
+
+msgid "Open..."
+msgstr "Ouvrir..."
+
+msgid "Character encoding:"
+msgstr "Encodage :"
+
+msgid "All files"
+msgstr "Tous les fichiers"
+
+msgid "LaTeX files"
+msgstr "Fichiers LaTeX"
+
+msgid "Save..."
+msgstr "Enregistrer..."
+
+msgid "New document"
+msgstr "Nouveau document"
+
+msgid "Search:"
+msgstr "Rechercher :"
+
+msgid "Case sensitive"
+msgstr "Respecter la casse"
+
+#~ msgid "comboopt_"
+#~ msgstr "comboopt_"

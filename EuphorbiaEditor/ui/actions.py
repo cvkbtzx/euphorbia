@@ -15,24 +15,24 @@ def get_actions_list(cls):
     """Get actions with appropriate callbacks from specified class."""
     actions = [
         # Name, Stock, Label, Accelerator, Tooltip, Callback
-        ('menu_file',     None,                  "File"),
+        ('menu_file',     None,                  _("File")),
         ('action_newdoc', gtk.STOCK_NEW,         None, None, None, cls.act_new),
         ('action_open',   gtk.STOCK_OPEN,        None, None, None, cls.act_open),
         ('action_save',   gtk.STOCK_SAVE,        None, None, None, None),
         ('action_saveas', gtk.STOCK_SAVE_AS,     None, None, None, None),
         ('action_close',  gtk.STOCK_CLOSE,       None, None, None, cls.act_close),
         ('action_quit',   gtk.STOCK_QUIT,        None, None, None, cls.act_quit),
-        ('menu_edit',     None,                  "Edit"),
+        ('menu_edit',     None,                  _("Edit")),
         ('action_undo',   gtk.STOCK_UNDO,        None, None, None, cls.act_undo),
         ('action_redo',   gtk.STOCK_REDO,        None, None, None, cls.act_redo),
         ('action_cut',    gtk.STOCK_CUT,         None, '',   None, cls.act_cut),
         ('action_copy',   gtk.STOCK_COPY,        None, '',   None, cls.act_copy),
         ('action_paste',  gtk.STOCK_PASTE,       None, '',   None, cls.act_paste),
         ('action_search', gtk.STOCK_FIND,        None, None, None, cls.act_search),
-        ('menu_view',     None,                  "View"),
-        ('menu_settings', None,                  "Settings"),
+        ('menu_view',     None,                  _("View")),
+        ('menu_settings', None,                  _("Settings")),
         ('action_prefs',  gtk.STOCK_PREFERENCES, None, None, None, cls.act_prefs),
-        ('menu_help',     None,                  "Help"),
+        ('menu_help',     None,                  _("Help")),
         ('action_about',  gtk.STOCK_ABOUT,       None, None, None, None)
     ]
     return actions

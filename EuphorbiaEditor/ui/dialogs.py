@@ -14,7 +14,7 @@ class PrefsWin(gtk.Dialog):
         # Dialog initialization
         flags = gtk.DIALOG_MODAL | gtk.DIALOG_DESTROY_WITH_PARENT
         buttons = (gtk.STOCK_CLOSE, gtk.RESPONSE_CLOSE)
-        gtk.Dialog.__init__(self, "Preferences", app.gui.win, flags, buttons)
+        gtk.Dialog.__init__(self, _("Preferences"), app.gui.win, flags, buttons)
         self.app = app
         self.set_default_size(600, 400)
         self.set_position(gtk.WIN_POS_CENTER_ON_PARENT)
@@ -25,9 +25,9 @@ class PrefsWin(gtk.Dialog):
         self.nbook.set_tab_pos(gtk.POS_LEFT)
         self.nbook.set_border_width(9)
         self.vbox.pack_start(self.nbook, True, True)
-        self.nbook.append_page(PrefsWinGeneral(app), gtk.Label("General"))
-        self.nbook.append_page(gtk.Label("empty"), gtk.Label("LaTeX"))
-        self.nbook.append_page(gtk.Label("empty"), gtk.Label("Plugins"))
+        self.nbook.append_page(PrefsWinGeneral(app), gtk.Label(_("General")))
+        self.nbook.append_page(gtk.Label("empty"), gtk.Label(_("LaTeX")))
+        self.nbook.append_page(gtk.Label("empty"), gtk.Label(_("Plugins")))
         self.vbox.show_all()
 
 
@@ -161,14 +161,14 @@ class OpenWin(gtk.FileChooserDialog):
     def __init__(self, app):
         buttons = (gtk.STOCK_CANCEL, gtk.RESPONSE_CANCEL, gtk.STOCK_OPEN, gtk.RESPONSE_OK)
         action = gtk.FILE_CHOOSER_ACTION_OPEN
-        gtk.FileChooserDialog.__init__(self, "Open...", app.gui.win, action, buttons)
+        gtk.FileChooserDialog.__init__(self, _("Open..."), app.gui.win, action, buttons)
         # Window
         self.set_position(gtk.WIN_POS_CENTER_ON_PARENT)
         self.set_modal(True)
         self.set_destroy_with_parent(True)
         # Encoding
         hb = gtk.HBox()
-        l = gtk.Label("Character encoding:")
+        l = gtk.Label(_("Character encoding:"))
         l.set_alignment(1, 0.5)
         l.set_padding(7, 0)
         hb.pack_start(l, True, True)
@@ -182,7 +182,7 @@ class OpenWin(gtk.FileChooserDialog):
         self.set_extra_widget(hb)
         hb.show_all()
         # Files
-        filters = {"All files":["*"], "LaTeX files":["*.tex","*.bib"]}
+        filters = {_("All files"):["*"], _("LaTeX files"):["*.tex","*.bib"]}
         for txt,exts in filters.iteritems():
             f = gtk.FileFilter()
             f.set_name(txt)
@@ -200,7 +200,7 @@ class SaveWin(gtk.FileChooserDialog):
     def __init__(self, app, filename):
         buttons = (gtk.STOCK_CANCEL, gtk.RESPONSE_CANCEL, gtk.STOCK_SAVE, gtk.RESPONSE_OK)
         action = gtk.FILE_CHOOSER_ACTION_SAVE
-        gtk.FileChooserDialog.__init__(self, "Save...", app.gui.win, action, buttons)
+        gtk.FileChooserDialog.__init__(self, _("Save..."), app.gui.win, action, buttons)
         # Window
         self.set_position(gtk.WIN_POS_CENTER_ON_PARENT)
         self.set_modal(True)
