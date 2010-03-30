@@ -120,6 +120,8 @@ class PrefsManager:
         if val is not None:
             self.set_pref(code, val)
         fname = self.codes[code][1]
+        if fname is None:
+            return
         if type(fname) is dict:
             fname = fname[self.codes[code][-1]]
             args = ()

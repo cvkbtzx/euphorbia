@@ -1,0 +1,119 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Euphorbia 0.0.X\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2010-03-30 01:10+0200\n"
+"PO-Revision-Date: \n"
+"Last-Translator: Bzoloid <bzoloid@gmail.com>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-Language: English\n"
+"X-Poedit-SourceCharset: utf-8\n"
+
+msgid "opt_window"
+msgstr "Main window"
+
+msgid "opt_toolbar"
+msgstr "Toolbars"
+
+msgid "opt_editview"
+msgstr "Text areas"
+
+msgid "opt_files"
+msgstr "Files"
+
+msgid "opt_search"
+msgstr "Search"
+
+msgid "opt_system"
+msgstr "System"
+
+msgid "window_max"
+msgstr "Window maximized"
+
+msgid "toolbar_arrow"
+msgstr "Show arrows when too small"
+
+msgid "toolbar_iconsize"
+msgstr "Icons size"
+
+msgid "toolbar_tooltips"
+msgstr "Tooltips"
+
+msgid "toolbar_style"
+msgstr "Style"
+
+msgid "editview_showlinemarks"
+msgstr "Show line marks"
+
+msgid "editview_showlinenumbers"
+msgstr "Show line numbers"
+
+msgid "editview_cursorvisible"
+msgstr "Cursor visible"
+
+msgid "editview_highlightcurrentline"
+msgstr "Highlight current line"
+
+msgid "editview_wrapmode"
+msgstr "Wrap mode"
+
+msgid "editview_font"
+msgstr "Font style"
+
+msgid "editview_maxundo"
+msgstr "Maximum undo level"
+
+msgid "editview_tabwidth"
+msgstr "Tab width"
+
+msgid "editview_showrightmargin"
+msgstr "Show right margin"
+
+msgid "editview_rightmarginpos"
+msgstr "Right margin position"
+
+msgid "editview_highlightmatchingbrackets"
+msgstr "Highlight matching brackets"
+
+msgid "editview_spacesinsteadoftabs"
+msgstr "Insert spaces instead of tabs"
+
+msgid "editview_indentwidth"
+msgstr "Indent width"
+
+msgid "editview_indentontab"
+msgstr "Indent on tab"
+
+msgid "editview_autoindent"
+msgstr "Auto indent"
+
+msgid "editview_smarthomeend"
+msgstr "Smart Home/End keys"
+
+msgid "editview_style"
+msgstr "Colors style"
+
+msgid "nbook_bottom_show"
+msgstr "Show logs"
+
+msgid "files_trash"
+msgstr "Put in trash when deleting"
+
+msgid "files_backup"
+msgstr "Backup before saving"
+
+msgid "search_loop"
+msgstr "Loop"
+
+msgid "system_homedir"
+msgstr "User config directory"
+
+msgid "system_datadir"
+msgstr "Data directory"
+
+msgid "Euphorbia"
+msgstr "Euphorbia"
+

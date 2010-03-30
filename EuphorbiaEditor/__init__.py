@@ -30,6 +30,7 @@ __licence__ = 'GNU GPL v2'
 import sys
 import os
 import os.path
+import gettext
 
 import ui
 import prefs
@@ -46,6 +47,8 @@ class Euphorbia:
         root = os.path.dirname(__path__[0]) if "--test" in args else sys.prefix
         datadir = os.path.join(root, 'share', 'euphorbia')
         homedir = os.path.join(os.getenv('HOME'), '.config', 'euphorbia')
+        locales = os.path.join(root, 'share', 'locale')
+        gettext.install('euphorbia', locales)
         self.prefm = prefs.PrefsManager()
         self.prefm.set_pref('system_datadir', datadir)
         self.prefm.set_pref('system_homedir', homedir)

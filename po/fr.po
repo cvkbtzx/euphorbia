@@ -1,0 +1,119 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: Euphorbia 0.0.X\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2010-03-30 01:10+0200\n"
+"PO-Revision-Date: \n"
+"Last-Translator: Bzoloid <bzoloid@gmail.com>\n"
+"Language-Team: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-Language: French\n"
+"X-Poedit-SourceCharset: utf-8\n"
+
+msgid "opt_window"
+msgstr "Fenêtre principale"
+
+msgid "opt_toolbar"
+msgstr "Barres d'outils"
+
+msgid "opt_editview"
+msgstr "Zones de texte"
+
+msgid "opt_files"
+msgstr "Fichiers"
+
+msgid "opt_search"
+msgstr "Recherche"
+
+msgid "opt_system"
+msgstr "Système"
+
+msgid "window_max"
+msgstr "Fenêtre maximisée"
+
+msgid "toolbar_arrow"
+msgstr "Flèche si trop petite"
+
+msgid "toolbar_iconsize"
+msgstr "Taille des icônes"
+
+msgid "toolbar_tooltips"
+msgstr "Infobulles"
+
+msgid "toolbar_style"
+msgstr "Style"
+
+msgid "editview_showlinemarks"
+msgstr "Signets visibles"
+
+msgid "editview_showlinenumbers"
+msgstr "Numéros de lignes"
+
+msgid "editview_cursorvisible"
+msgstr "Curseur visible"
+
+msgid "editview_highlightcurrentline"
+msgstr "Surligner la ligne actuelle"
+
+msgid "editview_wrapmode"
+msgstr "Retour à la ligne"
+
+msgid "editview_font"
+msgstr "Police"
+
+msgid "editview_maxundo"
+msgstr "Nombre d'annulations"
+
+msgid "editview_tabwidth"
+msgstr "Taille des tabulations"
+
+msgid "editview_showrightmargin"
+msgstr "Marge de droite"
+
+msgid "editview_rightmarginpos"
+msgstr "Position de la marge de droite"
+
+msgid "editview_highlightmatchingbrackets"
+msgstr "Surligner les parenthèses correspondantes"
+
+msgid "editview_spacesinsteadoftabs"
+msgstr "Remplacer les tabulations par des espaces"
+
+msgid "editview_indentwidth"
+msgstr "Taille de l'indentation"
+
+msgid "editview_indentontab"
+msgstr "Indenter lors d'une tabulation"
+
+msgid "editview_autoindent"
+msgstr "Indentation automatique"
+
+msgid "editview_smarthomeend"
+msgstr "Touches Début/Fin intelligentes"
+
+msgid "editview_style"
+msgstr "Jeu de couleurs"
+
+msgid "nbook_bottom_show"
+msgstr "Afficher les logs"
+
+msgid "files_trash"
+msgstr "Tenter de mettre à la corbeille"
+
+msgid "files_backup"
+msgstr "Copie de sauvegarde à l'enregistrement"
+
+msgid "search_loop"
+msgstr "Boucler"
+
+msgid "system_homedir"
+msgstr "Dossier de la configuration utilisateur"
+
+msgid "system_datadir"
+msgstr "Dossier de données"
+
+msgid "Euphorbia"
+msgstr "Euphorbia"
+

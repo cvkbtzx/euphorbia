@@ -1,0 +1,121 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: Euphorbia 0.0.X\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2010-03-30 01:10+0200\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+msgid "opt_window"
+msgstr ""
+
+msgid "opt_toolbar"
+msgstr ""
+
+msgid "opt_editview"
+msgstr ""
+
+msgid "opt_files"
+msgstr ""
+
+msgid "opt_search"
+msgstr ""
+
+msgid "opt_system"
+msgstr ""
+
+msgid "window_max"
+msgstr ""
+
+msgid "toolbar_arrow"
+msgstr ""
+
+msgid "toolbar_iconsize"
+msgstr ""
+
+msgid "toolbar_tooltips"
+msgstr ""
+
+msgid "toolbar_style"
+msgstr ""
+
+msgid "editview_showlinemarks"
+msgstr ""
+
+msgid "editview_showlinenumbers"
+msgstr ""
+
+msgid "editview_cursorvisible"
+msgstr ""
+
+msgid "editview_highlightcurrentline"
+msgstr ""
+
+msgid "editview_wrapmode"
+msgstr ""
+
+msgid "editview_font"
+msgstr ""
+
+msgid "editview_maxundo"
+msgstr ""
+
+msgid "editview_tabwidth"
+msgstr ""
+
+msgid "editview_showrightmargin"
+msgstr ""
+
+msgid "editview_rightmarginpos"
+msgstr ""
+
+msgid "editview_highlightmatchingbrackets"
+msgstr ""
+
+msgid "editview_spacesinsteadoftabs"
+msgstr ""
+
+msgid "editview_indentwidth"
+msgstr ""
+
+msgid "editview_indentontab"
+msgstr ""
+
+msgid "editview_autoindent"
+msgstr ""
+
+msgid "editview_smarthomeend"
+msgstr ""
+
+msgid "editview_style"
+msgstr ""
+
+msgid "nbook_bottom_show"
+msgstr ""
+
+msgid "files_trash"
+msgstr ""
+
+msgid "files_backup"
+msgstr ""
+
+msgid "search_loop"
+msgstr ""
+
+msgid "system_homedir"
+msgstr ""
+
+msgid "system_datadir"
+msgstr ""
+
+msgid "Euphorbia"
+msgstr ""
+

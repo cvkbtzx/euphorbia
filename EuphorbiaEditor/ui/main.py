@@ -32,6 +32,7 @@ class EuphorbiaGUI(actions.ActionsManager):
         datadir = self.app.prefm.get_pref('system_datadir')
         # Widgets loading
         self.builder = gtk.Builder()
+        self.builder.set_translation_domain(None)
         self.builder.add_from_file(os.path.join(datadir, "main.glade"))
         self.builder.connect_signals(self)
         # Main window
