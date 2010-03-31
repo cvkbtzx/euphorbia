@@ -17,6 +17,7 @@ class SidePanel(gtk.VBox):
     def __init__(self):
         gtk.VBox.__init__(self)
         self.expanders = {}
+        self.set_name('sidepanel')
         #####   TODO   #####
         box = palette.Palette()
         for id in gtk.stock_list_ids():
