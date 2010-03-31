@@ -20,7 +20,8 @@
             <menuitem action="action_search" />
         </menu>
         <menu action="menu_view">
-            <placeholder />
+            <menuitem action="action_showsidepan" />
+            <menuitem action="action_showbottompan" />
         </menu>
         <menu action="menu_settings">
             <menuitem action="action_prefs" />

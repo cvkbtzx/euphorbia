@@ -24,7 +24,7 @@
 
 __version__ = '0.0.6'
 __date__    = '2010-03-31'
-__author__  = 'Bzoloid <bzoloid@gmail.com>'
+__authors__  = ['Bzoloid <bzoloid@gmail.com>']
 __licence__ = 'GNU GPL v2'
 
 import sys

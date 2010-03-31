@@ -65,7 +65,7 @@
                   </packing>
                 </child>
                 <child>
-                  <object class="GtkHBox" id="hbox_bottom">
+                  <object class="GtkHBox" id="bottompanel">
                     <property name="visible">True</property>
                     <child>
                       <object class="GtkNotebook" id="notebook_bottom">

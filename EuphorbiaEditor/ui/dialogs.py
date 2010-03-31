@@ -215,4 +215,23 @@ class SaveWin(gtk.FileChooserDialog):
 
 #------------------------------------------------------------------------------
 
+class AboutWin(gtk.AboutDialog):
+    """About dialog."""
+    
+    def __init__(self, app):
+        gtk.AboutDialog.__init__(self)
+        # Window
+        self.set_transient_for(app.gui.win)
+        self.set_position(gtk.WIN_POS_CENTER_ON_PARENT)
+        self.set_modal(True)
+        self.set_destroy_with_parent(True)
+        # Data
+        self.set_name(_("Euphorbia"))
+        self.set_copyright("Copyright \xc2\xa9 2008-2010   Bzoloid")
+        self.set_website("http://code.google.com/p/euphorbia/")
+        self.set_logo_icon_name("euphorbia")
+
+
+#------------------------------------------------------------------------------
+
 

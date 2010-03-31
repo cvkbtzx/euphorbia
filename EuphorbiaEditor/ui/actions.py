@@ -33,7 +33,17 @@ def get_actions_list(cls):
         ('menu_settings', None,                  _("Settings")),
         ('action_prefs',  gtk.STOCK_PREFERENCES, None, None, None, cls.act_prefs),
         ('menu_help',     None,                  _("Help")),
-        ('action_about',  gtk.STOCK_ABOUT,       None, None, None, None)
+        ('action_about',  gtk.STOCK_ABOUT,       None, None, None, cls.act_about)
+    ]
+    return actions
+
+
+def get_toggle_actions_list(cls):
+    """Get toggle actions with appropriate callbacks from specified class."""
+    actions = [
+        # Name, Stock, Label, Accelerator, Tooltip, Callback, Active
+        ('action_showsidepan',   None, _("ShowSidePan"),   None, None, cls.act_showsidepan),
+        ('action_showbottompan', None, _("ShowBottomPan"), None, None, cls.act_showbottompan),
     ]
     return actions
 
@@ -47,6 +57,7 @@ class ActionsManager:
         self.app = app
         self.actgrp = gtk.ActionGroup('base')
         self.actgrp.add_actions(get_actions_list(self))
+        self.actgrp.add_toggle_actions(get_toggle_actions_list(self))
     
     def act_prefs(self, *data):
         """Callback for 'Preferences' action."""
@@ -153,6 +164,25 @@ class ActionsManager:
             self.ev_destroy()
         return
     
+    def act_showsidepan(self, *data):
+        """Callback for 'Show sidepanel' action."""
+        p = self.app.prefm.get_pref('gui_sidepanelshow')
+        self.do_showpanel(not p, 'side')
+        return
+    
+    def act_showbottompan(self, *data):
+        """Callback for 'Show bottompanel' action."""
+        p = self.app.prefm.get_pref('gui_bottompanelshow')
+        self.do_showpanel(not p, 'bottom')
+        return
+    
+    def act_about(self, *data):
+        """Callback for 'About' action."""
+        dwin = dialogs.AboutWin(self.app)
+        dwin.run()
+        dwin.destroy()
+        return
+    
     # * * *
     
     def get_current_tab(self):
@@ -161,6 +191,30 @@ class ActionsManager:
         obj = nb.get_nth_page(nb.get_current_page())
         tab = [t for t in nb.tab_list if t.content is obj]
         return tab[0] if len(tab)==1 else None
+    
+    def do_showsidepanel(self, visible):
+        """Show sidepanel."""
+        self.do_showpanel(visible, 'side')
+        return
+    
+    def do_showbottompanel(self, visible):
+        """Show bottompanel."""
+        self.do_showpanel(visible, 'bottom')
+        return
+    
+    def do_showpanel(self, visible, panel):
+        """Show specified panel."""
+        self.app.prefm.set_pref('gui_'+panel+'panelshow', visible)
+        path = "/menu_main/menu_view/action_show"+panel+"pan"
+        a = self.app.gui.uim.get_action(path)
+        for p in a.get_proxies():
+            a.block_activate_from(p)
+            p.set_active(visible)
+            a.unblock_activate_from(p)
+        w = self.app.gui.get_widgets_by_name(panel+'panel').pop()
+        func = w.show if visible else w.hide
+        func()
+        return
     
     def do_open(self, filename, enc=None, hl=None):
         """Open file in new tab."""
