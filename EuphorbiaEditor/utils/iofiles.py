@@ -17,8 +17,8 @@ class FileManager:
         self.uri = self.gfile.get_uri()
         self.path = self.gfile.get_path()
         self.infos = {
-            'name':None, 'icon':None, 'type':None, 'size':None,
-            'content-type':None,'fast-content-type':None,
+            'name':None, 'display-name':None, 'type':None, 'size':None,
+            'content-type':None,'fast-content-type':None, 'icon':None,
             'can-read':None, 'can-write':None,
             'can-delete':None, 'can-trash':None,
         }
@@ -54,6 +54,10 @@ class FileManager:
         else:
             self.mime = None
         return True
+    
+    def get_name(self):
+        """Get name as UTF-8 string."""
+        return self.infos['display-name']
     
     def read(self):
         """Read data from file."""

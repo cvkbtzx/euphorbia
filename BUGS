@@ -2,6 +2,8 @@
 BUGS
 ----
 
-* Doesn't display anything if char encoding inconsistent
+* Text view doesn't display anything if char encoding inconsistent
+
+* When searching from selected text, the selection is unselected
 
 

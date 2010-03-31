@@ -18,8 +18,8 @@ def get_actions_list(cls):
         ('menu_file',     None,                  _("File")),
         ('action_newdoc', gtk.STOCK_NEW,         None, None, None, cls.act_new),
         ('action_open',   gtk.STOCK_OPEN,        None, None, None, cls.act_open),
-        ('action_save',   gtk.STOCK_SAVE,        None, None, None, None),
-        ('action_saveas', gtk.STOCK_SAVE_AS,     None, None, None, None),
+        ('action_save',   gtk.STOCK_SAVE,        None, None, None, cls.act_save),
+        ('action_saveas', gtk.STOCK_SAVE_AS,     None, None, None, cls.act_saveas),
         ('action_close',  gtk.STOCK_CLOSE,       None, None, None, cls.act_close),
         ('action_quit',   gtk.STOCK_QUIT,        None, None, None, cls.act_quit),
         ('menu_edit',     None,                  _("Edit")),
@@ -69,6 +69,31 @@ class ActionsManager:
         dwin.destroy()
         for u in uris:
             self.do_open(u, enc=code)
+        return
+    
+    def act_save(self, *data):
+        """Callback for 'Save' action."""
+        tab = self.get_current_tab()
+        if hasattr(tab, 'save') and hasattr(tab, 'saveinfos'):
+            if tab.saveinfos()[1] is None:
+                self.act_saveas()
+            else:
+                tab.save(None, self.app.prefm.get_pref('files_backup'))
+        return
+    
+    def act_saveas(self, *data):
+        """Callback for 'Save as' action."""
+        tab = self.get_current_tab()
+        if hasattr(tab, 'save') and hasattr(tab, 'saveinfos'):
+            infos = tab.saveinfos()
+            dwin = dialogs.SaveWin(self.app, *infos[:2])
+            resp = dwin.run()
+            uri = dwin.get_uri() if resp == gtk.RESPONSE_OK else None
+            dwin.destroy()
+            if uri is not None:
+                f = iofiles.FileManager(uri)
+                f.update_infos()
+                tab.save(f, self.app.prefm.get_pref('files_backup'))
         return
     
     def act_close(self, *data):
@@ -140,7 +165,7 @@ class ActionsManager:
     def do_open(self, filename, enc=None, hl=None):
         """Open file in new tab."""
         nb = self.app.gui.get_widgets_by_name('notebook_docs').pop()
-        d = document.Document(nb, highlight=hl)
+        d = document.Document(nb, hlight=hl)
         self.app.prefm.autoconnect_gtk(d.ev)
         if filename is not None:
             f = iofiles.FileManager(filename, enc)

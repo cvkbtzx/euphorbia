@@ -61,6 +61,7 @@ class TabWrapper:
         # Display
         hb.show_all()
         self.content.show()
+        notebook.set_current_page(notebook.page_num(self.content))
     
     def set_icon(self, *names):
         """Set icon from its name(s)."""
@@ -83,7 +84,7 @@ class TabWrapper:
 class Document(TabWrapper):
     """Class for documents managing. Includes notebook tabs and edit zone."""
     
-    def __init__(self, notebook, filename=None, highlight=None):
+    def __init__(self, notebook, filename=None, hlight=None):
         hp = gtk.HPaned()
         TabWrapper.__init__(self, notebook, hp)
         self.ev = EditView()
@@ -91,8 +92,8 @@ class Document(TabWrapper):
         filename = filename if filename else _("New document")
         self.title.set_text(filename)
         self.icon.set_from_stock(gtk.STOCK_FILE, gtk.ICON_SIZE_MENU)
-        self.datafile = {'file':None, 'encoding':None, 'highlight':highlight}
-        self.ev.set_language(highlight)
+        self.datafile = {'file':filename, 'encoding':None, 'hlight':hlight}
+        self.ev.set_language(hlight)
         self.clipb = gtk.clipboard_get()
     
     def set_file(self, f, enc=None, hl=None):
@@ -102,13 +103,13 @@ class Document(TabWrapper):
             hlguess = None if hlguess is None else hlguess.get_id()
         self.datafile['file'] = f
         self.datafile['encoding'] = enc if enc else 'utf-8'
-        self.datafile['highlight'] = hl if hl else hlguess
+        self.datafile['hlight'] = hl if hl else hlguess
         f.encoding = self.datafile['encoding']
         self.set_icon(*f.get_icons())
-        name = f.gfile.get_basename()
+        name = f.get_name()
         if name:
             self.title.set_text(name)
-        self.ev.set_language(self.datafile['highlight'])
+        self.ev.set_language(self.datafile['hlight'])
         self.ev.buffer.set_modified(False)
         return
     
@@ -119,6 +120,26 @@ class Document(TabWrapper):
         self.ev.buffer.set_text("" if txt is None else txt)
         self.ev.buffer.place_cursor(self.ev.buffer.get_start_iter())
         return
+    
+    def save(self, f, backup=False):
+        """Save the text data in a file."""
+        if f is not None:
+            # Impose UTF-8 when "save as"
+            self.set_file(f, None, self.datafile['hlight'])
+        f = self.datafile['file']
+        ibeg, iend = self.ev.buffer.get_bounds()
+        txt = self.ev.buffer.get_text(ibeg, iend, False)
+        ret = f.write(txt, backup)
+        f.update_infos()
+        if ret:
+            self.ev.buffer.set_modified(False)
+            self.set_file(f,self.datafile['encoding'],self.datafile['hlight'])
+        return ret
+    
+    def saveinfos(self):
+        """Return infos about the file to save."""
+        f = self.datafile['file']
+        return (f,None) if type(f) is str else (None,f)
     
     def cut(self):
         """Cut text into clipboard."""
@@ -156,12 +177,12 @@ class Document(TabWrapper):
         flags = gtksv.SEARCH_TEXT_ONLY | gtksv.SEARCH_VISIBLE_ONLY
         if not case_sensitive:
             flags = flags | gtksv.SEARCH_CASE_INSENSITIVE
-        ibegin, iend = self.ev.buffer.get_bounds()
+        ibeg, iend = self.ev.buffer.get_bounds()
         if dir > 0:
             iter = self.ev.buffer.get_iter_at_mark(self.ev.buffer.get_selection_bound())
             res = gtksv.iter_forward_search(iter, txt, flags, None)
             if res is None and loop:
-                res = gtksv.iter_forward_search(ibegin, txt, flags, None)
+                res = gtksv.iter_forward_search(ibeg, txt, flags, None)
         elif dir < 0:
             iter = self.ev.buffer.get_iter_at_mark(self.ev.buffer.get_insert())
             res = gtksv.iter_backward_search(iter, txt, flags, None)
@@ -171,7 +192,7 @@ class Document(TabWrapper):
             iter = self.ev.buffer.get_iter_at_mark(self.ev.buffer.get_insert())
             res = gtksv.iter_forward_search(iter, txt, flags, None)
             if res is None and loop:
-                res = gtksv.iter_forward_search(ibegin, txt, flags, None)
+                res = gtksv.iter_forward_search(ibeg, txt, flags, None)
         if res is not None:
             self.ev.buffer.select_range(*res)
             self.ev.view.scroll_to_mark(self.ev.buffer.get_insert(), 0, True)

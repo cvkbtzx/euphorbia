@@ -197,7 +197,7 @@ class OpenWin(gtk.FileChooserDialog):
 class SaveWin(gtk.FileChooserDialog):
     """Save file dialog."""
     
-    def __init__(self, app, filename):
+    def __init__(self, app, filename=None, fileobj=None):
         buttons = (gtk.STOCK_CANCEL, gtk.RESPONSE_CANCEL, gtk.STOCK_SAVE, gtk.RESPONSE_OK)
         action = gtk.FILE_CHOOSER_ACTION_SAVE
         gtk.FileChooserDialog.__init__(self, _("Save..."), app.gui.win, action, buttons)
@@ -206,7 +206,10 @@ class SaveWin(gtk.FileChooserDialog):
         self.set_modal(True)
         self.set_destroy_with_parent(True)
         # Files
-        self.set_current_name(filename)
+        if fileobj is not None:
+            self.select_uri(fileobj.uri)
+        if filename is not None:
+            self.set_current_name(filename)
         self.set_do_overwrite_confirmation(True)
 
 
