@@ -63,10 +63,11 @@ class FileManager:
         """Read data from file."""
         if self.infos['can-read'] is False:
             return None
+        code = None if self.encoding is None else self.encoding.lower()
         try:
             data, length, etag = self.gfile.load_contents()
-            if self.encoding.lower() not in [None, 'utf-8', 'utf8']:
-                data = data.decode(self.encoding).encode('utf-8')
+            if code not in [None, 'utf-8', 'utf8']:
+                data = data.decode(code).encode('utf-8')
         except StandardError:
             data = None
         return data
@@ -75,9 +76,10 @@ class FileManager:
         """Write data in file."""
         if self.infos['can-write'] is False:
             return False
+        code = None if self.encoding is None else self.encoding.lower()
         try:
-            if self.encoding.lower() not in [None, 'utf-8', 'utf8']:
-                data = data.decode('utf-8').encode(self.encoding)
+            if code not in [None, 'utf-8', 'utf8']:
+                data = data.decode('utf-8').encode(code)
             self.gfile.replace_contents(data, None, backup)
         except StandardError:
             return False

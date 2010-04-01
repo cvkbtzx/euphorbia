@@ -15,7 +15,7 @@ STYLEM = gtksv.style_scheme_manager_get_default()
 
 #------------------------------------------------------------------------------
 
-gtk.rc_parse_string ("""
+gtk.rc_parse_string("""
 style "euphorbia-tab-style" {
     GtkWidget::focus-padding = 0
     GtkWidget::focus-line-width = 0
@@ -110,7 +110,6 @@ class Document(TabWrapper):
         if name:
             self.title.set_text(name)
         self.ev.set_language(self.datafile['hlight'])
-        self.ev.buffer.set_modified(False)
         return
     
     def open_file(self, f, enc=None, hl=None):
@@ -119,21 +118,22 @@ class Document(TabWrapper):
         txt = f.read()
         self.ev.buffer.set_text("" if txt is None else txt)
         self.ev.buffer.place_cursor(self.ev.buffer.get_start_iter())
+        self.ev.buffer.set_modified(False)
         return
     
     def save(self, f, backup=False):
         """Save the text data in a file."""
-        if f is not None:
-            # Impose UTF-8 when "save as"
-            self.set_file(f, None, self.datafile['hlight'])
-        f = self.datafile['file']
+        if f is None:
+            f = self.datafile['file']
+        else:
+            f.encoding = self.datafile['encoding']
         ibeg, iend = self.ev.buffer.get_bounds()
         txt = self.ev.buffer.get_text(ibeg, iend, False)
         ret = f.write(txt, backup)
         f.update_infos()
         if ret:
-            self.ev.buffer.set_modified(False)
             self.set_file(f,self.datafile['encoding'],self.datafile['hlight'])
+            self.ev.buffer.set_modified(False)
         return ret
     
     def saveinfos(self):
