@@ -245,6 +245,8 @@ class AboutWin(gtk.AboutDialog):
         self.set_destroy_with_parent(True)
         # Data
         self.set_name(_("Euphorbia"))
+        self.set_comments(_("GTK LaTeX editor"))
+        self.set_version(euphorbia_version)
         self.set_copyright("Copyright \xc2\xa9 2008-2010   Bzoloid")
         self.set_website("http://code.google.com/p/euphorbia/")
         self.set_logo_icon_name("euphorbia")
