@@ -22,6 +22,8 @@
 
 import gtk
 
+ICONTHEME = gtk.icon_theme_get_default()
+
 gtk.rc_parse_string("""
 style "euphorbia-tab-style" {
     GtkWidget::focus-padding = 0
@@ -69,6 +71,11 @@ class TabWrapper:
         hb.show_all()
         self.content.show()
         notebook.set_current_page(notebook.page_num(self.content))
+    
+    def set_title(self, txt):
+        """Set tab title."""
+        self.title.set_text(txt)
+        return
     
     def set_icon(self, *names):
         """Set icon from its name(s)."""

@@ -27,7 +27,6 @@ import gtksourceview2 as gtksv
 
 import tabwrapper
 
-ICONTHEME = gtk.icon_theme_get_default()
 STYLEM = gtksv.style_scheme_manager_get_default()
 
 
@@ -42,7 +41,7 @@ class Document(tabwrapper.TabWrapper):
         self.ev = EditView()
         hp.pack1(self.ev, True, False)
         filename = filename if filename else _("New document")
-        self.title.set_text(filename)
+        self.set_title(filename)
         self.icon.set_from_stock(gtk.STOCK_FILE, gtk.ICON_SIZE_MENU)
         self.datafile = {'file':filename, 'encoding':None, 'hlight':hlight}
         self.ev.set_language(hlight)
@@ -60,7 +59,7 @@ class Document(tabwrapper.TabWrapper):
         self.set_icon(*f.get_icons())
         name = f.get_name()
         if name:
-            self.title.set_text(name)
+            self.set_title(name)
         self.ev.set_language(self.datafile['hlight'])
         return
     
