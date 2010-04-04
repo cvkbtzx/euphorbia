@@ -21,7 +21,7 @@
 """Euphorbia plugin wrapper."""
 
 from EuphorbiaEditor.ui.palette import Palette
-from EuphorbiaEditor.ui.document import TabWrapper
+from EuphorbiaEditor.ui.tabwrapper import TabWrapper
 
 app = None
 
