@@ -24,7 +24,7 @@
 __version__ = '0.0.6'
 __date__    = '2010-03-31'
 __authors__  = ['Bzoloid <bzoloid@gmail.com>']
-__licence__ = 'GNU GPL v2'
+__license__ = 'GNU GPL v2'
 __builtins__['euphorbia_version'] = __version__
 
 import sys

@@ -23,8 +23,6 @@
 import gobject
 import threading
 
-gobject.threads_init()
-
 
 #------------------------------------------------------------------------------
 

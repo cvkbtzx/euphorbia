@@ -21,6 +21,7 @@
 """Various dialog windows."""
 
 import gtk
+import pango
 
 
 #------------------------------------------------------------------------------
@@ -45,7 +46,7 @@ class PrefsWin(gtk.Dialog):
         self.vbox.pack_start(self.nbook, True, True)
         self.nbook.append_page(PrefsWinGeneral(app), gtk.Label(_("General")))
         self.nbook.append_page(gtk.Label("empty"), gtk.Label(_("LaTeX")))
-        self.nbook.append_page(gtk.Label("empty"), gtk.Label(_("Plugins")))
+        self.nbook.append_page(PrefsWinPlugins(app), gtk.Label(_("Plugins")))
         self.vbox.show_all()
 
 
@@ -173,6 +174,87 @@ class PrefsWinGeneral(gtk.ScrolledWindow):
 
 #------------------------------------------------------------------------------
 
+class PrefsWinPlugins(gtk.VBox):
+    """'Plugins' tab of the preferences dialog."""
+    
+    def __init__(self, app):
+        gtk.VBox.__init__(self)
+        self.app = app
+        self.set_spacing(9)
+        self.set_border_width(15)
+        # TreeView
+        self.build_treeview()
+        sv = gtk.ScrolledWindow()
+        sv.set_policy(gtk.POLICY_NEVER, gtk.POLICY_ALWAYS)
+        sv.set_shadow_type(gtk.SHADOW_IN)
+        sv.add(self.tv)
+        self.pack_start(sv, True, True)
+        # ButtonBox
+        hbb = gtk.HButtonBox()
+        hbb.set_layout(gtk.BUTTONBOX_END)
+        b = gtk.Button(stock=gtk.STOCK_ABOUT)
+        b.connect('clicked', self.ev_about)
+        hbb.pack_start(b)
+        self.pack_start(hbb, False, True)
+    
+    def build_treeview(self):
+        """Build the treeview containing the plugins list."""
+        # Model
+        self.tm = gtk.ListStore(str, bool, str)
+        for p in self.app.plugm.list_available_plugins():
+            a = self.app.plugm.is_loaded(p)
+            n = self.app.plugm.get_plugin_infos(p, 'Name')
+            d = self.app.plugm.get_plugin_infos(p, 'Description')
+            self.tm.append([p, a, "<b>"+n+"</b>"+'\n'+d])
+        # View
+        self.tv = gtk.TreeView()
+        self.tv.set_model(self.tm)
+        self.tv.set_headers_visible(False)
+        self.tv.get_selection().set_mode(gtk.SELECTION_SINGLE)
+        # Column 1
+        cr = gtk.CellRendererToggle()
+        cr.props.xpad = 9
+        cr.connect('toggled', self.ev_toggled)
+        c = gtk.TreeViewColumn("Active", cr, active=1)
+        c.set_expand(False)
+        self.tv.append_column(c)
+        # Column 2
+        cr = gtk.CellRendererText()
+        cr.props.ellipsize = pango.ELLIPSIZE_END
+        c = gtk.TreeViewColumn("Plugin", cr, markup=2)
+        c.set_expand(True)
+        self.tv.append_column(c)
+        self.tm.set_sort_column_id(2, gtk.SORT_ASCENDING)
+        return
+    
+    def ev_toggled(self, cr, path):
+        """Handle click on toggle button."""
+        iter = self.tm.get_iter(path)
+        p = self.tm.get_value(iter, 0)
+        if self.tm.get_value(iter, 1):
+            self.app.plugm.unload_plugin(p)
+        else:
+            self.app.plugm.load_plugin(p)
+        v = self.app.plugm.is_loaded(p)
+        self.tm.set_value(iter, 1, v)
+        return
+    
+    def ev_about(self, *data):
+        """Handle click on about button."""
+        (model, iter) = self.tv.get_selection().get_selected()
+        if iter:
+            plugin = model.get_value(iter, 0)
+            infos = {}
+            for i in ['Name','Description','Authors','License','Copyright','Website']:
+                infos[i] = self.app.plugm.get_plugin_infos(plugin, i)
+            dwin = AboutPluginWin(self.get_toplevel(), infos)
+            dwin.run()
+            dwin.destroy()
+        return
+
+
+#------------------------------------------------------------------------------
+
 class OpenWin(gtk.FileChooserDialog):
     """Open file dialog."""
     
@@ -233,6 +315,42 @@ class SaveWin(gtk.FileChooserDialog):
 
 #------------------------------------------------------------------------------
 
+class MsgWin(gtk.MessageDialog):
+    """Message dialog."""
+    
+    def __init__(self, app, mtype, buttons, txt):
+        # Dialog initialization
+        flags = gtk.DIALOG_MODAL | gtk.DIALOG_DESTROY_WITH_PARENT
+        b = getattr(gtk, "BUTTONS_"+buttons.upper())
+        t = getattr(gtk, "MESSAGE_"+mtype.upper())
+        gtk.MessageDialog.__init__(self, app.gui.win, flags, t, b, txt)
+        self.set_position(gtk.WIN_POS_CENTER_ON_PARENT)
+
+
+#------------------------------------------------------------------------------
+
+class AboutPluginWin(gtk.AboutDialog):
+    """About dialog for plugins."""
+    
+    def __init__(self, parent, infos):
+        gtk.AboutDialog.__init__(self)
+        # Window
+        self.set_transient_for(parent)
+        self.set_position(gtk.WIN_POS_CENTER_ON_PARENT)
+        self.set_modal(True)
+        self.set_destroy_with_parent(True)
+        # Data
+        f = lambda x: x.strip()
+        for i,v in infos.iteritems():
+            i = i.lower()
+            i = "comments" if i == "description" else i
+            v = map(f, v.split(",")) if i == "authors" and v is not None else v
+            func = getattr(self, "set_"+i)
+            func(v)
+
+
+#------------------------------------------------------------------------------
+
 class AboutWin(gtk.AboutDialog):
     """About dialog."""
     
@@ -248,22 +366,8 @@ class AboutWin(gtk.AboutDialog):
         self.set_comments(_("GTK LaTeX editor"))
         self.set_version(euphorbia_version)
         self.set_copyright("Copyright \xc2\xa9 2008-2010   Bzoloid")
-        self.set_website("http://code.google.com/p/euphorbia/")
+        self.set_website("http://euphorbia.googlecode.com/")
         self.set_logo_icon_name("euphorbia")
-
-
-#------------------------------------------------------------------------------
-
-class MsgWin(gtk.MessageDialog):
-    """Message dialog."""
-    
-    def __init__(self, app, mtype, buttons, txt):
-        # Dialog initialization
-        flags = gtk.DIALOG_MODAL | gtk.DIALOG_DESTROY_WITH_PARENT
-        b = getattr(gtk, "BUTTONS_"+buttons.upper())
-        t = getattr(gtk, "MESSAGE_"+mtype.upper())
-        gtk.MessageDialog.__init__(self, app.gui.win, flags, t, b, txt)
-        self.set_position(gtk.WIN_POS_CENTER_ON_PARENT)
 
 
 #------------------------------------------------------------------------------

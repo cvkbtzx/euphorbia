@@ -16,7 +16,7 @@ with open(os.path.join(pkgname,"__init__.py")) as f:
         l = line.split(" = ")
         if l[0] == "__version__":
             ver = l[1].strip("""'"\n\r""")
-        if l[0] == "__licence__":
+        if l[0] == "__license__":
             lic = l[1].strip("""'"\n\r""")
 
 

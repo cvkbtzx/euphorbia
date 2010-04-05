@@ -107,6 +107,10 @@ class PluginsManager:
             self.unload_plugin(p)
         return
     
+    def is_loaded(self, plugin):
+        """Check if the given plugin is loaded."""
+        return plugin in self.instances
+    
     def list_loaded_plugins(self):
         """List plugins which have been loaded."""
         return self.instances.keys()
@@ -125,7 +129,7 @@ class PluginsManager:
                 test = all(cp.has_option(sect, o) for o in opts)
                 if not test:
                     continue
-                self.plugins[cp.get(sect, 'Name')] = cp
+                self.plugins[cp.get(sect, 'Module')] = cp
         return
     
     def get_plugin_infos(self, pname, opt):

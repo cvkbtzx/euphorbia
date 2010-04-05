@@ -20,6 +20,9 @@
 
 """Euphorbia GUI management."""
 
+import gobject
+gobject.threads_init()
+
 from main import *
 
 
