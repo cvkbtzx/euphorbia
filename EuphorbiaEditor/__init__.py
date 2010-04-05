@@ -21,11 +21,10 @@
 
 """Euphorbia LaTeX editor."""
 
-__version__ = '0.0.6'
-__date__    = '2010-03-31'
+__version__ = '0.0.7'
+__date__    = '2010-04-06'
 __authors__  = ['Bzoloid <bzoloid@gmail.com>']
 __license__ = 'GNU GPL v2'
-__builtins__['euphorbia_version'] = __version__
 
 import sys
 import os
@@ -35,6 +34,12 @@ import gettext
 import ui
 import prefs
 import exts
+
+
+#------------------------------------------------------------------------------
+
+for var in ['version', 'date', 'authors', 'license']:
+    __builtins__['euphorbia_'+var] = locals()['__'+var+'__']
 
 
 #------------------------------------------------------------------------------
