@@ -21,7 +21,9 @@
 """Plugins management."""
 
 import sys
+import os
 import os.path
+import ConfigParser
 
 import euphorbia
 sys.modules['euphorbia'] = sys.modules['EuphorbiaEditor.exts.euphorbia']
@@ -34,8 +36,10 @@ class PluginsManager:
     
     def __init__(self, mainapp):
         self.app = mainapp
-        self.find_plugins_paths()
         setattr(euphorbia, 'app', self.app)
+        self.find_plugins_paths()
+        self.plugins = {}
+        self.detect_plugins()
         self.instances = {}
         return
     
@@ -107,16 +111,41 @@ class PluginsManager:
         """List plugins which have been loaded."""
         return self.instances.keys()
     
-    def get_available_plugins(self):
+    def detect_plugins(self):
+        """Detect available plugins and retrieve informations."""
+        self.plugins.clear()
+        opts = ['Module', 'Name', 'Description']
+        sect = "Euphorbia Plugin"
+        ext = ".euphorbia-plugin"
+        for p in self.paths:
+            for f in [i for i in os.listdir(p) if i.endswith(ext)]:
+                cp = ConfigParser.RawConfigParser()
+                with open(os.path.join(p,f)) as fp:
+                    cp.readfp(fp)
+                test = all(cp.has_option(sect, o) for o in opts)
+                if not test:
+                    continue
+                self.plugins[cp.get(sect, 'Name')] = cp
+        return
+    
+    def get_plugin_infos(self, pname, opt):
+        """Get plugin's data."""
+        sect = "Euphorbia Plugin"
+        cp = self.plugins[pname]
+        return cp.get(sect, opt) if cp.has_option(sect, opt) else None
+    
+    def list_available_plugins(self):
         """List available plugins."""
-        return ['hello']
+        return self.plugins.keys()
     
     def find_plugins_paths(self):
         """Setup plugins paths."""
         self.paths = []
         for d in ["datadir", "homedir"]:
-            d = self.app.prefm.get_pref("system_"+d)
-            self.paths.append(os.path.join(d, "plugins"))
+            p = self.app.prefm.get_pref("system_"+d)
+            dir = os.path.join(p, "plugins")
+            if os.path.isdir(dir):
+                self.paths.append(dir)
         return
 
 

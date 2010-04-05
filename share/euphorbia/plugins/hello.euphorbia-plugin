@@ -1,6 +1,6 @@
 [Euphorbia Plugin]
 Module=hello
-API=1
+Api=1
 Name=Hello
 Name[fr]=Hello
 Description=Test plugin

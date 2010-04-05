@@ -43,8 +43,10 @@ class Euphorbia:
     """Main class."""
     
     def __init__(self):
+        # Command line args
         args = sys.argv[1:]
         root = os.path.dirname(__path__[0]) if "--test" in args else sys.prefix
+        # Preferences and localization
         datadir = os.path.join(root, 'share', 'euphorbia')
         homedir = os.path.join(os.getenv('HOME'), '.config', 'euphorbia')
         locales = os.path.join(root, 'share', 'locale')
@@ -52,10 +54,12 @@ class Euphorbia:
         self.prefm = prefs.PrefsManager()
         self.prefm.set_pref('system_datadir', datadir)
         self.prefm.set_pref('system_homedir', homedir)
+        # Load application
         self.plugm = exts.PluginsManager(self)
         self.gui = ui.EuphorbiaGUI(self)
         ###self.plugm.load_plugin('pdfview')
         self.prefm.autoconnect_gtk(self.gui.win)
+        # Open files given in command line
         args = [a for a in args if not a.startswith("--")]
         if args:
             for f in args:

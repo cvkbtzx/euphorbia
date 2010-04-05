@@ -11,16 +11,13 @@ datafiles = [(w[0],map(lambda f: os.path.join(w[0],f), w[2])) for w in os.walk("
 binfiles = ["euphorbia"]
 
 ver, lic = None, None
-f = open(os.path.join(pkgname,"__init__.py"))
-try:
+with open(os.path.join(pkgname,"__init__.py")) as f:
     for line in f:
         l = line.split(" = ")
         if l[0] == "__version__":
             ver = l[1].strip("""'"\n\r""")
         if l[0] == "__licence__":
             lic = l[1].strip("""'"\n\r""")
-finally:
-    f.close()
 
 
 #------------------------------------------------------------------------------

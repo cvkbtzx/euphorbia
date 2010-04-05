@@ -1,6 +1,6 @@
 [Euphorbia Plugin]
 Module=pdfview
-API=1
+Api=1
 Name=PDF view
 Name[fr]=Aperçu PDF
 Description=Display DVI, PS and PDF documents in a new tab
