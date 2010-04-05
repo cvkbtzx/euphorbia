@@ -254,4 +254,18 @@ class AboutWin(gtk.AboutDialog):
 
 #------------------------------------------------------------------------------
 
+class MsgWin(gtk.MessageDialog):
+    """Message dialog."""
+    
+    def __init__(self, app, mtype, buttons, txt):
+        # Dialog initialization
+        flags = gtk.DIALOG_MODAL | gtk.DIALOG_DESTROY_WITH_PARENT
+        b = getattr(gtk, "BUTTONS_"+buttons.upper())
+        t = getattr(gtk, "MESSAGE_"+mtype.upper())
+        gtk.MessageDialog.__init__(self, app.gui.win, flags, t, b, txt)
+        self.set_position(gtk.WIN_POS_CENTER_ON_PARENT)
+
+
+#------------------------------------------------------------------------------
+
 
