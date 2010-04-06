@@ -23,7 +23,7 @@ FEND = """
 """
 
 DIM = "22"
-DPI = "%i" % (22/0.176)
+DPI = "150"
 
 
 #------------------------------------------------------------------------------
@@ -47,12 +47,13 @@ for df in datafiles:
         devnull = open(os.devnull, 'w')
         p = subprocess.Popen(["pdflatex", "-interaction", "nonstopmode", "-output-directory", dir, fn("tex")], stdout=devnull, stderr=devnull)
         p.wait()
-        p = subprocess.Popen(["perl", "/usr/bin/pdfcrop", "--margins", "1", fn("pdf"), fn("2.pdf")], stdout=devnull, stderr=devnull)
+        p = subprocess.Popen(["perl", "/usr/bin/pdfcrop", fn("pdf"), fn("2.pdf")], stdout=devnull, stderr=devnull)
         p.wait()
-        p = subprocess.Popen(["convert", "-density", DPI, "-resize", DIM+"x"+DIM+">", "-gravity", "Center", "-extent", DIM+"x"+DIM, fn("2.pdf"), "-define", "png:color-type=4", "-quality", "90", fn("2.png")])
+        p = subprocess.Popen(["convert", "-resize", DIM+"x"+DIM+">", "-gravity", "Center", "-density", DPI, "-extent", DIM+"x"+DIM, "-gamma", "0.9", fn("2.pdf"), "-define", "png:color-type=4", "-quality", "90", fn("2.png")])
         p.wait()
         p = subprocess.Popen(["convert", "-negate", fn("2.png"), "-alpha", "copy", "-negate", "-define", "png:color-type=6", "-format", "PNG32", "-quality", "90", fn("png")])
         p.wait()
+        devnull.close()
     for f in os.listdir(dir):
         if len(f.split(".")) != 2 or not f.endswith(".png"):
             os.remove(os.path.join(".", dir, f))

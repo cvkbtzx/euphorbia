@@ -20,7 +20,10 @@
 
 """Side panel widget."""
 
+import os
+import locale
 import gtk
+import ConfigParser
 
 import palette
 
@@ -34,18 +37,6 @@ class SidePanel(gtk.VBox):
         gtk.VBox.__init__(self)
         self.expanders = {}
         self.set_name('sidepanel')
-        #####   TODO   #####
-        box = palette.Palette()
-        for id in gtk.stock_list_ids():
-            t = [id, id, self.render_icon(id, gtk.ICON_SIZE_MENU)]
-            box.add_tool(t)
-        self.add_expander('tree',       "Project tree",   gtk.Label("Hello !"))
-        self.add_expander('struct',     "File structure", gtk.Label("Hello !"))
-        self.add_expander('operators',  "Operators",      box)
-        self.add_expander('arrows',     "Arrows",         gtk.Label("Hello !"))
-        self.add_expander('greek',      "Greek letters",  gtk.Label("Hello !"))
-        self.add_expander('diacritics', "Diacritics",     gtk.Label("Hello !"))
-        ####################
         self.show()
     
     def add_expander(self, name, label, child):
@@ -141,11 +132,82 @@ class Expander(gtk.VBox):
 
 #------------------------------------------------------------------------------
 
+class EuphorbiaSidePanel(SidePanel):
+    """Euphorbia side panel."""
+    
+    def __init__(self, app):
+        SidePanel.__init__(self)
+        self.app = app
+        self.add_expander('struct', _("Structure"), gtk.Label())
+        syms = self.load_symbols_from_files()
+        for categ in sorted(syms.keys()):
+            pal = palette.Palette()
+            for t in sorted(syms[categ].keys()):
+                tool = syms[categ][t]
+                pixb = gtk.gdk.pixbuf_new_from_file(tool['img'])
+                pal.add_tool([t, t, pixb])
+            name = self.get_local_name(tool)
+            self.add_expander(categ, name, pal)
+    
+    def load_symbols_from_files(self):
+        """Get a list of the categories and their symbols."""
+        symlist = {}
+        for d in ["datadir", "homedir"]:
+            p = self.app.prefm.get_pref("system_"+d)
+            dir = os.path.join(p, "symbols")
+            if os.path.isdir(dir):
+                for f in [i for i in os.listdir(dir) if i.endswith(".data")]:
+                    cp = ConfigParser.RawConfigParser()
+                    cp.read([os.path.join(dir,f)])
+                    id = cp.defaults()['id']
+                    if id not in symlist:
+                        symlist[id] = {}
+                    for s in cp.sections():
+                        sd = dict(cp.items(s))
+                        sd['img'] = os.path.join(dir, id, s+".png")
+                        if s not in symlist[id]:
+                            symlist[id][s] = {}
+                        symlist[id][s].update(sd)
+                    if not symlist[id]:
+                        del symlist[id]
+        return symlist
+    
+    def get_local_name(self, tool):
+        """Get category's localized name from a tool dataset."""
+        keys = ['name']
+        lng = locale.getdefaultlocale()[0]
+        if lng is not None:
+            lng = lng.lower()
+            if '_' in lng:
+                keys.append("name["+lng.split('_')[0]+"]")
+            keys.append("name["+lng+"]")
+        ret = None
+        for k in keys:
+            if tool.has_key(k):
+                ret = tool[k]
+        return ret
+
+
+#------------------------------------------------------------------------------
+
 if __name__ == "__main__":
     win = gtk.Window()
     win.connect('destroy', lambda w: gtk.main_quit())
+    # Example palette
+    pal = palette.Palette()
+    for id in gtk.stock_list_ids():
+        t = [id, id, win.render_icon(id, gtk.ICON_SIZE_MENU)]
+        pal.add_tool(t)
+    # Side panel
     sp = SidePanel()
+    sp.add_expander('tree',       "Project tree",   gtk.Label("Hello !"))
+    sp.add_expander('struct',     "File structure", gtk.Label("Hello !"))
+    sp.add_expander('operators',  "Operators",      pal)
+    sp.add_expander('arrows',     "Arrows",         gtk.Label("Hello !"))
+    sp.add_expander('greek',      "Greek letters",  gtk.Label("Hello !"))
+    sp.add_expander('diacritics', "Diacritics",     gtk.Label("Hello !"))
     win.add(sp)
+    # Display
     win.show()
     gtk.main()
 

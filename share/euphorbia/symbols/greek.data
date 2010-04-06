@@ -1,209 +1,210 @@
 [DEFAULT]
+Id=greek
 Name=Greek
 Name[en]=Greek letters
 Name[fr]=Lettres grecques
 
 [alpha]
 Insert=\alpha
-Compile=\alpha
+Compile=$\alpha$
 Math=true
 
 [beta]
 Insert=\beta
-Compile=\beta
+Compile=$\beta$
 Math=true
 
 [gamma]
 Insert=\gamma
-Compile=\gamma
+Compile=$\gamma$
 Math=true
 
 [delta]
 Insert=\delta
-Compile=\delta
+Compile=$\delta$
 Math=true
 
 [epsilon]
 Insert=\epsilon
-Compile=\epsilon
+Compile=$\epsilon$
 Math=true
 
 [varepsilon]
 Insert=\varepsilon
-Compile=\varepsilon
+Compile=$\varepsilon$
 Math=true
 
 [zeta]
 Insert=\zeta
-Compile=\zeta
+Compile=$\zeta$
 Math=true
 
 [eta]
 Insert=\eta
-Compile=\eta
+Compile=$\eta$
 Math=true
 
 [theta]
 Insert=\theta
-Compile=\theta
+Compile=$\theta$
 Math=true
 
 [vartheta]
 Insert=\vartheta
-Compile=\vartheta
+Compile=$\vartheta$
 Math=true
 
 [iota]
 Insert=\iota
-Compile=\iota
+Compile=$\iota$
 Math=true
 
 [kappa]
 Insert=\kappa
-Compile=\kappa
+Compile=$\kappa$
 Math=true
 
 [lambda]
 Insert=\lambda
-Compile=\lambda
+Compile=$\lambda$
 Math=true
 
 [Mu]
 Insert=\mu
-Compile=\mu
+Compile=$\mu$
 Math=true
 
 [nu]
 Insert=\nu
-Compile=\nu
+Compile=$\nu$
 Math=true
 
 [xi]
 Insert=\xi
-Compile=\xi
+Compile=$\xi$
 Math=true
 
 [omicron]
 Insert=o
-Compile=o
+Compile=$o$
 Math=true
 
 [pi]
 Insert=\pi
-Compile=\pi
+Compile=$\pi$
 Math=true
 
 [varpi]
 Insert=\varpi
-Compile=\varpi
+Compile=$\varpi$
 Math=true
 
 [rho]
 Insert=\rho
-Compile=\rho
+Compile=$\rho$
 Math=true
 
 [varrho]
 Insert=\varrho
-Compile=\varrho
+Compile=$\varrho$
 Math=true
 
 [sigma]
 Insert=\sigma
-Compile=\sigma
+Compile=$\sigma$
 Math=true
 
 [varsigma]
 Insert=\varsigma
-Compile=\varsigma
+Compile=$\varsigma$
 Math=true
 
 [tau]
 Insert=\tau
-Compile=\tau
+Compile=$\tau$
 Math=true
 
 [upsilon]
 Insert=\upsilon
-Compile=\upsilon
+Compile=$\upsilon$
 Math=true
 
 [phi]
 Insert=\phi
-Compile=\phi
+Compile=$\phi$
 Math=true
 
 [varphi]
 Insert=\varphi
-Compile=\varphi
+Compile=$\varphi$
 Math=true
 
 [chi]
 Insert=\chi
-Compile=\chi
+Compile=$\chi$
 Math=true
 
 [psi]
 Insert=\psi
-Compile=\psi
+Compile=$\psi$
 Math=true
 
 [omega]
 Insert=\omega
-Compile=\omega
+Compile=$\omega$
 Math=true
 
 [Gamma]
 Insert=\Gamma
-Compile=\Gamma
+Compile=$\Gamma$
 Math=true
 
 [Delta]
 Insert=\Delta
-Compile=\Delta
+Compile=$\Delta$
 Math=true
 
 [Theta]
 Insert=\Theta
-Compile=\Theta
+Compile=$\Theta$
 Math=true
 
 [Lambda]
 Insert=\Lambda
-Compile=\Lambda
+Compile=$\Lambda$
 Math=true
 
 [Xi]
 Insert=\Xi
-Compile=\Xi
+Compile=$\Xi$
 Math=true
 
 [Pi]
 Insert=\Pi
-Compile=\Pi
+Compile=$\Pi$
 Math=true
 
 [Sigma]
 Insert=\Sigma
-Compile=\Sigma
+Compile=$\Sigma$
 Math=true
 
 [Upsilon]
 Insert=\Upsilon
-Compile=\Upsilon
+Compile=$\Upsilon$
 Math=true
 
 [Phi]
 Insert=\Phi
-Compile=\Phi
+Compile=$\Phi$
 Math=true
 
 [Psi]
 Insert=\Psi
-Compile=\Psi
+Compile=$\Psi$
 Math=true
 
 [Omega]
 Insert=\Omega
-Compile=\Omega
+Compile=$\Omega$
 Math=true

@@ -62,7 +62,7 @@ class EuphorbiaGUI(actions.ActionsManager):
         # Side panel
         hp = self.builder.get_object('hpaned')
         hp.get_child1().destroy()
-        hp.pack1(sidepanel.SidePanel(), False, True)
+        hp.pack1(sidepanel.EuphorbiaSidePanel(self.app), False, True)
         hp.get_child1().showpanel = lambda x: self.do_showpanel(x, 'side')
         bp = self.builder.get_object('bottompanel')
         bp.showpanel = lambda x: self.do_showpanel(x, 'bottom')
