@@ -23,6 +23,7 @@
 import sys
 import os
 import os.path
+import locale
 import ConfigParser
 
 import euphorbia
@@ -132,11 +133,22 @@ class PluginsManager:
                 self.plugins[cp.get(sect, 'Module')] = cp
         return
     
-    def get_plugin_infos(self, pname, opt):
-        """Get plugin's data."""
+    def get_plugin_info(self, pname, opt, loc=False):
+        """Get plugin's data (try to localize if loc=True)."""
         sect = "Euphorbia Plugin"
         cp = self.plugins[pname]
-        return cp.get(sect, opt) if cp.has_option(sect, opt) else None
+        onames = [opt]
+        if loc:
+            lng = locale.getdefaultlocale()[0]
+            if lng is not None:
+                if '_' in lng:
+                    onames.append(opt+"["+lng.split('_')[0]+"]")
+                onames.append(opt+"["+lng+"]")
+        ret = None
+        for i in onames:
+            if cp.has_option(sect, i):
+                ret = cp.get(sect, i)
+        return ret
     
     def list_available_plugins(self):
         """List available plugins."""

@@ -5,6 +5,7 @@ Name=PDF view
 Name[fr]=Aperçu PDF
 Description=Display DVI, PS and PDF documents in a new tab
 Description[fr]=Affiche les documents DVI, PS et PDF dans un nouvel onglet
+Version=0.1
 Authors=Bzoloid <bzoloid@gmail.com>
 Copyright=Copyright © 2010
 License=GNU GPL v2

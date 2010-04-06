@@ -203,8 +203,8 @@ class PrefsWinPlugins(gtk.VBox):
         self.tm = gtk.ListStore(str, bool, str)
         for p in self.app.plugm.list_available_plugins():
             a = self.app.plugm.is_loaded(p)
-            n = self.app.plugm.get_plugin_infos(p, 'Name')
-            d = self.app.plugm.get_plugin_infos(p, 'Description')
+            n = self.app.plugm.get_plugin_info(p, 'Name', True)
+            d = self.app.plugm.get_plugin_info(p, 'Description', True)
             self.tm.append([p, a, "<b>"+n+"</b>"+'\n'+d])
         # View
         self.tv = gtk.TreeView()
@@ -245,8 +245,8 @@ class PrefsWinPlugins(gtk.VBox):
         if iter:
             plugin = model.get_value(iter, 0)
             infos = {}
-            for i in ['Name','Description','Authors','License','Copyright','Website']:
-                infos[i] = self.app.plugm.get_plugin_infos(plugin, i)
+            for i in ['Name','Description','Version','Authors','License','Copyright','Website']:
+                infos[i] = self.app.plugm.get_plugin_info(plugin, i, True)
             dwin = AboutPluginWin(self.get_toplevel(), infos)
             dwin.run()
             dwin.destroy()
