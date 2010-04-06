@@ -139,13 +139,14 @@ class EuphorbiaSidePanel(SidePanel):
         SidePanel.__init__(self)
         self.app = app
         self.add_expander('struct', _("Structure"), gtk.Label())
-        syms = self.load_symbols_from_files()
-        for categ in sorted(syms.keys()):
+        self.syms = self.load_symbols_from_files()
+        for categ in sorted(self.syms.keys()):
             pal = palette.Palette()
-            for t in sorted(syms[categ].keys()):
-                tool = syms[categ][t]
+            for t in sorted(self.syms[categ].keys()):
+                tool = self.syms[categ][t]
                 pixb = gtk.gdk.pixbuf_new_from_file(tool['img'])
                 pal.add_tool([t, t, pixb])
+            pal.set_item_activated_callback(self.insert_symbol, categ)
             name = self.get_local_name(tool)
             self.add_expander(categ, name, pal)
     
@@ -186,6 +187,14 @@ class EuphorbiaSidePanel(SidePanel):
             if tool.has_key(k):
                 ret = tool[k]
         return ret
+    
+    def insert_symbol(self, symb, categ):
+        """Handle click on symbol button."""
+        txt = self.syms[categ][symb]['insert']
+        tab = self.app.gui.get_current_tab()
+        if hasattr(tab, 'insert'):
+            tab.insert(txt)
+        return
 
 
 #------------------------------------------------------------------------------

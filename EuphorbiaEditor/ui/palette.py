@@ -32,7 +32,7 @@ class Palette(gtk.ScrolledWindow):
         gtk.ScrolledWindow.__init__(self)
         self.set_policy(gtk.POLICY_NEVER, gtk.POLICY_AUTOMATIC)
         self.set_shadow_type(gtk.SHADOW_NONE)
-        self.iacb = None
+        self.iacb, self.iacb_args = None, ()
         # Create the ListStore
         self.store = gtk.ListStore(str, str, gtk.gdk.Pixbuf)
         # Setup the IconView
@@ -48,6 +48,7 @@ class Palette(gtk.ScrolledWindow):
         self.iw.set_row_spacing(SPACING)
         self.iw.set_column_spacing(SPACING)
         self.iw.set_margin(SPACING)
+        self.iw.props.can_focus = False
         self.iw.connect('item-activated', self.on_item_activated)
         # Display
         self.add(self.iw)
@@ -63,9 +64,10 @@ class Palette(gtk.ScrolledWindow):
         self.store.clear()
         return
     
-    def set_item_activated_callback(self, cb=None):
+    def set_item_activated_callback(self, cb=None, *args):
         """Set the function to execute when an item is activated."""
         self.iacb = cb
+        self.iacb_args = args
         return
     
     def on_item_activated(self, *data):
@@ -74,7 +76,7 @@ class Palette(gtk.ScrolledWindow):
         if self.iacb == None:
             print "Click on '" + p + "'"
         else:
-            self.iacb(p)
+            self.iacb(p, *self.iacb_args)
         return
 
 
