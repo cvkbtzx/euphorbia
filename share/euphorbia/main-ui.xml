@@ -23,6 +23,9 @@
             <menuitem action="action_showsidepan" />
             <menuitem action="action_showbottompan" />
         </menu>
+        <menu action="menu_tools">
+            <placeholder />
+        </menu>
         <menu action="menu_settings">
             <menuitem action="action_prefs" />
         </menu>

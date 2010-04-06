@@ -11,7 +11,7 @@ datafiles = [(w[0],map(lambda f: os.path.join(w[0],f), w[2])) for w in os.walk("
 binfiles = ["euphorbia"]
 
 ver, lic = None, None
-with open(os.path.join(pkgname,"__init__.py")) as f:
+with open(os.path.join(pkgname,"__init__.py"), 'r') as f:
     for line in f:
         l = line.split(" = ")
         if l[0] == "__version__":

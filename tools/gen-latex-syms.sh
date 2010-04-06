@@ -4,12 +4,19 @@
 dn=$(dirname "$0")
 cd "${dn}"
 
-DPI=600
-DIM=22
+workdir="./symbols"
 
-pdfcrop --margins 1 aaa.pdf bbb.pdf
-convert -density ${DPI} -resize ${DIM}x${DIM} -gravity Center -extent ${DIM}x${DIM} bbb.pdf -define png:color-type=4 -quality 90 ccc.png
-convert -negate ccc.png -alpha copy -negate -define png:color-type=6 -format PNG32 -quality 90 ddd.png
+gvfs-trash "${workdir}"
+mkdir "./symbols"
+cp -v ../share/euphorbia/symbols/*.data "${workdir}/"
+
+python2 gen-latex-syms.py
+
+for f in ${workdir}/* ; do
+    test -d "${f}" && cp -Rfv "${f}" "../share/euphorbia/symbols/"
+done
+
+gvfs-trash "${workdir}"
 
 exit 0
 

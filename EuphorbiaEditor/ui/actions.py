@@ -48,6 +48,7 @@ def get_actions_list(cls):
         ('action_paste',  gtk.STOCK_PASTE,       None, '',   None, cls.act_paste),
         ('action_search', gtk.STOCK_FIND,        None, None, None, cls.act_search),
         ('menu_view',     None,                  _("View")),
+        ('menu_tools',    None,                  _("Tools")),
         ('menu_settings', None,                  _("Settings")),
         ('action_prefs',  gtk.STOCK_PREFERENCES, None, None, None, cls.act_prefs),
         ('menu_help',     None,                  _("Help")),
