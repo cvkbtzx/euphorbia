@@ -42,14 +42,14 @@ class Palette(gtk.ScrolledWindow):
         self.iw.set_pixbuf_column(2)
         self.iw.set_text_column(-1)   # deactivate text
         self.iw.set_markup_column(-1)   # deactivate markup
-        self.iw.set_selection_mode(gtk.SELECTION_NONE)
+        self.iw.set_selection_mode(gtk.SELECTION_SINGLE)
         self.iw.set_reorderable(False)
         self.iw.set_spacing(0)
         self.iw.set_row_spacing(SPACING)
         self.iw.set_column_spacing(SPACING)
         self.iw.set_margin(SPACING)
         self.iw.props.can_focus = False
-        self.iw.connect('item-activated', self.on_item_activated)
+        self.iw.connect('selection-changed', self.on_selection_changed)
         # Display
         self.add(self.iw)
         self.iw.show_all()
@@ -70,9 +70,14 @@ class Palette(gtk.ScrolledWindow):
         self.iacb_args = args
         return
     
-    def on_item_activated(self, *data):
+    def on_selection_changed(self, *data):
         """Handle clic on tool."""
-        p = self.store[data[1][0]][0]
+        paths = self.iw.get_selected_items()
+        if len(paths) != 1:
+            return
+        iter = self.store.get_iter(paths[0])
+        p = self.store.get_value(iter, 0)
+        self.iw.unselect_all()
         if self.iacb == None:
             print "Click on '" + p + "'"
         else:
