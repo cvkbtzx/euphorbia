@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Euphorbia 0.0.X\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-04-01 00:51+0200\n"
+"POT-Creation-Date: 2010-04-10 00:45+0200\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Bzoloid <bzoloid@gmail.com>\n"
 "Language-Team: \n"
@@ -62,6 +62,9 @@ msgstr "Wrap mode"
 
 msgid "editview_font"
 msgstr "Font style"
+
+msgid "editview_drawspaces"
+msgstr "Spaces display mode"
 
 msgid "editview_maxundo"
 msgstr "Maximum undo level"
@@ -126,6 +129,9 @@ msgstr "_Edit"
 msgid "View"
 msgstr "_View"
 
+msgid "Tools"
+msgstr "_Tools"
+
 msgid "Settings"
 msgstr "_Settings"
 
@@ -176,4 +182,10 @@ msgstr "Show side panel"
 
 msgid "ShowBottomPan"
 msgstr "Show bottom panel"
+
+msgid "GTK LaTeX editor"
+msgstr "GTK LaTeX editor"
+
+msgid "Structure"
+msgstr "Structure"
 
