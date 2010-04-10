@@ -63,6 +63,11 @@ class Document(tabwrapper.TabWrapper):
         self.ev.set_language(self.datafile['hlight'])
         return
     
+    def get_fname(self):
+        """Get tab file name."""
+        f = self.datafile['file']
+        return f if type(f) is str else f.get_name()
+    
     def open_file(self, f, enc=None, hl=None):
         """Load given file as the document."""
         self.set_file(f, enc, hl)
@@ -91,6 +96,25 @@ class Document(tabwrapper.TabWrapper):
         """Return infos about the file to save."""
         f = self.datafile['file']
         return (f,None) if type(f) is str else (None,f)
+    
+    def connect_print_compositor(self, printop, **opts):
+        """Connect document print compositor to PrintOperation."""
+        compoz = gtksv.print_compositor_new_from_view(self.ev.view)
+        for k,v in opts:
+            func = getattr(compoz, k)
+            func(*v)
+        dp_cb = lambda op,ct,pn,cp: cp.draw_page(ct, pn)
+        printop.connect('begin-print', self.ev_begin_print, compoz)
+        printop.connect('draw-page', dp_cb, compoz)
+        printop.set_job_name("Euphorbia: %s" % self.get_fname())
+        return
+    
+    def ev_begin_print(self, printop, context, compoz):
+        """Callback for 'begin-print' event."""
+        while not compoz.paginate(context):
+            pass
+        printop.set_n_pages(compoz.get_n_pages())
+        return
     
     def cut(self):
         """Cut text into clipboard."""

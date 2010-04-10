@@ -1,6 +1,9 @@
 #!/usr/bin/python2
 # -*- coding:utf-8 -*-
 
+__author__  = 'Bzoloid <bzoloid@gmail.com>'
+__date__ = '2010-04-06'
+
 import sys
 import os
 import os.path

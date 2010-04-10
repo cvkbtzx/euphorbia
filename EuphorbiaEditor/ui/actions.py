@@ -38,6 +38,8 @@ def get_actions_list(cls):
         ('action_open',   gtk.STOCK_OPEN,        None, None, None, cls.act_open),
         ('action_save',   gtk.STOCK_SAVE,        None, None, None, cls.act_save),
         ('action_saveas', gtk.STOCK_SAVE_AS,     None, None, None, cls.act_saveas),
+        ('action_page',   gtk.STOCK_PAGE_SETUP,  None, None, None, cls.act_page),
+        ('action_print',  gtk.STOCK_PRINT,       None, None, None, cls.act_print),
         ('action_close',  gtk.STOCK_CLOSE,       None, None, None, cls.act_close),
         ('action_quit',   gtk.STOCK_QUIT,        None, None, None, cls.act_quit),
         ('menu_edit',     None,                  _("Edit")),
@@ -124,6 +126,33 @@ class ActionsManager:
                 f = iofiles.FileManager(uri)
                 f.update_infos()
                 tab.save(f, self.app.prefm.get_pref('files_backup'))
+        return
+    
+    def act_page(self, *data):
+        """Setup page."""
+        pwin = self.app.gui.win
+        f = gtk.print_run_page_setup_dialog
+        self.print_setup = f(pwin, self.print_setup, self.print_settings)
+        return
+    
+    def act_print(self, *data):
+        """Callback for 'Print' action."""
+        pwin = self.app.gui.win
+        tab = self.get_current_tab()
+        if not hasattr(tab, 'connect_print_compositor'):
+            return
+        printop = gtk.PrintOperation()
+        printop.set_print_settings(self.print_settings)
+        printop.set_default_page_setup(self.print_setup)
+        tab.connect_print_compositor(printop)
+        res = printop.run(gtk.PRINT_OPERATION_ACTION_PRINT_DIALOG, pwin)
+        if res == gtk.PRINT_OPERATION_RESULT_ERROR:
+            dwin = dialogs.MsgWin(self.app, 'error', 'close', _("PrintError"))
+            dwin.run()
+            dwin.destroy()
+        elif res == gtk.PRINT_OPERATION_RESULT_APPLY:
+            self.print_settings = printop.get_print_settings()
+            print "File printed"
         return
     
     def act_close(self, *data):

@@ -40,6 +40,10 @@ class EuphorbiaGUI(actions.ActionsManager):
     def __init__(self, app):
         actions.ActionsManager.__init__(self, app)
         self.clipb = gtk.clipboard_get()
+        dps = gtk.PaperSize(gtk.paper_size_get_default())
+        self.print_setup = gtk.PageSetup()
+        self.print_setup.set_paper_size_and_default_margins(dps)
+        self.print_settings = gtk.PrintSettings()
         self.connections = {'change-tab':[]}
         self.build_interface()
         self.nbd = self.builder.get_object('notebook_docs')

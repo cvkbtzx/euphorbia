@@ -6,6 +6,9 @@
             <menuitem action="action_save" />
             <menuitem action="action_saveas" />
             <separator />
+            <menuitem action="action_page" />
+            <menuitem action="action_print" />
+            <separator />
             <menuitem action="action_close" />
             <menuitem action="action_quit" />
         </menu>
