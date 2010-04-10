@@ -3,8 +3,9 @@ EUPHORBIA - LaTeX editor
 ========================
 
 
-WARNING!
-THIS SOFTWARE IS STILL VERY INCOMPLETE AND LACKS A LOT OF FEATURES.
+***  WARNING!  ***
+THIS SOFTWARE IS STILL INCOMPLETE AND LACKS A LOT OF FEATURES.
+******************
 
 
 Dependencies:
@@ -20,7 +21,6 @@ Test without install:
 
 
 Install instructions:
-    python setup.py build
     python setup.py install
 
 

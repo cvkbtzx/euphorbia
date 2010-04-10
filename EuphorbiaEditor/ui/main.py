@@ -40,9 +40,11 @@ class EuphorbiaGUI(actions.ActionsManager):
     def __init__(self, app):
         actions.ActionsManager.__init__(self, app)
         self.clipb = gtk.clipboard_get()
+        self.connections = {'change-tab':[]}
         self.build_interface()
-        nb = self.builder.get_object('notebook_docs')
-        nb.tab_list = set()
+        self.nbd = self.builder.get_object('notebook_docs')
+        self.nbd.connect('switch-page', self.ev_switch_page)
+        self.nbd.tab_list = set()
         self.win.show()
     
     def build_interface(self):
@@ -101,6 +103,31 @@ class EuphorbiaGUI(actions.ActionsManager):
             for c in parent.get_children():
                 wlist.update(self.get_widgets_by_name(wname,c))
         return wlist
+    
+    def get_current_tab(self, n=None):
+        """Get the current tab object (TabWrapper subclass)."""
+        n = self.nbd.get_current_page() if n is None else n
+        obj = self.nbd.get_nth_page(n)
+        tab = [t for t in self.nbd.tab_list if t.content is obj]
+        return tab[0] if len(tab)==1 else None
+    
+    def connect(self, signal, func, *args):
+        """Connect a function to the specified Euphorbia signal."""
+        self.connections[signal].append((func, args))
+        return
+     
+    def emit(self, signal, *params):
+        """Emit the specified Euphorbia signal."""
+        for cb in self.connections[signal]:
+            func = cb[0]
+            func(*(params+cb[1]))
+        return
+    
+    def ev_switch_page(self, *data):
+        """Callback switch document."""
+        t = self.get_current_tab(data[2])
+        self.emit('change-tab', t)
+        return
     
     def ev_hide_bottom(self, *data):
         """Callback hide bottom notebook."""

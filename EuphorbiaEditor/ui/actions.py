@@ -202,15 +202,6 @@ class ActionsManager:
         dwin.destroy()
         return
     
-    # * * *
-    
-    def get_current_tab(self):
-        """Get the current tab object (TabWrapper subclass)."""
-        nb = self.app.gui.get_widgets_by_name('notebook_docs').pop()
-        obj = nb.get_nth_page(nb.get_current_page())
-        tab = [t for t in nb.tab_list if t.content is obj]
-        return tab[0] if len(tab)==1 else None
-    
     def do_showsidepanel(self, visible):
         """Show sidepanel."""
         self.do_showpanel(visible, 'side')
