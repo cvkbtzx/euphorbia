@@ -121,7 +121,7 @@ class PrefsWinGeneral(gtk.ScrolledWindow):
     
     def build_combobox(self, code, lv, cv):
         """Build a combobox."""
-        vals = lv.items()
+        vals = sorted(lv.items(), key=lambda x: x[1])
         w = gtk.combo_box_new_text()
         na = None
         for i,v in enumerate(vals):
