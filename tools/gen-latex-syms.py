@@ -12,9 +12,9 @@ import ConfigParser
 
 FBEG = """
 \documentclass[12pt,pdflatex]{minimal}
+\usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
 \usepackage{ae,aecompl}
-\usepackage[utf8]{inputenc}
 \usepackage{amsmath}
 \usepackage{amsfonts}
 \usepackage{amssymb}
@@ -45,7 +45,7 @@ for df in datafiles:
         print "Symbol:", s
         fn = lambda e: os.path.join(".", dir, s+"."+e)
         with open(fn("tex"), 'w') as lf:
-            cmd = cp.get(s, "Compile")
+            cmd = cp.get(s, 'Compile')
             lf.write(FBEG + cmd + FEND)
         devnull = open(os.devnull, 'w')
         p = subprocess.Popen(["pdflatex", "-interaction", "nonstopmode", "-output-directory", dir, fn("tex")], stdout=devnull, stderr=devnull)

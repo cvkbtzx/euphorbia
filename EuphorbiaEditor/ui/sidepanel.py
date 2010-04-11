@@ -26,6 +26,7 @@ import gtk
 import ConfigParser
 
 import palette
+import treestruct
 
 
 #------------------------------------------------------------------------------
@@ -138,7 +139,8 @@ class EuphorbiaSidePanel(SidePanel):
     def __init__(self, app):
         SidePanel.__init__(self)
         self.app = app
-        self.add_expander('struct', _("Structure"), gtk.Label())
+        self.docstruct = treestruct.TreeDocStruct()
+        self.add_expander('struct', _("Structure"), self.docstruct)
         self.syms = self.load_symbols_from_files()
         for categ in sorted(self.syms.keys()):
             pal = palette.Palette()
