@@ -3,9 +3,9 @@ EUPHORBIA - LaTeX editor
 ========================
 
 
-***  WARNING!  ***
+*************************  WARNING!  *************************
 THIS SOFTWARE IS STILL INCOMPLETE AND LACKS A LOT OF FEATURES.
-******************
+**************************************************************
 
 
 Dependencies:
@@ -20,7 +20,7 @@ Test without install:
     python euphorbia --test
 
 
-Install instructions:
+Install:
     python setup.py install
 
 

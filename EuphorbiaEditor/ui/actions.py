@@ -80,12 +80,7 @@ class ActionsManager:
         self.actgrp.add_actions(get_actions_list(self))
         self.actgrp.add_toggle_actions(get_toggle_actions_list(self))
     
-    def act_prefs(self, *data):
-        """Callback for 'Preferences' action."""
-        dwin = dialogs.PrefsWin(self.app)
-        dwin.run()
-        dwin.destroy()
-        return
+    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
     
     def act_new(self, *data):
         """Callback for 'New' action."""
@@ -110,7 +105,8 @@ class ActionsManager:
             if tab.saveinfos()[1] is None:
                 self.act_saveas()
             else:
-                tab.save(None, self.app.prefm.get_pref('files_backup'))
+                if tab.save(None, self.app.prefm.get_pref('files_backup')):
+                    self.emit('save', tab)
         return
     
     def act_saveas(self, *data):
@@ -125,7 +121,8 @@ class ActionsManager:
             if uri is not None:
                 f = iofiles.FileManager(uri)
                 f.update_infos()
-                tab.save(f, self.app.prefm.get_pref('files_backup'))
+                if tab.save(f, self.app.prefm.get_pref('files_backup')):
+                    self.emit('save', tab)
         return
     
     def act_page(self, *data):
@@ -160,6 +157,13 @@ class ActionsManager:
         tab = self.get_current_tab()
         if hasattr(tab, 'close'):
             tab.close()
+        return
+    
+    def act_quit(self, *data):
+        """Callback for 'Quit' action."""
+        q = self.do_quit()
+        if q:
+            self.ev_destroy()
         return
     
     def act_undo(self, *data):
@@ -205,13 +209,6 @@ class ActionsManager:
             self.searchb.show()
         return
     
-    def act_quit(self, *data):
-        """Callback for 'Quit' action."""
-        q = self.do_quit()
-        if q:
-            self.ev_destroy()
-        return
-    
     def act_showsidepan(self, *data):
         """Callback for 'Show sidepanel' action."""
         p = self.app.prefm.get_pref('gui_sidepanelshow')
@@ -224,12 +221,21 @@ class ActionsManager:
         self.do_showpanel(not p, 'bottom')
         return
     
+    def act_prefs(self, *data):
+        """Callback for 'Preferences' action."""
+        dwin = dialogs.PrefsWin(self.app)
+        dwin.run()
+        dwin.destroy()
+        return
+    
     def act_about(self, *data):
         """Callback for 'About' action."""
         dwin = dialogs.AboutWin(self.app)
         dwin.run()
         dwin.destroy()
         return
+    
+    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
     
     def do_showsidepanel(self, visible):
         """Show sidepanel."""
@@ -264,6 +270,7 @@ class ActionsManager:
             f = iofiles.FileManager(filename, enc)
             f.update_infos()
             d.open_file(f, enc, hl)
+        self.emit('open', d)
         return
     
     def do_quit(self):

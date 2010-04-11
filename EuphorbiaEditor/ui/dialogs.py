@@ -35,7 +35,7 @@ class PrefsWin(gtk.Dialog):
         buttons = (gtk.STOCK_CLOSE, gtk.RESPONSE_CLOSE)
         gtk.Dialog.__init__(self, _("Preferences"), app.gui.win, flags, buttons)
         self.app = app
-        self.set_default_size(600, 400)
+        self.set_default_size(650, 450)
         self.set_position(gtk.WIN_POS_CENTER_ON_PARENT)
         self.set_has_separator(False)
         self.set_default_response(gtk.RESPONSE_CLOSE)

@@ -44,7 +44,7 @@ class EuphorbiaGUI(actions.ActionsManager):
         self.print_setup = gtk.PageSetup()
         self.print_setup.set_paper_size_and_default_margins(dps)
         self.print_settings = gtk.PrintSettings()
-        self.connections = {'change-tab':[]}
+        self.connections = {'open':[], 'save':[], 'change-tab':[]}
         self.build_interface()
         self.nbd = self.builder.get_object('notebook_docs')
         self.nbd.connect('switch-page', self.ev_switch_page)

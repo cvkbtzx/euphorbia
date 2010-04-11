@@ -64,7 +64,7 @@ class Document(tabwrapper.TabWrapper):
         return
     
     def get_fname(self):
-        """Get tab file name."""
+        """Get tab name."""
         f = self.datafile['file']
         return f if type(f) is str else f.get_name()
     
