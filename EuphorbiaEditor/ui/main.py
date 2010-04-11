@@ -48,6 +48,7 @@ class EuphorbiaGUI(actions.ActionsManager):
         self.build_interface()
         self.nbd = self.builder.get_object('notebook_docs')
         self.nbd.connect('switch-page', self.ev_switch_page)
+        self.nbd.app = self.app
         self.nbd.tab_list = set()
         self.win.show()
     

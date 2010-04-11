@@ -25,6 +25,7 @@ import gtk
 import pango
 import gtksourceview2 as gtksv
 
+import dialogs
 import tabwrapper
 
 STYLEM = gtksv.style_scheme_manager_get_default()
@@ -95,7 +96,8 @@ class Document(tabwrapper.TabWrapper):
     def saveinfos(self):
         """Return infos about the file to save."""
         f = self.datafile['file']
-        return (f,None) if type(f) is str else (None,f)
+        m = self.ev.buffer.get_modified()
+        return (f,None,m) if type(f) is str else (None,f,m)
     
     def connect_print_compositor(self, printop, **opts):
         """Connect document print compositor to PrintOperation."""
@@ -194,6 +196,19 @@ class Document(tabwrapper.TabWrapper):
     def focus(self):
         """Set the focus to the tab."""
         self.ev.view.grab_focus()
+        return
+    
+    def close(self, *data):
+        """Close document."""
+        if hasattr(self.notebook, 'app'):
+            if self.ev.buffer.get_modified():
+                pwin = self.notebook.app.gui.win
+                dwin = dialogs.MsgWin(pwin, 'question', 'yes_no', _("Save?"))
+                ret = dwin.run()
+                dwin.destroy()
+                if ret == gtk.RESPONSE_YES:
+                    self.notebook.app.gui.act_save(tab=self)
+        tabwrapper.TabWrapper.close(self, *data)
         return
 
 

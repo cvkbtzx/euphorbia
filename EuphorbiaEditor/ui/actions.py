@@ -98,20 +98,20 @@ class ActionsManager:
             self.do_open(u, enc=code)
         return
     
-    def act_save(self, *data):
+    def act_save(self, *data, **args):
         """Callback for 'Save' action."""
-        tab = self.get_current_tab()
+        tab = args['tab'] if 'tab' in args else self.get_current_tab()
         if hasattr(tab, 'save') and hasattr(tab, 'saveinfos'):
             if tab.saveinfos()[1] is None:
-                self.act_saveas()
+                self.act_saveas(**args)
             else:
                 if tab.save(None, self.app.prefm.get_pref('files_backup')):
                     self.emit('save', tab)
         return
     
-    def act_saveas(self, *data):
+    def act_saveas(self, *data, **args):
         """Callback for 'Save as' action."""
-        tab = self.get_current_tab()
+        tab = args['tab'] if 'tab' in args else self.get_current_tab()
         if hasattr(tab, 'save') and hasattr(tab, 'saveinfos'):
             infos = tab.saveinfos()
             dwin = dialogs.SaveWin(self.app, *infos[:2])
@@ -144,7 +144,7 @@ class ActionsManager:
         tab.connect_print_compositor(printop)
         res = printop.run(gtk.PRINT_OPERATION_ACTION_PRINT_DIALOG, pwin)
         if res == gtk.PRINT_OPERATION_RESULT_ERROR:
-            dwin = dialogs.MsgWin(self.app, 'error', 'close', _("PrintError"))
+            dwin = dialogs.MsgWin(pwin, 'error', 'close', _("PrintError"))
             dwin.run()
             dwin.destroy()
         elif res == gtk.PRINT_OPERATION_RESULT_APPLY:
