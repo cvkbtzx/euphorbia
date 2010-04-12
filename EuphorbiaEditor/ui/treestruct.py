@@ -58,6 +58,7 @@ class TreeDocStruct(gtk.ScrolledWindow):
         # Column
         cr = gtk.CellRendererText()
         cr.props.ellipsize = pango.ELLIPSIZE_END
+        cr.props.scale = 0.875
         c = gtk.TreeViewColumn("Structure", cr, text=0)
         c.set_expand(True)
         self.tv.append_column(c)

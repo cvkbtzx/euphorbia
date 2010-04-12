@@ -47,6 +47,7 @@ class Document(tabwrapper.TabWrapper):
         self.datafile = {'file':filename, 'encoding':None, 'hlight':hlight}
         self.ev.set_language(hlight)
         self.clipb = gtk.clipboard_get()
+        self.gen_doc_struct()
     
     def set_file(self, f, enc=None, hl=None):
         """Change file."""
@@ -76,6 +77,7 @@ class Document(tabwrapper.TabWrapper):
         self.ev.buffer.set_text("" if txt is None else txt)
         self.ev.buffer.place_cursor(self.ev.buffer.get_start_iter())
         self.ev.buffer.set_modified(False)
+        self.gen_doc_struct()
         return
     
     def save(self, f, backup=False):
@@ -88,6 +90,7 @@ class Document(tabwrapper.TabWrapper):
         txt = self.ev.buffer.get_text(ibeg, iend, False)
         ret = f.write(txt, backup)
         f.update_infos()
+        self.gen_doc_struct()
         if ret:
             self.set_file(f,self.datafile['encoding'],self.datafile['hlight'])
             self.ev.buffer.set_modified(False)
@@ -196,6 +199,14 @@ class Document(tabwrapper.TabWrapper):
     def focus(self):
         """Set the focus to the tab."""
         self.ev.view.grab_focus()
+        return
+    
+    def gen_doc_struct(self):
+        """Generate document structure."""
+        f = self.get_fname()
+        self.struct = [(f, None, [])]
+        for i,v in enumerate(["Hi!","Good morning","Hello"]):
+            self.struct[0][2].append((v,i,[]))
         return
     
     def close(self, *data):

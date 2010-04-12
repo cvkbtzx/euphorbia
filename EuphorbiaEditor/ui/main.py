@@ -44,10 +44,11 @@ class EuphorbiaGUI(actions.ActionsManager):
         self.print_setup = gtk.PageSetup()
         self.print_setup.set_paper_size_and_default_margins(dps)
         self.print_settings = gtk.PrintSettings()
-        self.connections = {'open':[], 'save':[], 'change-tab':[]}
+        self.connections = {'open':[], 'save':[], 'close':[], 'change-tab':[]}
         self.build_interface()
         self.nbd = self.builder.get_object('notebook_docs')
         self.nbd.connect('switch-page', self.ev_switch_page)
+        self.nbd.connect('page-removed', self.ev_remove_page)
         self.nbd.app = self.app
         self.nbd.tab_list = set()
         self.win.show()
@@ -69,7 +70,7 @@ class EuphorbiaGUI(actions.ActionsManager):
         # Side panel
         hp = self.builder.get_object('hpaned')
         hp.get_child1().destroy()
-        hp.pack1(sidepanel.EuphorbiaSidePanel(self.app), False, True)
+        hp.pack1(sidepanel.EuphorbiaSidePanel(self.app, self), False, True)
         hp.get_child1().showpanel = lambda x: self.do_showpanel(x, 'side')
         bp = self.builder.get_object('bottompanel')
         bp.showpanel = lambda x: self.do_showpanel(x, 'bottom')
@@ -132,6 +133,11 @@ class EuphorbiaGUI(actions.ActionsManager):
         """Callback switch document."""
         t = self.get_current_tab(data[2])
         self.emit('change-tab', t)
+        return
+    
+    def ev_remove_page(self, *data):
+        """Callback remove document."""
+        self.emit('close')
         return
     
     def ev_hide_bottom(self, *data):

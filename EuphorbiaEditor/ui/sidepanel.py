@@ -136,7 +136,7 @@ class Expander(gtk.VBox):
 class EuphorbiaSidePanel(SidePanel):
     """Euphorbia side panel."""
     
-    def __init__(self, app):
+    def __init__(self, app, gui):
         SidePanel.__init__(self)
         self.app = app
         self.docstruct = treestruct.TreeDocStruct()
@@ -151,6 +151,8 @@ class EuphorbiaSidePanel(SidePanel):
             pal.set_item_activated_callback(self.insert_symbol, categ)
             name = self.get_local_name(tool)
             self.add_expander(categ, name, pal)
+        for s in ['change-tab', 'open', 'save', 'close']:
+            gui.connect(s, self.update_docstruct)
     
     def load_symbols_from_files(self):
         """Get a list of the categories and their symbols."""
@@ -196,6 +198,14 @@ class EuphorbiaSidePanel(SidePanel):
         tab = self.app.gui.get_current_tab()
         if hasattr(tab, 'insert'):
             tab.insert(txt)
+        return
+    
+    def update_docstruct(self, tab=None):
+        """Update treedocstruct widget from tab data."""
+        if hasattr(tab, 'struct'):
+            self.docstruct.set_data(tab.struct)
+        elif len(self.app.gui.nbd.tab_list) == 0:
+            self.docstruct.set_data([])
         return
 
 
