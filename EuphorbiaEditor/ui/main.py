@@ -60,6 +60,7 @@ class EuphorbiaGUI(actions.ActionsManager):
         self.builder = gtk.Builder()
         self.builder.set_translation_domain(None)
         self.builder.add_from_file(os.path.join(datadir, "main.glade"))
+        self.set_builder_names()
         self.builder.connect_signals(self)
         # Main window
         self.win = self.builder.get_object('window')
@@ -96,6 +97,13 @@ class EuphorbiaGUI(actions.ActionsManager):
         ssm = gtksv.style_scheme_manager_get_default()
         s = [(ssm.get_scheme(id).get_name(),id) for id in ssm.get_scheme_ids()]
         self.app.prefm.set_pref_values('editview_style', dict(s))
+        return
+    
+    def set_builder_names(self):
+        """Set widgets names from their builder ID."""
+        for w in self.builder.get_objects():
+            if hasattr(w, 'set_name'):
+                w.set_name(gtk.Buildable.get_name(w))
         return
     
     def get_widgets_by_name(self, wname, parent=None):
