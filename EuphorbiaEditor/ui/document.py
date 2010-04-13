@@ -74,8 +74,10 @@ class Document(tabwrapper.TabWrapper):
         """Load given file as the document."""
         self.set_file(f, enc, hl)
         txt = f.read()
+        self.ev.buffer.begin_not_undoable_action()
         self.ev.buffer.set_text("" if txt is None else txt)
         self.ev.buffer.place_cursor(self.ev.buffer.get_start_iter())
+        self.ev.buffer.end_not_undoable_action()
         self.ev.buffer.set_modified(False)
         self.gen_doc_struct()
         return
@@ -182,7 +184,7 @@ class Document(tabwrapper.TabWrapper):
                 res = gtksv.iter_forward_search(ibeg, txt, flags, None)
         if res is not None:
             self.ev.buffer.select_range(*res)
-            self.ev.view.scroll_to_mark(self.ev.buffer.get_insert(), 0, True)
+            self.ev.view.scroll_to_mark(self.ev.buffer.get_insert(), 0.25, True)
         elif loop or txt != self.get_selection():
             self.ev.buffer.place_cursor(iter)
         return
@@ -206,7 +208,13 @@ class Document(tabwrapper.TabWrapper):
         f = self.get_fname()
         self.struct = [(f, None, [])]
         for i,v in enumerate(["Hi!","Good morning","Hello"]):
-            self.struct[0][2].append((v,i,[]))
+            self.struct[0][2].append((v,10*i,[]))
+        return
+    
+    def goto_index(self, index):
+        """Go to the given position."""
+        iter = self.ev.buffer.get_iter_at_line(index)
+        self.ev.view.scroll_to_iter(iter, 0, True, 0, 0)
         return
 
 

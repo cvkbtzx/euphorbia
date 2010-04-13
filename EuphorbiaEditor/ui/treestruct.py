@@ -34,7 +34,7 @@ class TreeDocStruct(gtk.ScrolledWindow):
         self.set_policy(gtk.POLICY_NEVER, gtk.POLICY_AUTOMATIC)
         self.set_shadow_type(gtk.SHADOW_NONE)
         self.set_name("treedocstruct")
-        self.activate_cb = None
+        self.activated_cb = None
         self.expand_level = 2
         self.tree = []
         self.build_treeview()
@@ -104,8 +104,8 @@ class TreeDocStruct(gtk.ScrolledWindow):
     def ev_row_activated(self, w, path, column):
         """Callback for double-click event."""
         row = self.get_row_at_path(path)
-        if self.activate_cb is not None:
-            self.activate_cb(row)
+        if self.activated_cb is not None:
+            self.activated_cb(row)
         return
 
 

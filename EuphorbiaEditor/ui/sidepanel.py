@@ -141,6 +141,9 @@ class EuphorbiaSidePanel(SidePanel):
         self.app = app
         self.docstruct = treestruct.TreeDocStruct()
         self.add_expander('struct', _("Structure"), self.docstruct)
+        for s in ['changetab', 'open', 'save', 'close']:
+            gui.connect(s, self.update_docstruct)
+        self.docstruct.activated_cb = self.ev_struct_activate
         self.syms = self.load_symbols_from_files()
         for categ in sorted(self.syms.keys()):
             pal = palette.Palette()
@@ -151,8 +154,6 @@ class EuphorbiaSidePanel(SidePanel):
             pal.set_item_activated_callback(self.insert_symbol, categ)
             name = self.get_local_name(tool)
             self.add_expander(categ, name, pal)
-        for s in ['changetab', 'open', 'save', 'close']:
-            gui.connect(s, self.update_docstruct)
     
     def load_symbols_from_files(self):
         """Get a list of the categories and their symbols."""
@@ -206,6 +207,17 @@ class EuphorbiaSidePanel(SidePanel):
             self.docstruct.set_data(tab.struct)
         elif len(self.app.gui.nbd.tab_list) == 0:
             self.docstruct.set_data([])
+        return
+    
+    def ev_struct_activate(self, row):
+        """Callback for tree structure activated event."""
+        tab = self.app.gui.get_current_tab()
+        line = row[1]
+        if line is None:
+            tab.gen_doc_struct()
+            self.update_docstruct(tab)
+        else:
+            tab.goto_index(line)
         return
 
 

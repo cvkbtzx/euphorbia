@@ -107,6 +107,8 @@ class PrefsWinGeneral(gtk.ScrolledWindow):
                 w = self.build_checkbutton(code, lv, cv)
             if lv == 'font':
                 w = self.build_fontbutton(code, lv, cv)
+            if lv == 'text':
+                w = self.build_textentry(code, lv, cv)
             if lv.startswith('int,'):
                 w = self.build_spinbutton(code, lv, cv)
         return w
@@ -139,6 +141,18 @@ class PrefsWinGeneral(gtk.ScrolledWindow):
     def ev_combobox(self, w, code, lvals):
         """Callback for comboboxes."""
         self.app.prefm.apply_pref(code, lvals[w.get_active()])
+        return
+    
+    def build_textentry(self, code, lv, cv):
+        """Build a textentry."""
+        w = gtk.Entry()
+        w.set_text()
+        w.connect('changed', self.ev_textentry, code)
+        return w
+     
+    def ev_textentry(self, w, code):
+        """Callback for textentries."""
+        self.app.prefm.apply_pref(code, w.get_text())
         return
     
     def build_spinbutton(self, code, lv, cv):
@@ -188,11 +202,11 @@ class PrefsWinPlugins(gtk.VBox):
         self.set_border_width(15)
         # TreeView
         self.build_treeview()
-        sv = gtk.ScrolledWindow()
-        sv.set_policy(gtk.POLICY_NEVER, gtk.POLICY_ALWAYS)
-        sv.set_shadow_type(gtk.SHADOW_IN)
-        sv.add(self.tv)
-        self.pack_start(sv, True, True)
+        sw = gtk.ScrolledWindow()
+        sw.set_policy(gtk.POLICY_NEVER, gtk.POLICY_ALWAYS)
+        sw.set_shadow_type(gtk.SHADOW_IN)
+        sw.add(self.tv)
+        self.pack_start(sw, True, True)
         # ButtonBox
         hbb = gtk.HButtonBox()
         hbb.set_layout(gtk.BUTTONBOX_END)
@@ -330,24 +344,27 @@ class SaveBeforeCloseWin(gtk.Dialog):
             gtk.STOCK_CANCEL, gtk.RESPONSE_CANCEL,
             gtk.STOCK_SAVE, gtk.RESPONSE_OK,
         )
-        gtk.Dialog.__init__(self, _("SaveBeforeQuit"), app.gui.win, flags, buttons)
+        gtk.Dialog.__init__(self, "", app.gui.win, flags, buttons)
         self.set_default_size(400, 250)
-        self.set_border_width(9)
         self.set_position(gtk.WIN_POS_CENTER_ON_PARENT)
-        self.set_has_separator(False)
+        self.set_has_separator(True)
+        vb = gtk.VBox()
+        vb.set_spacing(7)
+        vb.set_border_width(9)
+        self.vbox.add(vb)
+        # Message
+        lab = gtk.Label(_("SaveBeforeClose?"))
+        lab.set_alignment(0, 0.5)
+        lab.set_padding(0, 5)
+        vb.pack_start(lab, False, True)
         # Treeview
         self.tabnames = sorted(tabnames, key=lambda x: x[1])
         self.build_treeview()
-        sv = gtk.ScrolledWindow()
-        sv.set_policy(gtk.POLICY_NEVER, gtk.POLICY_ALWAYS)
-        sv.set_shadow_type(gtk.SHADOW_IN)
-        sv.add(self.tv)
-        self.vbox.pack_start(sv, True, True)
-        # Message
-        lab = gtk.Label(_("Save?"))
-        lab.set_alignment(0, 0.5)
-        lab.set_padding(0, 9)
-        self.vbox.pack_start(lab, False, True)
+        sw = gtk.ScrolledWindow()
+        sw.set_policy(gtk.POLICY_NEVER, gtk.POLICY_ALWAYS)
+        sw.set_shadow_type(gtk.SHADOW_IN)
+        sw.add(self.tv)
+        vb.pack_start(sw, True, True)
         # Display
         self.set_default_response(gtk.RESPONSE_OK)
         self.vbox.show_all()

@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Euphorbia 0.0.X\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-04-13 14:59+0200\n"
+"POT-Creation-Date: 2010-04-13 22:05+0200\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Bzoloid <bzoloid@gmail.com>\n"
 "Language-Team: \n"
@@ -62,6 +62,9 @@ msgstr "Recherche"
 
 msgid "opt_system"
 msgstr "Système"
+
+msgid "opt_print"
+msgstr "Impression"
 
 msgid "window_max"
 msgstr "Fenêtre maximisée"
@@ -192,6 +195,11 @@ msgstr "Structure"
 msgid "PrintError"
 msgstr "Erreur d'impression !"
 
-msgid "Save?"
-msgstr "Ces fichiers ont été modifiés.\nEnregistrer avant la fermeture ?"
+msgid "SaveBeforeClose?"
+msgstr ""
+"Ces fichiers ont été modifiés.\n"
+"Enregistrer avant la fermeture ?"
+
+msgid "Ignore all"
+msgstr "Ignorer tout"
 
