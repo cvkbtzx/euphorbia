@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Euphorbia 0.0.X\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-04-10 00:45+0200\n"
+"POT-Creation-Date: 2010-04-13 14:59+0200\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Bzoloid <bzoloid@gmail.com>\n"
 "Language-Team: \n"
@@ -11,6 +11,39 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Poedit-Language: French\n"
 "X-Poedit-SourceCharset: utf-8\n"
+
+msgid "Euphorbia"
+msgstr "Euphorbia"
+
+msgid "File"
+msgstr "_Fichier"
+
+msgid "Edit"
+msgstr "É_dition"
+
+msgid "View"
+msgstr "_Affichage"
+
+msgid "Tools"
+msgstr "Ou_tils"
+
+msgid "Settings"
+msgstr "_Options"
+
+msgid "Help"
+msgstr "A_ide"
+
+msgid "Preferences"
+msgstr "Préférences"
+
+msgid "General"
+msgstr "Général"
+
+msgid "LaTeX"
+msgstr "LaTeX"
+
+msgid "Plugins"
+msgstr "Plugins"
 
 msgid "opt_window"
 msgstr "Fenêtre principale"
@@ -67,7 +100,7 @@ msgid "editview_drawspaces"
 msgstr "Afficher les espaces"
 
 msgid "editview_maxundo"
-msgstr "Nombre maxi d'annulations"
+msgstr "Nombre maximum d'annulations"
 
 msgid "editview_tabwidth"
 msgstr "Taille des tabulations"
@@ -117,39 +150,6 @@ msgstr "Dossier de la configuration utilisateur"
 msgid "system_datadir"
 msgstr "Dossier de données"
 
-msgid "Euphorbia"
-msgstr "Euphorbia"
-
-msgid "File"
-msgstr "_Fichier"
-
-msgid "Edit"
-msgstr "É_dition"
-
-msgid "View"
-msgstr "_Affichage"
-
-msgid "Tools"
-msgstr "Ou_tils"
-
-msgid "Settings"
-msgstr "_Options"
-
-msgid "Help"
-msgstr "A_ide"
-
-msgid "Preferences"
-msgstr "Préférences"
-
-msgid "General"
-msgstr "Général"
-
-msgid "LaTeX"
-msgstr "LaTeX"
-
-msgid "Plugins"
-msgstr "Plugins"
-
 msgid "opt_"
 msgstr "opt_"
 
@@ -188,4 +188,10 @@ msgstr "Éditeur LaTeX GTK"
 
 msgid "Structure"
 msgstr "Structure"
+
+msgid "PrintError"
+msgstr "Erreur d'impression !"
+
+msgid "Save?"
+msgstr "Ces fichiers ont été modifiés.\nEnregistrer avant la fermeture ?"
 

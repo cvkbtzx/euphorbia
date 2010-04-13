@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Euphorbia 0.0.X\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-04-10 00:45+0200\n"
+"POT-Creation-Date: 2010-04-13 14:59+0200\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Bzoloid <bzoloid@gmail.com>\n"
 "Language-Team: \n"
@@ -11,6 +11,39 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "X-Poedit-Language: English\n"
 "X-Poedit-SourceCharset: utf-8\n"
+
+msgid "Euphorbia"
+msgstr "Euphorbia"
+
+msgid "File"
+msgstr "_File"
+
+msgid "Edit"
+msgstr "_Edit"
+
+msgid "View"
+msgstr "_View"
+
+msgid "Tools"
+msgstr "_Tools"
+
+msgid "Settings"
+msgstr "_Settings"
+
+msgid "Help"
+msgstr "_Help"
+
+msgid "Preferences"
+msgstr "Preferences"
+
+msgid "General"
+msgstr "General"
+
+msgid "LaTeX"
+msgstr "LaTeX"
+
+msgid "Plugins"
+msgstr "Plugins"
 
 msgid "opt_window"
 msgstr "Main window"
@@ -117,39 +150,6 @@ msgstr "User config directory"
 msgid "system_datadir"
 msgstr "Data directory"
 
-msgid "Euphorbia"
-msgstr "Euphorbia"
-
-msgid "File"
-msgstr "_File"
-
-msgid "Edit"
-msgstr "_Edit"
-
-msgid "View"
-msgstr "_View"
-
-msgid "Tools"
-msgstr "_Tools"
-
-msgid "Settings"
-msgstr "_Settings"
-
-msgid "Help"
-msgstr "_Help"
-
-msgid "Preferences"
-msgstr "Preferences"
-
-msgid "General"
-msgstr "General"
-
-msgid "LaTeX"
-msgstr "LaTeX"
-
-msgid "Plugins"
-msgstr "Plugins"
-
 msgid "opt_"
 msgstr "opt_"
 
@@ -188,4 +188,10 @@ msgstr "GTK LaTeX editor"
 
 msgid "Structure"
 msgstr "Structure"
+
+msgid "PrintError"
+msgstr "Print error!"
+
+msgid "Save?"
+msgstr "These files have been modified.\nSave before closing?"
 

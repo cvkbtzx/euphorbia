@@ -8,13 +8,46 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-04-10 00:45+0200\n"
+"POT-Creation-Date: 2010-04-13 14:59+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
+
+msgid "Euphorbia"
+msgstr ""
+
+msgid "File"
+msgstr ""
+
+msgid "Edit"
+msgstr ""
+
+msgid "View"
+msgstr ""
+
+msgid "Tools"
+msgstr ""
+
+msgid "Settings"
+msgstr ""
+
+msgid "Help"
+msgstr ""
+
+msgid "Preferences"
+msgstr ""
+
+msgid "General"
+msgstr ""
+
+msgid "LaTeX"
+msgstr ""
+
+msgid "Plugins"
+msgstr ""
 
 msgid "opt_window"
 msgstr ""
@@ -121,39 +154,6 @@ msgstr ""
 msgid "system_datadir"
 msgstr ""
 
-msgid "Euphorbia"
-msgstr ""
-
-msgid "File"
-msgstr ""
-
-msgid "Edit"
-msgstr ""
-
-msgid "View"
-msgstr ""
-
-msgid "Tools"
-msgstr ""
-
-msgid "Settings"
-msgstr ""
-
-msgid "Help"
-msgstr ""
-
-msgid "Preferences"
-msgstr ""
-
-msgid "General"
-msgstr ""
-
-msgid "LaTeX"
-msgstr ""
-
-msgid "Plugins"
-msgstr ""
-
 msgid "opt_"
 msgstr ""
 
@@ -191,4 +191,10 @@ msgid "GTK LaTeX editor"
 msgstr ""
 
 msgid "Structure"
+msgstr ""
+
+msgid "PrintError"
+msgstr ""
+
+msgid "Save?"
 msgstr ""

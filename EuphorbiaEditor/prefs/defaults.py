@@ -38,7 +38,7 @@ DEFAULT_PREFS = [
     ["editview_wrapmode", 'set_wrap_mode', {"none":0,"char":1,"word":2,"word+char":3}, 2, "editview"],
     ["editview_font", 'set_font', 'font', "Monospace 10", "editview"],
     ["editview_drawspaces", 'set_draw_spaces', {"none":0,"space":1,"tab":2,"tab+space":3,"eol":4,"all":15}, 0, "editview"],
-    ["editview_maxundo", 'set_max_undo_levels', 'int,-1,9999', -1, "editview"],
+    ["editview_maxundo", 'set_max_undo_levels', 'int,-1,999', -1, "editview"],
     ["editview_tabwidth", 'set_tab_width', 'int,1,32', 4, "editview"],
     ["editview_showrightmargin", 'set_show_right_margin', 'bool', False, "editview"],
     ["editview_rightmarginpos", 'set_right_margin_position', 'int,1,999', 72, "editview"],
