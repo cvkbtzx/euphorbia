@@ -23,6 +23,9 @@
 import gtk
 import pango
 
+TXTBOLD = pango.AttrList()
+TXTBOLD.insert(pango.AttrWeight(pango.WEIGHT_BOLD, 0, -1))
+
 
 #------------------------------------------------------------------------------
 
@@ -75,7 +78,8 @@ class PrefsWinGeneral(gtk.ScrolledWindow):
             f = gtk.Frame("")
             f.props.label_widget.set_alignment(0, 0.5)
             f.props.label_widget.set_padding(3, 0)
-            f.props.label_widget.set_markup("<b>"+_("opt_"+cg)+"</b>")
+            f.props.label_widget.set_attributes(TXTBOLD)
+            f.props.label_widget.set_text(_("opt_"+cg))
             vb = gtk.VBox()
             vb.set_homogeneous(True)
             vb.set_spacing(3)

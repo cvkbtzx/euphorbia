@@ -44,7 +44,7 @@ class TreeDocStruct(gtk.ScrolledWindow):
     def build_treeview(self):
         """Build the treeview."""
         # Model
-        self.ts = gtk.TreeStore(str)
+        self.ts = gtk.TreeStore(str, pango.Weight)
         # View
         self.tv = gtk.TreeView()
         self.tv.set_model(self.ts)
@@ -58,8 +58,8 @@ class TreeDocStruct(gtk.ScrolledWindow):
         # Column
         cr = gtk.CellRendererText()
         cr.props.ellipsize = pango.ELLIPSIZE_END
-        cr.props.scale = 0.875
-        c = gtk.TreeViewColumn("Structure", cr, text=0)
+        cr.props.scale = pango.SCALE_SMALL
+        c = gtk.TreeViewColumn("Structure", cr, text=0, weight=1)
         c.set_expand(True)
         self.tv.append_column(c)
         return
@@ -68,15 +68,16 @@ class TreeDocStruct(gtk.ScrolledWindow):
         """Set tree rows from list."""
         self.tree = tree
         self.ts.clear()
-        self._populate_tree_rec(None, self.tree)
+        self._populate_tree_rec(None, self.tree, 0)
         self.expand_at_level()
         return
     
-    def _populate_tree_rec(self, parent, subtree):
+    def _populate_tree_rec(self, parent, subtree, level):
         """Populate tree recursively."""
+        weight = pango.WEIGHT_BOLD if level == 0 else pango.WEIGHT_NORMAL
         for i,l,v in subtree:
-            it = self.ts.append(parent, [i])
-            self._populate_tree_rec(it, v)
+            it = self.ts.append(parent, [i, weight])
+            self._populate_tree_rec(it, v, level+1)
         return
     
     def set_expand_level(self, level):
