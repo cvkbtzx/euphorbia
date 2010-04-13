@@ -208,18 +208,6 @@ class Document(tabwrapper.TabWrapper):
         for i,v in enumerate(["Hi!","Good morning","Hello"]):
             self.struct[0][2].append((v,i,[]))
         return
-    
-    def close(self, *data):
-        """Close document."""
-        if self.ev.buffer.get_modified():
-            pwin = self.notebook.app.gui.win
-            dwin = dialogs.MsgWin(pwin, 'question', 'yes_no', _("Save?"))
-            ret = dwin.run()
-            dwin.destroy()
-            if ret == gtk.RESPONSE_YES:
-                self.notebook.app.gui.act_save(tab=self)
-        tabwrapper.TabWrapper.close(self, *data)
-        return
 
 
 #------------------------------------------------------------------------------
@@ -283,7 +271,6 @@ if __name__ == "__main__":
     Document(nb)
     Document(nb,"Bye")
     for d in nb.tab_list:
-        d.close = tabwrapper.TabWrapper.close
         d.ev.view.set_show_line_marks(True)
         d.ev.view.set_show_line_numbers(True)
         d.ev.view.set_cursor_visible(True)

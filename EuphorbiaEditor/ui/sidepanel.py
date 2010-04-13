@@ -151,7 +151,7 @@ class EuphorbiaSidePanel(SidePanel):
             pal.set_item_activated_callback(self.insert_symbol, categ)
             name = self.get_local_name(tool)
             self.add_expander(categ, name, pal)
-        for s in ['change-tab', 'open', 'save', 'close']:
+        for s in ['changetab', 'open', 'save', 'close']:
             gui.connect(s, self.update_docstruct)
     
     def load_symbols_from_files(self):

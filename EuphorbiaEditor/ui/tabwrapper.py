@@ -37,11 +37,11 @@ widget "*-euphorbia-tab" style "euphorbia-tab-style"
 
 #------------------------------------------------------------------------------
 
-class TabWrapper:
+class TabWrapper(object):
     """Wrapper for notebook tabs."""
     
     def __init__(self, notebook, child):
-        # Tab name
+        # Tab title
         self.title = gtk.Label()
         self.title.set_alignment(0.0, 0.5)
         # Tab close button
@@ -50,7 +50,7 @@ class TabWrapper:
         b_close = gtk.Button()
         b_close.set_relief(gtk.RELIEF_NONE)
         b_close.set_focus_on_click(False)
-        b_close.connect('clicked', self.close)
+        b_close.connect('clicked', self.ev_close)
         b_close.set_name("b" + str(hash(str(b_close))) + "-euphorbia-tab")
         b_close.add(img)
         # Tab icon
@@ -68,6 +68,7 @@ class TabWrapper:
         notebook.tab_list.add(self)
         self.notebook = notebook
         # Display
+        self.close_action = None
         hb.show_all()
         self.content.show()
         notebook.set_current_page(notebook.page_num(self.content))
@@ -86,10 +87,19 @@ class TabWrapper:
         self.icon.set_from_stock(gtk.STOCK_FILE, gtk.ICON_SIZE_MENU)
         return
     
-    def close(self, *data):
+    def ev_close(self, *data):
+        """Close callback."""
+        if self.close_action is not None:
+            self.close_action(**{'tab':self})
+        else:
+            self.close()
+        return
+    
+    def close(self):
         """Close the tab."""
         self.notebook.tab_list.remove(self)
         self.notebook.remove_page(self.notebook.page_num(self.content))
+        self.content.destroy()
         return
 
 

@@ -44,11 +44,13 @@ class EuphorbiaGUI(actions.ActionsManager):
         self.print_setup = gtk.PageSetup()
         self.print_setup.set_paper_size_and_default_margins(dps)
         self.print_settings = gtk.PrintSettings()
-        self.connections = {'open':[], 'save':[], 'close':[], 'change-tab':[]}
+        self.connections = {
+            'open':[], 'save':[], 'close':[],
+            'changetab':[], 'quit':[]
+        }
         self.build_interface()
         self.nbd = self.builder.get_object('notebook_docs')
         self.nbd.connect('switch-page', self.ev_switch_page)
-        self.nbd.connect('page-removed', self.ev_remove_page)
         self.nbd.app = self.app
         self.nbd.tab_list = set()
         self.win.show()
@@ -140,12 +142,7 @@ class EuphorbiaGUI(actions.ActionsManager):
     def ev_switch_page(self, *data):
         """Callback switch document."""
         t = self.get_current_tab(data[2])
-        self.emit('change-tab', t)
-        return
-    
-    def ev_remove_page(self, *data):
-        """Callback remove document."""
-        self.emit('close')
+        self.emit('changetab', t)
         return
     
     def ev_hide_bottom(self, *data):
@@ -156,8 +153,8 @@ class EuphorbiaGUI(actions.ActionsManager):
     def ev_delete_event(self, *data):
         """Callback for 'delete_event' event."""
         print "'delete_event' event occurred"
-        q = not self.do_quit()
-        return q
+        self.act_quit()
+        return True
     
     def ev_destroy(self, *data):
         """Callback for 'destroy' event."""

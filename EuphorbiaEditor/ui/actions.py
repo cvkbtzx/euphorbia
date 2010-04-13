@@ -152,18 +152,25 @@ class ActionsManager:
             print "File printed"
         return
     
-    def act_close(self, *data):
+    def act_close(self, *data, **args):
         """Callback for 'Close' action."""
-        tab = self.get_current_tab()
-        if hasattr(tab, 'close'):
+        tab = args['tab'] if 'tab' in args else self.get_current_tab()
+        asksave = self.do_ask_save([tab])
+        if asksave is not None:
+            if tab in asksave:
+                self.act_save(**{'tab':tab})
             tab.close()
+            self.emit('close')
         return
     
     def act_quit(self, *data):
         """Callback for 'Quit' action."""
-        q = self.do_quit()
-        if q:
-            self.ev_destroy()
+        tabs = list(self.nbd.tab_list)
+        asksave = self.do_ask_save(tabs)
+        if asksave is not None:
+            for t in asksave:
+                self.act_save(**{'tab':t})
+            self.do_quit()
         return
     
     def act_undo(self, *data):
@@ -261,10 +268,35 @@ class ActionsManager:
         func()
         return
     
+    def do_ask_save(self, tabs):
+        """Ask if save tab before closing."""
+        tabask = []
+        for t in tabs:
+            if hasattr(t, 'saveinfos'):
+                i = t.saveinfos()
+                if i[2]:
+                    n = i[0] if i[0] is not None else i[1].path
+                    tabask.append((t, n))
+        if len(tabask) > 0:
+            dwin = dialogs.SaveBeforeCloseWin(self.app, tabask)
+            resp = dwin.run()
+            tsave = dwin.get_tabs_to_save()
+            dwin.destroy()
+            if resp == gtk.RESPONSE_OK:
+                ret = tsave
+            elif resp == gtk.RESPONSE_REJECT:
+                ret = []
+            else:
+                ret = None
+        else:
+            ret = []
+        return ret
+    
     def do_open(self, filename, enc=None, hl=None):
         """Open file in new tab."""
         nb = self.app.gui.get_widgets_by_name('notebook_docs').pop()
         d = document.Document(nb, hlight=hl)
+        d.close_action = self.act_close
         self.app.prefm.autoconnect_gtk(d.ev)
         if filename is not None:
             f = iofiles.FileManager(filename, enc)
@@ -275,8 +307,10 @@ class ActionsManager:
     
     def do_quit(self):
         """Ensure that the application quits correctly."""
+        self.emit('quit')
         self.app.plugm.stop_all_plugins()
-        return True
+        self.ev_destroy()
+        return
 
 
 #------------------------------------------------------------------------------

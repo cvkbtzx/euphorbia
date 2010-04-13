@@ -319,6 +319,83 @@ class SaveWin(gtk.FileChooserDialog):
 
 #------------------------------------------------------------------------------
 
+class SaveBeforeCloseWin(gtk.Dialog):
+    """Dialog that propose to save before quitting."""
+    
+    def __init__(self, app, tabnames):
+        # Dialog initialization
+        flags = gtk.DIALOG_MODAL | gtk.DIALOG_DESTROY_WITH_PARENT
+        buttons = (
+            _("Ignore all"), gtk.RESPONSE_REJECT,
+            gtk.STOCK_CANCEL, gtk.RESPONSE_CANCEL,
+            gtk.STOCK_SAVE, gtk.RESPONSE_OK,
+        )
+        gtk.Dialog.__init__(self, _("SaveBeforeQuit"), app.gui.win, flags, buttons)
+        self.set_default_size(400, 250)
+        self.set_border_width(9)
+        self.set_position(gtk.WIN_POS_CENTER_ON_PARENT)
+        self.set_has_separator(False)
+        # Treeview
+        self.tabnames = sorted(tabnames, key=lambda x: x[1])
+        self.build_treeview()
+        sv = gtk.ScrolledWindow()
+        sv.set_policy(gtk.POLICY_NEVER, gtk.POLICY_ALWAYS)
+        sv.set_shadow_type(gtk.SHADOW_IN)
+        sv.add(self.tv)
+        self.vbox.pack_start(sv, True, True)
+        # Message
+        lab = gtk.Label(_("Save?"))
+        lab.set_alignment(0, 0.5)
+        lab.set_padding(0, 9)
+        self.vbox.pack_start(lab, False, True)
+        # Display
+        self.vbox.show_all()
+    
+    def build_treeview(self):
+        """Build treeview containing filenames."""
+        # Model
+        self.numtabs = {}
+        self.tm = gtk.ListStore(int, bool, str)
+        for n,t in enumerate(self.tabnames):
+            self.numtabs[n] = t[0]
+            self.tm.append([n, True, t[1]])
+        # View
+        self.tv = gtk.TreeView()
+        self.tv.set_model(self.tm)
+        self.tv.set_headers_visible(False)
+        self.tv.get_selection().set_mode(gtk.SELECTION_NONE)
+        # Column 1
+        cr = gtk.CellRendererToggle()
+        cr.props.xpad = 9
+        cr.connect('toggled', self.ev_toggled)
+        c = gtk.TreeViewColumn("Save", cr, active=1)
+        c.set_expand(False)
+        self.tv.append_column(c)
+        # Column 2
+        cr = gtk.CellRendererText()
+        cr.props.ellipsize = pango.ELLIPSIZE_END
+        c = gtk.TreeViewColumn("File", cr, text=2)
+        c.set_expand(True)
+        self.tv.append_column(c)
+        return
+    
+    def ev_toggled(self, cr, path):
+        """Handle click on toggle button."""
+        iter = self.tm.get_iter(path)
+        v = self.tm.get_value(iter, 1)
+        self.tm.set_value(iter, 1, not v)
+        return
+    
+    def get_tabs_to_save(self):
+        """Get list of tabs to save."""
+        lst, n, gv = [], self.numtabs, self.tm.get_value
+        f = lambda m,p,i: lst.append(n[gv(i,0)]) if gv(i,1) else None
+        self.tm.foreach(f)
+        return lst
+
+
+#------------------------------------------------------------------------------
+
 class MsgWin(gtk.MessageDialog):
     """Message dialog."""
     
