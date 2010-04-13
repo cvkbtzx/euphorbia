@@ -58,13 +58,16 @@ class FileManager:
                 self.infos[a] = func()
             else:
                 arg = tuple(i for i in attrs if i.split("::")[-1] == a)
-                val = qi.get_attribute_as_string(*arg)
-                if val == 'TRUE':
-                    self.infos[a] = True
-                elif val == 'FALSE':
-                    self.infos[a] = False
+                if not arg:
+                    self.infos[a] = None
                 else:
-                    self.infos[a] = val
+                    val = qi.get_attribute_as_string(*arg)
+                    if val == 'TRUE':
+                        self.infos[a] = True
+                    elif val == 'FALSE':
+                        self.infos[a] = False
+                    else:
+                        self.infos[a] = val
         if self.infos['content-type'] is not None:
             self.mime = self.infos['content-type']
         elif self.infos['fast-content-type'] is not None:
