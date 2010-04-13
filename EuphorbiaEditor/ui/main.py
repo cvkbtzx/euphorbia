@@ -134,6 +134,7 @@ class EuphorbiaGUI(actions.ActionsManager):
      
     def emit(self, signal, *params):
         """Emit the specified Euphorbia signal."""
+        print signal
         for cb in self.connections[signal]:
             func = cb[0]
             func(*(params+cb[1]))

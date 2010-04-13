@@ -349,6 +349,7 @@ class SaveBeforeCloseWin(gtk.Dialog):
         lab.set_padding(0, 9)
         self.vbox.pack_start(lab, False, True)
         # Display
+        self.set_default_response(gtk.RESPONSE_OK)
         self.vbox.show_all()
     
     def build_treeview(self):
@@ -364,6 +365,7 @@ class SaveBeforeCloseWin(gtk.Dialog):
         self.tv.set_model(self.tm)
         self.tv.set_headers_visible(False)
         self.tv.get_selection().set_mode(gtk.SELECTION_NONE)
+        self.tv.props.can_focus = False
         # Column 1
         cr = gtk.CellRendererToggle()
         cr.props.xpad = 9

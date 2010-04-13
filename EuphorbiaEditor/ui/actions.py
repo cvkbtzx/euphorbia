@@ -275,22 +275,20 @@ class ActionsManager:
             if hasattr(t, 'saveinfos'):
                 i = t.saveinfos()
                 if i[2]:
-                    n = i[0] if i[0] is not None else i[1].path
+                    n = i[0] if i[0] is not None else i[1].fullname()
                     tabask.append((t, n))
         if len(tabask) > 0:
             dwin = dialogs.SaveBeforeCloseWin(self.app, tabask)
             resp = dwin.run()
-            tsave = dwin.get_tabs_to_save()
+            tosave = dwin.get_tabs_to_save()
             dwin.destroy()
-            if resp == gtk.RESPONSE_OK:
-                ret = tsave
-            elif resp == gtk.RESPONSE_REJECT:
-                ret = []
-            else:
-                ret = None
+            if resp == gtk.RESPONSE_REJECT:
+                tosave = []
+            elif resp != gtk.RESPONSE_OK:
+                tosave = None
         else:
-            ret = []
-        return ret
+            tosave = []
+        return tosave
     
     def do_open(self, filename, enc=None, hl=None):
         """Open file in new tab."""

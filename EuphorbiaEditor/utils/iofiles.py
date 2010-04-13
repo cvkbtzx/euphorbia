@@ -78,7 +78,18 @@ class FileManager:
     
     def get_name(self):
         """Get name as UTF-8 string."""
-        return self.infos['display-name']
+        i = self.infos
+        return i['display-name'] if i['display-name'] else i['name']
+    
+    def fullname(self):
+        """Get file full name."""
+        if self.path:
+            ret = self.path
+        elif self.uri:
+            ret = self.uri
+        else:
+            ret = self.get_name()
+        return ret
     
     def read(self):
         """Read data from file."""
