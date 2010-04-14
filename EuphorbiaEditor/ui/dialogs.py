@@ -220,12 +220,14 @@ class PrefsWinPlugins(gtk.VBox):
     def build_treeview(self):
         """Build the treeview containing the plugins list."""
         # Model
-        self.tm = gtk.ListStore(str, bool, str)
+        self.tm = gtk.ListStore(str, bool, str, pango.AttrList)
         for p in self.app.plugm.list_available_plugins():
             a = self.app.plugm.is_loaded(p)
             n = self.app.plugm.get_plugin_info(p, 'Name', True)
             d = self.app.plugm.get_plugin_info(p, 'Description', True)
-            self.tm.append([p, a, "<b>"+n+"</b>"+'\n'+d])
+            l = pango.AttrList()
+            l.insert(pango.AttrWeight(pango.WEIGHT_BOLD, 0, len(n)))
+            self.tm.append([p, a, n+'\n'+d, l])
         # View
         self.tv = gtk.TreeView()
         self.tv.set_model(self.tm)
@@ -241,7 +243,7 @@ class PrefsWinPlugins(gtk.VBox):
         # Column 2
         cr = gtk.CellRendererText()
         cr.props.ellipsize = pango.ELLIPSIZE_END
-        c = gtk.TreeViewColumn("Plugin", cr, markup=2)
+        c = gtk.TreeViewColumn("Plugin", cr, text=2, attributes=3)
         c.set_expand(True)
         self.tv.append_column(c)
         self.tm.set_sort_column_id(2, gtk.SORT_ASCENDING)

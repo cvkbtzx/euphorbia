@@ -90,7 +90,6 @@ class Expander(gtk.VBox):
         hbox = gtk.HBox()
         self.arrow = gtk.Arrow(gtk.ARROW_RIGHT, gtk.SHADOW_IN)
         text = gtk.Label(label)
-        text.set_use_markup(True)
         text.set_alignment(0, 0.5)
         hbox.pack_start(self.arrow, expand=False, fill=True)
         hbox.pack_start(text, expand=True, fill=True)
