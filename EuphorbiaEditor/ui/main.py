@@ -40,10 +40,7 @@ class EuphorbiaGUI(actions.ActionsManager):
     def __init__(self, app):
         actions.ActionsManager.__init__(self, app)
         self.clipb = gtk.clipboard_get()
-        dps = gtk.PaperSize(gtk.paper_size_get_default())
-        self.print_setup = gtk.PageSetup()
-        self.print_setup.set_paper_size_and_default_margins(dps)
-        self.print_settings = gtk.PrintSettings()
+        self.setup_printers()
         self.connections = {
             'open':[], 'save':[], 'close':[],
             'changetab':[], 'quit':[]
@@ -91,6 +88,8 @@ class EuphorbiaGUI(actions.ActionsManager):
         self.builder.get_object('vbox_main').reorder_child(menu, 0)
         toolbar = self.uim.get_widget("/toolbar_main")
         self.builder.get_object('handlebox_main').add(toolbar)
+        # Statusbar
+        self.status = self.builder.get_object('statusbar')
         # Searchbar
         sb = searchbar.SearchBar(self.app, accg)
         self.builder.get_object('vbox_docs').pack_start(sb, False, True)
@@ -106,6 +105,14 @@ class EuphorbiaGUI(actions.ActionsManager):
         for w in self.builder.get_objects():
             if hasattr(w, 'set_name'):
                 w.set_name(gtk.Buildable.get_name(w))
+        return
+    
+    def setup_printers(self):
+        """Setup print properties."""
+        dps = gtk.PaperSize(gtk.paper_size_get_default())
+        self.print_setup = gtk.PageSetup()
+        self.print_setup.set_paper_size_and_default_margins(dps)
+        self.print_settings = gtk.PrintSettings()
         return
     
     def get_widgets_by_name(self, wname, parent=None):
@@ -134,10 +141,16 @@ class EuphorbiaGUI(actions.ActionsManager):
      
     def emit(self, signal, *params):
         """Emit the specified Euphorbia signal."""
-        print signal
+        self.push_status(_("signal_"+signal))
         for cb in self.connections[signal]:
             func = cb[0]
             func(*(params+cb[1]))
+        return
+    
+    def push_status(self, txt, id='standard'):
+        """Update statusbar message."""
+        cid = self.status.get_context_id(id)
+        self.status.push(cid, txt)
         return
     
     def ev_switch_page(self, *data):
@@ -154,13 +167,11 @@ class EuphorbiaGUI(actions.ActionsManager):
     
     def ev_delete_event(self, *data):
         """Callback for 'delete_event' event."""
-        print "'delete_event' event occurred"
         self.act_quit()
         return True
     
     def ev_destroy(self, *data):
         """Callback for 'destroy' event."""
-        print "'destroy' event occurred"
         gtk.main_quit()
     
     def main(self):

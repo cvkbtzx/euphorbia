@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Euphorbia 0.0.X\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-04-14 13:55+0200\n"
+"POT-Creation-Date: 2010-04-14 22:40+0200\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Bzoloid <bzoloid@gmail.com>\n"
 "Language-Team: \n"
@@ -44,6 +44,9 @@ msgstr "LaTeX"
 
 msgid "Plugins"
 msgstr "Plugins"
+
+msgid "opt_"
+msgstr "opt_"
 
 msgid "opt_window"
 msgstr "Main window"
@@ -153,8 +156,23 @@ msgstr "User config directory"
 msgid "system_datadir"
 msgstr "Data directory"
 
-msgid "opt_"
-msgstr "opt_"
+msgid "signal_"
+msgstr "signal_"
+
+msgid "signal_open"
+msgstr "File opened"
+
+msgid "signal_save"
+msgstr "File saved"
+
+msgid "signal_close"
+msgstr "File closed"
+
+msgid "signal_changetab"
+msgstr " "
+
+msgid "signal_quit"
+msgstr "Quit"
 
 msgid "Open..."
 msgstr "Open..."
@@ -206,4 +224,8 @@ msgstr "Ignore all"
 #, python-format
 msgid "Plugin '%s' loading error"
 msgstr "Plugin '%s' loading error"
+
+#, python-format
+msgid "Print: %s"
+msgstr "Print: %s"
 

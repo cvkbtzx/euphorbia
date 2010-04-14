@@ -142,12 +142,13 @@ class ActionsManager:
         printop.set_print_settings(self.print_settings)
         printop.set_default_page_setup(self.print_setup)
         tab.connect_print_compositor(printop)
+        pst = lambda x: self.push_status(_("Print: %s") % (x), 'print')
+        printop.connect('status-changed', lambda p: pst(p.get_status_string()))
         res = printop.run(gtk.PRINT_OPERATION_ACTION_PRINT_DIALOG, pwin)
         if res == gtk.PRINT_OPERATION_RESULT_ERROR:
             self.do_send_message('error', 'close', _("PrintError"))
         elif res == gtk.PRINT_OPERATION_RESULT_APPLY:
             self.print_settings = printop.get_print_settings()
-            print "File printed"
         return
     
     def act_close(self, *data, **args):

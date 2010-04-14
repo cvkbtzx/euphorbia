@@ -54,6 +54,13 @@ DEFAULT_PREFS = [
     ["files_trash", None, 'bool', True, None],
     ["files_backup", None, 'bool', False, None],
     ["search_loop", None, 'bool', False, None],
+    ["print_unit", None, {"pixel":0,"points":1,"inch":2,"mm":3}, 3, None],
+    ["print_header", None, 'bool', False, None],
+    ["print_header_separator", None, 'bool', True, None],
+    ["print_header_text", None, 'text', "", None],
+    ["print_footer", None, 'bool', False, None],
+    ["print_footer_separator", None, 'bool', True, None],
+    ["print_footer_text", None, 'text', "", None],
     ["system_homedir", None, None, '', None],
     ["system_datadir", None, None, '', None],
 ]

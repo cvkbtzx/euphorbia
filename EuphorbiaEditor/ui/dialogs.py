@@ -75,6 +75,8 @@ class PrefsWinGeneral(gtk.ScrolledWindow):
                 else:
                     categs[cg] = [(code,w)]
         for cg in sorted(categs.keys(), reverse=True):
+            if cg == 'print':   ### temporary ###
+                continue
             f = gtk.Frame("")
             f.props.label_widget.set_alignment(0, 0.5)
             f.props.label_widget.set_padding(3, 0)
@@ -146,7 +148,7 @@ class PrefsWinGeneral(gtk.ScrolledWindow):
     def build_textentry(self, code, lv, cv):
         """Build a textentry."""
         w = gtk.Entry()
-        w.set_text()
+        w.set_text(cv)
         w.connect('changed', self.ev_textentry, code)
         return w
      
