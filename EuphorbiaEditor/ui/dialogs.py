@@ -344,7 +344,7 @@ class SaveBeforeCloseWin(gtk.Dialog):
             gtk.STOCK_CANCEL, gtk.RESPONSE_CANCEL,
             gtk.STOCK_SAVE, gtk.RESPONSE_OK,
         )
-        gtk.Dialog.__init__(self, "", app.gui.win, flags, buttons)
+        gtk.Dialog.__init__(self, _("Save..."), app.gui.win, flags, buttons)
         self.set_default_size(400, 250)
         self.set_position(gtk.WIN_POS_CENTER_ON_PARENT)
         self.set_has_separator(True)

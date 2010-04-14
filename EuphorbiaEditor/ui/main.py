@@ -143,7 +143,8 @@ class EuphorbiaGUI(actions.ActionsManager):
     def ev_switch_page(self, *data):
         """Callback switch document."""
         t = self.get_current_tab(data[2])
-        self.emit('changetab', t)
+        if t is not None:
+            self.emit('changetab', t)
         return
     
     def ev_hide_bottom(self, *data):
