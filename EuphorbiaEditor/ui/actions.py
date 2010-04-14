@@ -144,9 +144,7 @@ class ActionsManager:
         tab.connect_print_compositor(printop)
         res = printop.run(gtk.PRINT_OPERATION_ACTION_PRINT_DIALOG, pwin)
         if res == gtk.PRINT_OPERATION_RESULT_ERROR:
-            dwin = dialogs.MsgWin(pwin, 'error', 'close', _("PrintError"))
-            dwin.run()
-            dwin.destroy()
+            self.do_send_message('error', 'close', _("PrintError"))
         elif res == gtk.PRINT_OPERATION_RESULT_APPLY:
             self.print_settings = printop.get_print_settings()
             print "File printed"
@@ -267,6 +265,13 @@ class ActionsManager:
         func = w.show if visible else w.hide
         func()
         return
+    
+    def do_send_message(self, t, b, txt):
+        """Display a message in a dialog window."""
+        dwin = dialogs.MsgWin(self.app.gui.win, t, b, txt)
+        ret = dwin.run()
+        dwin.destroy()
+        return ret
     
     def do_ask_save(self, tabs):
         """Ask if save tab before closing."""

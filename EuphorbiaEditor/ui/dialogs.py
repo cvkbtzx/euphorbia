@@ -252,7 +252,10 @@ class PrefsWinPlugins(gtk.VBox):
         if self.tm.get_value(iter, 1):
             self.app.plugm.unload_plugin(p)
         else:
-            self.app.plugm.load_plugin(p)
+            ret = self.app.plugm.load_plugin(p)
+            if not ret:
+                msg = _("Plugin '%s' loading error") % (p)
+                self.app.gui.do_send_message('error', 'close', msg)
         v = self.app.plugm.is_loaded(p)
         self.tm.set_value(iter, 1, v)
         return
@@ -424,6 +427,7 @@ class MsgWin(gtk.MessageDialog):
         b = getattr(gtk, "BUTTONS_"+buttons.upper())
         t = getattr(gtk, "MESSAGE_"+mtype.upper())
         gtk.MessageDialog.__init__(self, parent, flags, t, b, txt)
+        self.set_title(_("Euphorbia"))
         self.set_position(gtk.WIN_POS_CENTER_ON_PARENT)
 
 

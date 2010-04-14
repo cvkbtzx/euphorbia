@@ -35,8 +35,8 @@ sys.modules['euphorbia'] = sys.modules['EuphorbiaEditor.exts.euphorbia']
 class PluginsManager:
     """Class to manage plugins."""
     
-    def __init__(self, mainapp):
-        self.app = mainapp
+    def __init__(self, app):
+        self.app = app
         setattr(euphorbia, 'app', self.app)
         self.find_plugins_paths()
         self.plugins = {}
@@ -62,8 +62,7 @@ class PluginsManager:
             pluginstance = plugclass()
             pluginstance.activate()
         except StandardError:
-            print ""
-            print "ERROR in plugin '%s':" % (plugin)
+            print "\nError in plugin '%s':" % (plugin)
             sys.excepthook(*sys.exc_info())
             print ""
         else:
@@ -82,8 +81,7 @@ class PluginsManager:
             del self.instances[plugin]
             del pluginstance
         except StandardError:
-            print ""
-            print "ERROR in plugin '%s':" % (plugin)
+            print "\nError in plugin '%s':" % (plugin)
             sys.excepthook(*sys.exc_info())
             print ""
         else:
