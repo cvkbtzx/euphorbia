@@ -155,7 +155,7 @@ class PluginsManager:
     def find_plugins_paths(self):
         """Setup plugins paths."""
         self.paths = []
-        for d in ["datadir", "homedir"]:
+        for d in ["maindir", "datadir"]:
             p = self.app.prefm.get_pref("system_"+d)
             dir = os.path.join(p, "plugins")
             if os.path.isdir(dir):

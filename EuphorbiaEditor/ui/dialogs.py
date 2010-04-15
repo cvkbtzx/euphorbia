@@ -399,7 +399,7 @@ class SaveBeforeCloseWin(gtk.Dialog):
         self.tv.append_column(c)
         # Column 2
         cr = gtk.CellRendererText()
-        cr.props.ellipsize = pango.ELLIPSIZE_END
+        cr.props.ellipsize = pango.ELLIPSIZE_MIDDLE
         c = gtk.TreeViewColumn("File", cr, text=2)
         c.set_expand(True)
         self.tv.append_column(c)

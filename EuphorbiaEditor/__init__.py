@@ -27,8 +27,8 @@ __authors__  = ['Bzoloid <bzoloid@gmail.com>']
 __license__ = 'GNU GPL v2'
 
 import sys
-import os
 import os.path
+import glib
 import gettext
 
 import ui
@@ -52,13 +52,15 @@ class Euphorbia:
         args = sys.argv[1:]
         root = os.path.dirname(__path__[0]) if "--test" in args else sys.prefix
         # Preferences and localization
-        datadir = os.path.join(root, 'share', 'euphorbia')
-        homedir = os.path.join(os.getenv('HOME'), '.config', 'euphorbia')
-        locales = os.path.join(root, 'share', 'locale')
+        maindir = os.path.join(root, 'share', 'euphorbia')
+        datadir = os.path.join(glib.get_user_data_dir(), 'euphorbia')
+        confdir = os.path.join(glib.get_user_config_dir(), 'euphorbia')
+        locales = os.path.join(root, 'share', 'locale') if "--test" else None
         gettext.install('euphorbia', locales)
         self.prefm = prefs.PrefsManager()
+        self.prefm.set_pref('system_maindir', maindir)
         self.prefm.set_pref('system_datadir', datadir)
-        self.prefm.set_pref('system_homedir', homedir)
+        self.prefm.set_pref('system_confdir', confdir)
         # Load application
         self.plugm = exts.PluginsManager(self)
         self.gui = ui.EuphorbiaGUI(self)

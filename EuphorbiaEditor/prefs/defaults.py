@@ -61,8 +61,9 @@ DEFAULT_PREFS = [
     ["print_footer", None, 'bool', False, None],
     ["print_footer_separator", None, 'bool', True, None],
     ["print_footer_text", None, 'text', "", None],
-    ["system_homedir", None, None, '', None],
     ["system_datadir", None, None, '', None],
+    ["system_confdir", None, None, '', None],
+    ["system_maindir", None, None, '', None],
 ]
 
 

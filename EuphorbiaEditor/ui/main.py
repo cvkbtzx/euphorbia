@@ -21,9 +21,8 @@
 """GUI constructor."""
 
 import os.path
-import pygtk
-pygtk.require('2.0')
 import gtk
+import pango
 import gtksourceview2 as gtksv
 
 import actions
@@ -54,17 +53,17 @@ class EuphorbiaGUI(actions.ActionsManager):
     
     def build_interface(self):
         """Build the graphical interface."""
-        datadir = self.app.prefm.get_pref('system_datadir')
+        maindir = self.app.prefm.get_pref('system_maindir')
         # Widgets loading
         self.builder = gtk.Builder()
         self.builder.set_translation_domain(None)
-        self.builder.add_from_file(os.path.join(datadir, "main.glade"))
+        self.builder.add_from_file(os.path.join(maindir, "main.glade"))
         self.set_builder_names()
         self.builder.connect_signals(self)
         # Main window
         self.win = self.builder.get_object('window')
         self.win.set_transient_for(None)
-        img, sizes = os.path.join(datadir,"euphorbia.svg"), [16,24,32,48,64]
+        img, sizes = os.path.join(maindir,"euphorbia.svg"), [16,24,32,48,64]
         icons = (gtk.gdk.pixbuf_new_from_file_at_size(img,s,s) for s in sizes)
         self.win.set_icon_list(*icons)
         # Side panel
@@ -82,7 +81,7 @@ class EuphorbiaGUI(actions.ActionsManager):
         # Actions (actions.ActionsManager.actgrp)
         self.uim.insert_action_group(self.actgrp, 0)
         # Interface
-        self.uim.add_ui_from_file(os.path.join(datadir, "main-ui.xml"))
+        self.uim.add_ui_from_file(os.path.join(maindir, "main-ui.xml"))
         menu = self.uim.get_widget("/menu_main")
         self.builder.get_object('vbox_main').pack_start(menu, False, True)
         self.builder.get_object('vbox_main').reorder_child(menu, 0)
@@ -90,6 +89,9 @@ class EuphorbiaGUI(actions.ActionsManager):
         self.builder.get_object('handlebox_main').add(toolbar)
         # Statusbar
         self.status = self.builder.get_object('statusbar')
+        a = pango.AttrList()
+        a.insert(pango.AttrScale(pango.SCALE_SMALL, 0, -1))
+        self.status.get_children()[0].get_child().set_attributes(a)
         # Searchbar
         sb = searchbar.SearchBar(self.app, accg)
         self.builder.get_object('vbox_docs').pack_start(sb, False, True)

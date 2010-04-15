@@ -157,7 +157,7 @@ class EuphorbiaSidePanel(SidePanel):
     def load_symbols_from_files(self):
         """Get a list of the categories and their symbols."""
         symlist = {}
-        for d in ["datadir", "homedir"]:
+        for d in ["maindir", "datadir"]:
             p = self.app.prefm.get_pref("system_"+d)
             dir = os.path.join(p, "symbols")
             if os.path.isdir(dir):
