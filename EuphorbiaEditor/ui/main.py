@@ -115,6 +115,7 @@ class EuphorbiaGUI(actions.ActionsManager):
         self.print_setup = gtk.PageSetup()
         self.print_setup.set_paper_size_and_default_margins(dps)
         self.print_settings = gtk.PrintSettings()
+        self.do_check_page_margins()
         return
     
     def get_widgets_by_name(self, wname, parent=None):

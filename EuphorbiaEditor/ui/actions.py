@@ -130,6 +130,7 @@ class ActionsManager:
         pwin = self.app.gui.win
         f = gtk.print_run_page_setup_dialog
         self.print_setup = f(pwin, self.print_setup, self.print_settings)
+        self.do_check_page_margins()
         return
     
     def act_print(self, *data):
@@ -139,9 +140,9 @@ class ActionsManager:
         if not hasattr(tab, 'connect_print_compositor'):
             return
         printop = gtk.PrintOperation()
-        printop.set_print_settings(self.print_settings)
         printop.set_default_page_setup(self.print_setup)
-        tab.connect_print_compositor(printop)
+        printop.set_print_settings(self.print_settings)
+        tab.connect_print_compositor(printop, self.app.prefm)
         pst = lambda x: self.push_status(_("Print: %s") % (x), 'print')
         printop.connect('status-changed', lambda p: pst(p.get_status_string()))
         res = printop.run(gtk.PRINT_OPERATION_ACTION_PRINT_DIALOG, pwin)
@@ -307,6 +308,16 @@ class ActionsManager:
             f.update_infos()
             d.open_file(f, enc, hl)
         self.emit('open', d)
+        return
+    
+    def do_check_page_margins(self):
+        """Check if page margins are not smaller than default ones."""
+        ps = self.print_setup.get_paper_size()
+        for i,m in enumerate(['top','left','right','bottom']):
+            pref = 'print_margin_%i%s' % (i+1, m)
+            mv = getattr(ps, 'get_default_%s_margin' % (m))(gtk.UNIT_POINTS)
+            if self.app.prefm.get_pref(pref) < mv:
+                self.app.prefm.set_pref(pref, mv)
         return
     
     def do_quit(self):

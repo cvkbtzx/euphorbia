@@ -104,12 +104,29 @@ class Document(tabwrapper.TabWrapper):
         m = self.ev.buffer.get_modified()
         return (f,None,m) if type(f) is str else (None,f,m)
     
-    def connect_print_compositor(self, printop, **opts):
+    def connect_print_compositor(self, printop, prefm):
         """Connect document print compositor to PrintOperation."""
         compoz = gtksv.print_compositor_new_from_view(self.ev.view)
-        for k,v in opts:
-            func = getattr(compoz, k)
-            func(*v)
+        # Compositor options from PrefsManager
+        for m in ['1header','2footer']:
+            s = prefm.get_pref('print_%s_separator' % (m))
+            txt = prefm.get_pref('print_%s_text' % (m)).split('|')
+            txt = [t.strip() for t in txt]
+            if len(txt) == 3:
+                fmt = tuple(self.get_fname() if t=="%f" else t for t in txt)
+            else:
+                fmt = ("", "", "")
+            f = prefm.get_pref('print_%s_font' % (m))
+            d = prefm.get_pref('print_%s' % (m))
+            getattr(compoz, 'set_%s_format' % (m[1:]))(*((s,)+fmt))
+            getattr(compoz, 'set_%s_font_name' % (m[1:]))(f)
+            getattr(compoz, 'set_print_%s' % (m[1:]))(d)
+        for i,m in enumerate(['top','left','right','bottom']):
+            p, u = 'print_margin_%i%s' % (i+1, m), gtk.UNIT_POINTS
+            getattr(compoz, 'set_%s_margin' % (m))(prefm.get_pref(p), u)
+        compoz.set_line_numbers_font_name(prefm.get_pref('print_linesfont'))
+        compoz.set_print_line_numbers(prefm.get_pref('print_linesinterval'))
+        # ProntOperation events
         dp_cb = lambda op,ct,pn,cp: cp.draw_page(ct, pn)
         printop.connect('begin-print', self.ev_begin_print, compoz)
         printop.connect('draw-page', dp_cb, compoz)

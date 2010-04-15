@@ -75,8 +75,6 @@ class PrefsWinGeneral(gtk.ScrolledWindow):
                 else:
                     categs[cg] = [(code,w)]
         for cg in sorted(categs.keys(), reverse=True):
-            if cg == 'print':   ### temporary ###
-                continue
             f = gtk.Frame("")
             f.props.label_widget.set_alignment(0, 0.5)
             f.props.label_widget.set_padding(3, 0)
@@ -179,7 +177,7 @@ class PrefsWinGeneral(gtk.ScrolledWindow):
         w = gtk.FontButton()
         w.set_show_style(True)
         w.set_show_size(True)
-        w.set_use_font(True)
+        w.set_use_font(False)
         w.set_use_size(False)
         if cv is not None:
             w.set_font_name(cv)
