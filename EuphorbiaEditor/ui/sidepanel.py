@@ -206,6 +206,8 @@ class EuphorbiaSidePanel(SidePanel):
             self.docstruct.set_data(tab.struct)
         elif len(self.app.gui.nbd.tab_list) == 0:
             self.docstruct.set_data([])
+        elif tab is not None:
+            self.docstruct.set_data([])
         return
     
     def ev_struct_activate(self, row):

@@ -79,8 +79,10 @@ class Document(tabwrapper.TabWrapper):
         self.ev.buffer.place_cursor(self.ev.buffer.get_start_iter())
         self.ev.buffer.end_not_undoable_action()
         self.ev.buffer.set_modified(False)
+        if txt is None:
+            self.datafile['file'] = f.get_name()
         self.gen_doc_struct()
-        return
+        return False if txt is None else True
     
     def save(self, f, backup=False):
         """Save the text data in a file."""

@@ -92,7 +92,7 @@ class FileManager:
         return ret
     
     def read(self):
-        """Read data from file."""
+        """Read text data from file."""
         if self.infos['can-read'] is False:
             return None
         code = None if self.encoding is None else self.encoding.lower()
@@ -100,12 +100,14 @@ class FileManager:
             data, length, etag = self.gfile.load_contents()
             if code not in [None, 'utf-8', 'utf8']:
                 data = data.decode(code).encode('utf-8')
+            else:
+                data.decode('utf-8')   # raise error if not utf-8
         except StandardError:
             data = None
         return data
     
     def write(self, data, backup=False):
-        """Write data in file."""
+        """Write text data in file."""
         if self.infos['can-write'] is False:
             return False
         code = None if self.encoding is None else self.encoding.lower()

@@ -155,6 +155,8 @@ class ActionsManager:
     def act_close(self, *data, **args):
         """Callback for 'Close' action."""
         tab = args['tab'] if 'tab' in args else self.get_current_tab()
+        if tab is None:
+            return
         asksave = self.do_ask_save([tab])
         if asksave is not None:
             if tab in asksave:
@@ -299,14 +301,14 @@ class ActionsManager:
     
     def do_open(self, filename, enc=None, hl=None):
         """Open file in new tab."""
-        nb = self.app.gui.get_widgets_by_name('notebook_docs').pop()
-        d = document.Document(nb, hlight=hl)
+        d = document.Document(self.nbd, hlight=hl)
         d.close_action = self.act_close
         self.app.prefm.autoconnect_gtk(d.ev)
         if filename is not None:
             f = iofiles.FileManager(filename, enc)
             f.update_infos()
-            d.open_file(f, enc, hl)
+            if not d.open_file(f, enc, hl):
+                self.do_send_message('error', 'close', _("OpenFileError"))
         self.emit('open', d)
         return
     

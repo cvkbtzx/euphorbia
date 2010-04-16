@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Euphorbia 0.0.X\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-04-14 22:40+0200\n"
+"POT-Creation-Date: 2010-04-16 19:30+0200\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Bzoloid <bzoloid@gmail.com>\n"
 "Language-Team: \n"
@@ -228,4 +228,9 @@ msgstr "Erreur de chargement du plugin '%s'"
 #, python-format
 msgid "Print: %s"
 msgstr "Impression : %s"
+
+msgid "OpenFileError"
+msgstr ""
+"Erreur !\n"
+"Le fichier n'a pas pu être lu correctement."
 

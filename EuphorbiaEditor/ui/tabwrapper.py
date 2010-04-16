@@ -78,6 +78,10 @@ class TabWrapper(object):
         self.title.set_text(txt)
         return
     
+    def get_title(self):
+        """Get tab title."""
+        return self.title.get_text()
+    
     def set_icon(self, *names):
         """Set icon from its name(s)."""
         for n in names:
