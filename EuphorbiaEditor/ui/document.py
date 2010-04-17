@@ -126,8 +126,8 @@ class Document(tabwrapper.TabWrapper):
         for i,m in enumerate(['top','left','right','bottom']):
             p, u = 'print_margin_%i%s' % (i+1, m), gtk.UNIT_POINTS
             getattr(compoz, 'set_%s_margin' % (m))(prefm.get_pref(p), u)
-        compoz.set_line_numbers_font_name(prefm.get_pref('print_linesfont'))
-        compoz.set_print_line_numbers(prefm.get_pref('print_linesinterval'))
+        compoz.set_line_numbers_font_name(prefm.get_pref('print_nlinesfont'))
+        compoz.set_print_line_numbers(prefm.get_pref('print_nlinesinterval'))
         # ProntOperation events
         dp_cb = lambda op,ct,pn,cp: cp.draw_page(ct, pn)
         printop.connect('begin-print', self.ev_begin_print, compoz)

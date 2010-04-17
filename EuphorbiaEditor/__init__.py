@@ -29,6 +29,7 @@ __license__ = 'GNU GPL v2'
 import sys
 import os.path
 import glib
+import locale
 import gettext
 
 import ui
@@ -52,6 +53,7 @@ class Euphorbia:
         args = sys.argv[1:]
         root = os.path.dirname(__path__[0]) if "--test" in args else sys.prefix
         # Preferences and localization
+        self.locale = locale.getdefaultlocale()
         maindir = os.path.join(root, 'share', 'euphorbia')
         datadir = os.path.join(glib.get_user_data_dir(), 'euphorbia')
         confdir = os.path.join(glib.get_user_config_dir(), 'euphorbia')
@@ -64,7 +66,6 @@ class Euphorbia:
         # Load application
         self.plugm = exts.PluginsManager(self)
         self.gui = ui.EuphorbiaGUI(self)
-        ###self.plugm.load_plugin('pdfview')
         self.prefm.autoconnect_gtk(self.gui.win)
         # Open files given in command line
         args = [a for a in args if not a.startswith("--")]

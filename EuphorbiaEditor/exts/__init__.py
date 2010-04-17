@@ -23,7 +23,6 @@
 import sys
 import os
 import os.path
-import locale
 import ConfigParser
 
 import euphorbia
@@ -137,7 +136,7 @@ class PluginsManager:
         cp = self.plugins[pname]
         onames = [opt]
         if loc:
-            lng = locale.getdefaultlocale()[0]
+            lng = self.app.locale[0]
             if lng is not None:
                 if '_' in lng:
                     onames.append(opt+"["+lng.split('_')[0]+"]")

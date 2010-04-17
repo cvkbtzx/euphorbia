@@ -88,7 +88,7 @@ msgid "editview_showlinemarks"
 msgstr "Signets visibles"
 
 msgid "editview_showlinenumbers"
-msgstr "Numéros de lignes"
+msgstr "Numéros de ligne"
 
 msgid "editview_cursorvisible"
 msgstr "Curseur visible"
@@ -149,6 +149,48 @@ msgstr "Copie de sauvegarde à l'enregistrement"
 
 msgid "search_loop"
 msgstr "Boucler"
+
+msgid "print_1header"
+msgstr "Activer les en-têtes"
+
+msgid "print_1header_separator"
+msgstr "\tSéparateur d'en-tête"
+
+msgid "print_1header_text"
+msgstr "\tTexte d'en-tête"
+
+msgid "print_1header_font"
+msgstr "\tPolice d'en-tête"
+
+msgid "print_2footer"
+msgstr "Activer les pieds-de-page"
+
+msgid "print_2footer_separator"
+msgstr "\tSéparateur de pied-de-page"
+
+msgid "print_2footer_text"
+msgstr "\tTexte de pied-de-page"
+
+msgid "print_2footer_font"
+msgstr "\tPolice de pied-de-page"
+
+msgid "print_margin_1top"
+msgstr "Marge du haut (pt)"
+
+msgid "print_margin_2left"
+msgstr "Marge de gauche (pt)"
+
+msgid "print_margin_3right"
+msgstr "Marge de droite (pt)"
+
+msgid "print_margin_4bottom"
+msgstr "Marge du bas (pt)"
+
+msgid "print_nlinesfont"
+msgstr "Police des numéros de ligne"
+
+msgid "print_nlinesinterval"
+msgstr "Intervalle des numéros de ligne"
 
 msgid "system_homedir"
 msgstr "Dossier de la configuration utilisateur"

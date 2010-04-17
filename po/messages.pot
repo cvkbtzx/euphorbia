@@ -154,6 +154,48 @@ msgstr ""
 msgid "search_loop"
 msgstr ""
 
+msgid "print_1header"
+msgstr ""
+
+msgid "print_1header_separator"
+msgstr ""
+
+msgid "print_1header_text"
+msgstr ""
+
+msgid "print_1header_font"
+msgstr ""
+
+msgid "print_2footer"
+msgstr ""
+
+msgid "print_2footer_separator"
+msgstr ""
+
+msgid "print_2footer_text"
+msgstr ""
+
+msgid "print_2footer_font"
+msgstr ""
+
+msgid "print_margin_1top"
+msgstr ""
+
+msgid "print_margin_2left"
+msgstr ""
+
+msgid "print_margin_3right"
+msgstr ""
+
+msgid "print_margin_4bottom"
+msgstr ""
+
+msgid "print_nlinesfont"
+msgstr ""
+
+msgid "print_nlinesinterval"
+msgstr ""
+
 msgid "system_homedir"
 msgstr ""
 

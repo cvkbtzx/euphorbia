@@ -150,6 +150,48 @@ msgstr "Backup before saving"
 msgid "search_loop"
 msgstr "Loop"
 
+msgid "print_1header"
+msgstr "Enable headers"
+
+msgid "print_1header_separator"
+msgstr "\tHeader separator"
+
+msgid "print_1header_text"
+msgstr "\tHeader text"
+
+msgid "print_1header_font"
+msgstr "\tHeader font"
+
+msgid "print_2footer"
+msgstr "Enable footers"
+
+msgid "print_2footer_separator"
+msgstr "\tFooter separator"
+
+msgid "print_2footer_text"
+msgstr "\tFooter text"
+
+msgid "print_2footer_font"
+msgstr "\tFooter font"
+
+msgid "print_margin_1top"
+msgstr "Top margin (pt)"
+
+msgid "print_margin_2left"
+msgstr "Left margin (pt)"
+
+msgid "print_margin_3right"
+msgstr "Right margin (pt)"
+
+msgid "print_margin_4bottom"
+msgstr "Bottom margin (pt)"
+
+msgid "print_nlinesfont"
+msgstr "Line numbers font"
+
+msgid "print_nlinesinterval"
+msgstr "Line numbers interval"
+
 msgid "system_homedir"
 msgstr "User config directory"
 

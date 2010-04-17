@@ -21,7 +21,6 @@
 """Side panel widget."""
 
 import os
-import locale
 import gtk
 import ConfigParser
 
@@ -180,7 +179,7 @@ class EuphorbiaSidePanel(SidePanel):
     def get_local_name(self, tool):
         """Get category's localized name from a tool dataset."""
         keys = ['name']
-        lng = locale.getdefaultlocale()[0]
+        lng = self.app.locale[0]
         if lng is not None:
             lng = lng.lower()
             if '_' in lng:
