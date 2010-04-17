@@ -223,7 +223,7 @@ class EuphorbiaSidePanel(SidePanel):
 
 #------------------------------------------------------------------------------
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     win = gtk.Window()
     win.connect('destroy', lambda w: gtk.main_quit())
     # Example palette

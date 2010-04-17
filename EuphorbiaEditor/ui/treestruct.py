@@ -111,7 +111,7 @@ class TreeDocStruct(gtk.ScrolledWindow):
 
 #------------------------------------------------------------------------------
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     win = gtk.Window()
     win.connect('destroy', lambda w: gtk.main_quit())
     win.set_default_size(200, 300)

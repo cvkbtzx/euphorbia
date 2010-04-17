@@ -282,7 +282,7 @@ class EditView(gtk.ScrolledWindow):
 
 #------------------------------------------------------------------------------
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     setattr(__builtins__, '_', str)
     win = gtk.Window()
     win.set_default_size(640, 480)

@@ -10,7 +10,7 @@ import os.path
 import subprocess
 import ConfigParser
 
-FBEG = """
+FBEG = r"""
 \documentclass[12pt,pdflatex]{minimal}
 \usepackage[utf8]{inputenc}
 \usepackage[T1]{fontenc}
@@ -18,10 +18,10 @@ FBEG = """
 \usepackage{amsmath}
 \usepackage{amsfonts}
 \usepackage{amssymb}
-\\begin{document}
+\begin{document}
 """
 
-FEND = """
+FEND = r"""
 \end{document}
 """
 

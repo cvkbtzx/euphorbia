@@ -81,7 +81,7 @@ class Euphorbia:
 
 #------------------------------------------------------------------------------
 
-if __name__ == "__main__":
+if __name__ == '__main__':
     print "START"
     Euphorbia().run()
     print "STOP"
