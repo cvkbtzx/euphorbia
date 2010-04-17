@@ -41,16 +41,15 @@ class PrefsWin(gtk.Dialog):
         self.set_default_size(650, 450)
         self.set_position(gtk.WIN_POS_CENTER_ON_PARENT)
         self.set_has_separator(False)
-        self.set_default_response(gtk.RESPONSE_CLOSE)
         # Populate
         self.nbook = gtk.Notebook()
         self.nbook.set_tab_pos(gtk.POS_LEFT)
         self.nbook.set_border_width(9)
         self.vbox.pack_start(self.nbook, True, True)
-        self.nbook.append_page(PrefsWinGeneral(app), gtk.Label(_("General")))
-        self.nbook.append_page(gtk.Label("empty"), gtk.Label(_("LaTeX")))
-        self.nbook.append_page(PrefsWinPlugins(app), gtk.Label(_("Plugins")))
         self.vbox.show_all()
+        for p in self.app.gui.pref_tabs:
+            self.nbook.append_page(p[1](app), gtk.Label(_(p[0])))
+        self.set_default_response(gtk.RESPONSE_CLOSE)
 
 
 #------------------------------------------------------------------------------
@@ -96,6 +95,7 @@ class PrefsWinGeneral(gtk.ScrolledWindow):
             container.pack_start(f, False, False)
         self.add_with_viewport(container)
         container.get_parent().set_shadow_type(gtk.SHADOW_NONE)
+        self.show_all()
     
     def build_widget(self, code, lv, cv):
         """Detect the widget type and return an instance."""
@@ -214,6 +214,7 @@ class PrefsWinPlugins(gtk.VBox):
         b.connect('clicked', self.ev_about)
         hbb.pack_start(b)
         self.pack_start(hbb, False, True)
+        self.show_all()
     
     def build_treeview(self):
         """Build the treeview containing the plugins list."""
@@ -257,7 +258,7 @@ class PrefsWinPlugins(gtk.VBox):
             ret = self.app.plugm.load_plugin(p)
             if not ret:
                 msg = _("Plugin '%s' loading error") % (p)
-                self.app.gui.do_send_message('error', 'close', msg)
+                self.app.gui.send_message('error', 'close', msg)
         v = self.app.plugm.is_loaded(p)
         self.tm.set_value(iter, 1, v)
         return

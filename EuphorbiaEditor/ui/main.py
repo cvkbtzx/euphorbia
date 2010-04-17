@@ -26,6 +26,7 @@ import pango
 import gtksourceview2 as gtksv
 
 import actions
+import dialogs
 import sidepanel
 import document
 import searchbar
@@ -44,10 +45,13 @@ class EuphorbiaGUI(actions.ActionsManager):
             'open':[], 'save':[], 'close':[],
             'changetab':[], 'quit':[]
         }
+        self.pref_tabs = [
+            ("General", dialogs.PrefsWinGeneral),
+            ("Plugins", dialogs.PrefsWinPlugins),
+        ]
         self.build_interface()
         self.nbd = self.builder.get_object('notebook_docs')
         self.nbd.connect('switch-page', self.ev_switch_page)
-        self.nbd.app = self.app
         self.nbd.tab_list = set()
         self.win.show()
     
@@ -155,6 +159,13 @@ class EuphorbiaGUI(actions.ActionsManager):
         cid = self.status.get_context_id(id)
         self.status.push(cid, txt)
         return
+    
+    def send_message(self, t, b, txt):
+        """Display a message in a dialog window."""
+        dwin = dialogs.MsgWin(self.app.gui.win, t, b, txt)
+        ret = dwin.run()
+        dwin.destroy()
+        return ret
     
     def ev_switch_page(self, *data):
         """Callback switch document."""

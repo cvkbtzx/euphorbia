@@ -147,7 +147,7 @@ class ActionsManager:
         printop.connect('status-changed', lambda p: pst(p.get_status_string()))
         res = printop.run(gtk.PRINT_OPERATION_ACTION_PRINT_DIALOG, pwin)
         if res == gtk.PRINT_OPERATION_RESULT_ERROR:
-            self.do_send_message('error', 'close', _("PrintError"))
+            self.send_message('error', 'close', _("PrintError"))
         elif res == gtk.PRINT_OPERATION_RESULT_APPLY:
             self.print_settings = printop.get_print_settings()
         return
@@ -270,13 +270,6 @@ class ActionsManager:
         func()
         return
     
-    def do_send_message(self, t, b, txt):
-        """Display a message in a dialog window."""
-        dwin = dialogs.MsgWin(self.app.gui.win, t, b, txt)
-        ret = dwin.run()
-        dwin.destroy()
-        return ret
-    
     def do_ask_save(self, tabs):
         """Ask if save tab before closing."""
         tabask = []
@@ -308,7 +301,7 @@ class ActionsManager:
             f = iofiles.FileManager(filename, enc)
             f.update_infos()
             if not d.open_file(f, enc, hl):
-                self.do_send_message('error', 'close', _("OpenFileError"))
+                self.send_message('error', 'close', _("OpenFileError"))
         self.emit('open', d)
         return
     
