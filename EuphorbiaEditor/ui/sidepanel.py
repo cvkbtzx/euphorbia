@@ -146,9 +146,12 @@ class EuphorbiaSidePanel(SidePanel):
         for categ in sorted(self.syms.keys()):
             pal = palette.Palette()
             for t in sorted(self.syms[categ].keys()):
-                tool = self.syms[categ][t]
-                pixb = gtk.gdk.pixbuf_new_from_file(tool['img'])
-                pal.add_tool([t, t, pixb])
+                try:
+                    tool = self.syms[categ][t]
+                    pixb = gtk.gdk.pixbuf_new_from_file(tool['img'])
+                    pal.add_tool([t, t, pixb])
+                except StandardError:
+                    print "Warning: can't load symbol '%s/%s'" % (categ,t)
             pal.set_item_activated_callback(self.insert_symbol, categ)
             name = self.get_local_name(tool)
             self.add_expander(categ, name, pal)

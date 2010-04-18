@@ -29,7 +29,7 @@ class LatexParser:
     """Class to retrieve informations in a LaTeX document."""
     
     def __init__(self, txt):
-        self.text, self.eol = txt, chr(10)
+        self.text, self.eol = txt+'\n', chr(10)
         self.clean()
         self.keywords = {
             'struct':["part","chapter","section","subsection","subsubsection"],
@@ -43,7 +43,7 @@ class LatexParser:
         self.text = self.text.replace(chr(13), chr(10))
         i = self.text.find('%', 0)
         while i > -1:
-            if self.text[i-1] != '\\' or i == 0:
+            if self.text[i-1] != '\\':
                 j = self.text.find(self.eol, i)
                 self.text = self.text[:i] + self.text[j:]
             i = self.text.find('%', i)
