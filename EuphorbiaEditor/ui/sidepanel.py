@@ -100,7 +100,7 @@ class Expander(gtk.VBox):
         child.hide()
         # Separator
         sep = gtk.HSeparator()
-        sep.show_all()
+        sep.show()
         # Packing
         self.pack_start(button, expand=False, fill=True)
         self.pack_start(child, expand=True, fill=True)

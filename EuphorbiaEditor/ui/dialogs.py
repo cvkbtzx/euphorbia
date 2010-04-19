@@ -25,11 +25,11 @@ import pango
 
 TXTBOLD = pango.AttrList()
 TXTBOLD.insert(pango.AttrWeight(pango.WEIGHT_BOLD, 0, -1))
+ENCODINGS = ["UTF-8", "Latin1", "Latin9", "Windows-1252"]
 FILTERS = [
     ("All files", ["*"], False),
     ("LaTeX files", ["*.tex","*.bib"], True),
 ]
-ENCODINGS = ["UTF-8", "Latin1", "Latin9", "Windows-1252"]
 
 
 #------------------------------------------------------------------------------
@@ -52,7 +52,7 @@ class PrefsWin(gtk.Dialog):
         self.nbook.set_border_width(9)
         self.vbox.pack_start(self.nbook, True, True)
         self.vbox.show_all()
-        for p in self.app.gui.pref_tabs:
+        for p in self.app.gui.prefs_tabs:
             self.nbook.append_page(p[1](app), gtk.Label(_(p[0])))
         self.app.prefm.autoconnect_gtk(self)
         self.set_default_response(gtk.RESPONSE_CLOSE)
@@ -460,7 +460,7 @@ class AboutPluginWin(gtk.AboutDialog):
         for i,v in infos.iteritems():
             i = i.lower()
             i = "comments" if i == "description" else i
-            v = map(f, v.split(",")) if i == "authors" and v is not None else v
+            v = map(f, v.split(",")) if i=="authors" and v is not None else v
             func = getattr(self, "set_"+i)
             func(v)
 

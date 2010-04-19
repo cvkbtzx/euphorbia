@@ -52,7 +52,7 @@ class Palette(gtk.ScrolledWindow):
         self.iw.connect('selection-changed', self.on_selection_changed)
         # Display
         self.add(self.iw)
-        self.iw.show_all()
+        self.show_all()
     
     def add_tool(self, tool):
         """Add a tool to the palette: [ID(str), tooltip(str), icon(gtk.gdk.Pixbuf)]."""

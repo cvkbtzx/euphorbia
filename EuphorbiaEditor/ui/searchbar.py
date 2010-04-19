@@ -93,7 +93,6 @@ class SearchBar(gtk.Toolbar):
     
     def ev_hide(self, *data):
         """Callback for 'hide' event."""
-        self.hide()
         tab = self.app.gui.get_current_tab()
         if hasattr(tab, 'focus'):
             tab.focus()

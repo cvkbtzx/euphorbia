@@ -42,10 +42,9 @@ class EuphorbiaGUI(actions.ActionsManager):
         self.clipb = gtk.clipboard_get()
         self.setup_printers()
         self.connections = {
-            'open':[], 'save':[], 'close':[],
-            'changetab':[], 'quit':[]
+            'open':[], 'save':[], 'close':[],'changetab':[], 'quit':[]
         }
-        self.pref_tabs = [
+        self.prefs_tabs = [
             ("General", dialogs.PrefsWinGeneral),
             ("Plugins", dialogs.PrefsWinPlugins),
         ]
