@@ -22,6 +22,12 @@
 
 import string
 
+LATEX_KEYWORDS = {
+    'struct':  ["part", "chapter", "section", "subsection", "subsubsection"],
+    'graphic': ["includegraphics"],
+    'table':   ["tabular"],
+}
+
 
 #------------------------------------------------------------------------------
 
@@ -29,29 +35,64 @@ class LatexParser:
     """Class to retrieve informations in a LaTeX document."""
     
     def __init__(self, txt):
-        self.text, self.eol = txt+'\n', chr(10)
-        self.clean()
-        self.keywords = {
-            'struct':["part","chapter","section","subsection","subsubsection"],
-            'graphic':["includegraphics"],
-            'table':["tabular"],
-            'biblio':["cite"],
-        }
+        self.text = txt + '\n'
+        self._clean()
+        self.keywords = LATEX_KEYWORDS
     
-    def clean(self):
+    def _clean(self):
         """Clean the code by removing comments."""
-        self.text = self.text.replace(chr(13), chr(10))
+        self.text = self.text.replace(chr(13)+chr(10), chr(10))   # Windows eol
+        self.text = self.text.replace(chr(13), chr(10))   # MacOSX eol
         i = self.text.find('%', 0)
         while i > -1:
             if self.text[i-1] != '\\':
-                j = self.text.find(self.eol, i)
+                j = self.text.find(chr(10), i)
                 self.text = self.text[:i] + self.text[j:]
-            i = self.text.find('%', i)
+            i = self.text.find('%', i+1)
         return
     
     def parse(self, keygrp):
         """Parse the code with given keywords group."""
-        keys = self.keywords[keygrp]
+        keys = self.tokenize(keygrp)
+        if len(keys) == 0:
+            return []
+        tree, paths = [], []
+        for k in xrange(len(keys)):
+            v = keys[k][1:]+([],)
+            for h in reversed(range(k)):
+                if keys[h][0] < keys[k][0]:
+                    paths[h][2].append(v)
+                    paths.append(v)
+                    break
+            else:
+                tree.append(v)
+                paths.append(v)
+        return tree
+    
+    def tokenize(self, keygrp):
+        """Tokenize the code with given keywords group."""
+        keys = []
+        for i,k in enumerate(self.keywords[keygrp]):
+            for t,l in self._iter_keyword(k):
+                keys.append((i,t,l))
+        return sorted(keys, key=lambda x: x[2])
+    
+    def _iter_keyword(self, kw):
+        """Iter on given keyword."""
+        ckw = string.letters + string.digits
+        kw, lkw = '\\' + kw, len(kw)+1
+        i = self.text.find(kw, 0)
+        while i > -1:
+            if i + lkw < len(self.text):
+                if self.text[i-1] != '\\' and self.text[i+lkw] not in ckw:
+                    j1 = self.text.find('{', i) + 1
+                    j2 = self.text.find('}', j1)
+                    t = self.text[j1:j2][:128]
+                    for c in string.whitespace:
+                        t = t.replace(c, ' ')
+                    line = self.text.count(chr(10), 0, i) + 1
+                    yield (t.strip(), line)
+            i = self.text.find(kw, i+lkw)
         return
 
 
@@ -62,7 +103,7 @@ if __name__ == '__main__':
     with open("test-parse.tex", 'r') as f:
         txt = f.read()
     lp = LatexParser(txt)
-    print lp.text
+    print lp.parse('struct')
 
 
 #------------------------------------------------------------------------------

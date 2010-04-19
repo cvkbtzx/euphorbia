@@ -25,6 +25,11 @@ import pango
 
 TXTBOLD = pango.AttrList()
 TXTBOLD.insert(pango.AttrWeight(pango.WEIGHT_BOLD, 0, -1))
+FILTERS = [
+    ("All files", ["*"], False),
+    ("LaTeX files", ["*.tex","*.bib"], True),
+]
+ENCODINGS = ["UTF-8", "Latin1", "Latin9", "Windows-1252"]
 
 
 #------------------------------------------------------------------------------
@@ -49,6 +54,7 @@ class PrefsWin(gtk.Dialog):
         self.vbox.show_all()
         for p in self.app.gui.pref_tabs:
             self.nbook.append_page(p[1](app), gtk.Label(_(p[0])))
+        self.app.prefm.autoconnect_gtk(self)
         self.set_default_response(gtk.RESPONSE_CLOSE)
 
 
@@ -282,7 +288,7 @@ class PrefsWinPlugins(gtk.VBox):
 class OpenWin(gtk.FileChooserDialog):
     """Open file dialog."""
     
-    def __init__(self, app):
+    def __init__(self, app, folder=None):
         buttons = (gtk.STOCK_CANCEL, gtk.RESPONSE_CANCEL, gtk.STOCK_OPEN, gtk.RESPONSE_OK)
         action = gtk.FILE_CHOOSER_ACTION_OPEN
         gtk.FileChooserDialog.__init__(self, _("Open..."), app.gui.win, action, buttons)
@@ -297,22 +303,24 @@ class OpenWin(gtk.FileChooserDialog):
         l.set_padding(7, 0)
         hb.pack_start(l, True, True)
         cb = gtk.combo_box_entry_new_text()
-        cb.append_text("UTF-8")
-        cb.append_text("Latin1")
-        cb.append_text("Latin9")
-        cb.append_text("Windows-1252")
+        for e in ENCODINGS:
+            cb.append_text(e)
         cb.set_active(0)
         hb.pack_start(cb, False, True)
         self.set_extra_widget(hb)
         hb.show_all()
         # Files
-        filters = {_("All files"):["*"], _("LaTeX files"):["*.tex","*.bib"]}
-        for txt,exts in filters.iteritems():
+        self.set_local_only(False)
+        if folder is not None:
+            self.set_current_folder_uri(folder)
+        for txt,exts,dft in FILTERS:
             f = gtk.FileFilter()
-            f.set_name(txt)
+            f.set_name(_(txt))
             for e in exts:
                 f.add_pattern(e)
             self.add_filter(f)
+            if dft:
+                self.set_filter(f)
         self.set_select_multiple(True)
 
 
@@ -330,6 +338,7 @@ class SaveWin(gtk.FileChooserDialog):
         self.set_modal(True)
         self.set_destroy_with_parent(True)
         # Files
+        self.set_local_only(False)
         if fileobj is not None:
             self.select_uri(fileobj.uri)
         if filename is not None:

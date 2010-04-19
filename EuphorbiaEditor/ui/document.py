@@ -27,6 +27,7 @@ import gtksourceview2 as gtksv
 
 import dialogs
 import tabwrapper
+import EuphorbiaEditor.utils.texparser as texparser
 
 STYLEM = gtksv.style_scheme_manager_get_default()
 
@@ -225,14 +226,17 @@ class Document(tabwrapper.TabWrapper):
     def gen_doc_struct(self):
         """Generate document structure."""
         f = self.get_fname()
-        self.struct = [(f, None, [])]
-        for i,v in enumerate(["Hi!","Good morning","Hello"]):
-            self.struct[0][2].append((v,10*i,[]))
+        ibeg, iend = self.ev.buffer.get_bounds()
+        lp = texparser.LatexParser(self.ev.buffer.get_text(ibeg, iend, False))
+        self.struct = [(f, None, lp.parse('struct'))]
+        g = lp.parse('graphic')
+        if len(g) > 0:
+            self.struct.append((_("Graphics"), None, g))
         return
     
     def goto_index(self, index):
         """Go to the given position."""
-        iter = self.ev.buffer.get_iter_at_line(index)
+        iter = self.ev.buffer.get_iter_at_line(index-1 if index>0 else 0)
         self.ev.view.scroll_to_iter(iter, 0, True, 0, 0)
         return
 

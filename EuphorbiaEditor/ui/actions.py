@@ -89,7 +89,11 @@ class ActionsManager:
     
     def act_open(self, *data):
         """Callback for 'Open' action."""
-        dwin = dialogs.OpenWin(self.app)
+        tab, folder = self.get_current_tab(), None
+        if hasattr(tab, 'saveinfos'):
+            if tab.saveinfos()[1] is not None:
+                folder = tab.saveinfos()[1].gfile.get_parent().get_uri()
+        dwin = dialogs.OpenWin(self.app, folder)
         resp = dwin.run()
         uris = dwin.get_uris() if resp == gtk.RESPONSE_OK else []
         code = dwin.get_extra_widget().get_children()[1].get_active_text()

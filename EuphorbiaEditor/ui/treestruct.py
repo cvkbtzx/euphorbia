@@ -44,7 +44,7 @@ class TreeDocStruct(gtk.ScrolledWindow):
     def build_treeview(self):
         """Build the treeview."""
         # Model
-        self.ts = gtk.TreeStore(str, pango.Weight)
+        self.ts = gtk.TreeStore(str, str, pango.Weight)
         # View
         self.tv = gtk.TreeView()
         self.tv.set_model(self.ts)
@@ -59,8 +59,16 @@ class TreeDocStruct(gtk.ScrolledWindow):
         cr = gtk.CellRendererText()
         cr.props.ellipsize = pango.ELLIPSIZE_END
         cr.props.scale = pango.SCALE_SMALL
-        c = gtk.TreeViewColumn("Structure", cr, text=0, weight=1)
+        c = gtk.TreeViewColumn("Structure", cr, text=0, weight=2)
         c.set_expand(True)
+        self.tv.append_column(c)
+        # Column
+        cr = gtk.CellRendererText()
+        cr.props.scale = pango.SCALE_SMALL
+        cr.props.style = pango.STYLE_ITALIC
+        cr.props.xalign = 1
+        c = gtk.TreeViewColumn("Position", cr, text=1, weight=2)
+        c.set_expand(False)
         self.tv.append_column(c)
         return
     
@@ -76,7 +84,8 @@ class TreeDocStruct(gtk.ScrolledWindow):
         """Populate tree recursively."""
         weight = pango.WEIGHT_BOLD if level == 0 else pango.WEIGHT_NORMAL
         for i,l,v in subtree:
-            it = self.ts.append(parent, [i, weight])
+            pos = str(l) if type(l) is int else ""
+            it = self.ts.append(parent, [i, pos, weight])
             self._populate_tree_rec(it, v, level+1)
         return
     
@@ -90,8 +99,8 @@ class TreeDocStruct(gtk.ScrolledWindow):
         """Expand tree at specified level."""
         self.tv.collapse_all()
         level = self.expand_level if level is None else level
-        etp, id = self.tv.expand_to_path, self.ts.iter_depth
-        self.ts.foreach(lambda m,p,i: etp(p) if id(i)<level else None)
+        e, d = self.tv.expand_to_path, self.ts.iter_depth
+        self.ts.foreach(lambda m,p,i: e(p) if d(i)<level and p[0]==0 else None)
         return
     
     def get_row_at_path(self, path):

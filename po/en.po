@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Euphorbia 0.0.X\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-04-16 19:30+0200\n"
+"POT-Creation-Date: 2010-04-19 00:40+0200\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Bzoloid <bzoloid@gmail.com>\n"
 "Language-Team: \n"
@@ -56,6 +56,9 @@ msgstr "Toolbars"
 
 msgid "opt_editview"
 msgstr "Text areas"
+
+msgid "opt_sidepanel"
+msgstr "Side panel"
 
 msgid "opt_files"
 msgstr "Files"
@@ -138,8 +141,8 @@ msgstr "Smart Home/End keys"
 msgid "editview_style"
 msgstr "Colors style"
 
-msgid "nbook_bottom_show"
-msgstr "Show logs"
+msgid "sidepanel_expandlevel"
+msgstr "Structure expand level"
 
 msgid "files_trash"
 msgstr "Try to put in the trash"
@@ -275,4 +278,7 @@ msgid "OpenFileError"
 msgstr ""
 "Error!\n"
 "The file could not be read."
+
+msgid "Graphics"
+msgstr "Graphics"
 
