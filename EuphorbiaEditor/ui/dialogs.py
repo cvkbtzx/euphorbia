@@ -170,7 +170,7 @@ class PrefsWinGeneral(gtk.ScrolledWindow):
         w.set_increments(1, 5)
         w.set_snap_to_ticks(True)
         w.set_value(cv)
-        w.connect('changed', self.ev_spinbutton, code)
+        w.connect('value-changed', self.ev_spinbutton, code)
         return w
     
     def ev_spinbutton(self, w, code):

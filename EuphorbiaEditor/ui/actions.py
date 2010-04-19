@@ -134,7 +134,6 @@ class ActionsManager:
         pwin = self.app.gui.win
         f = gtk.print_run_page_setup_dialog
         self.print_setup = f(pwin, self.print_setup, self.print_settings)
-        self.do_check_page_margins()
         return
     
     def act_print(self, *data):
@@ -307,16 +306,6 @@ class ActionsManager:
             if not d.open_file(f, enc, hl):
                 self.send_message('error', 'close', _("OpenFileError"))
         self.emit('open', d)
-        return
-    
-    def do_check_page_margins(self):
-        """Check if page margins are not smaller than default ones."""
-        ps = self.print_setup.get_paper_size()
-        for i,m in enumerate(['top','left','right','bottom']):
-            pref = 'print_margin_%i%s' % (i+1, m)
-            mv = getattr(ps, 'get_default_%s_margin' % (m))(gtk.UNIT_POINTS)
-            if self.app.prefm.get_pref(pref) < mv:
-                self.app.prefm.set_pref(pref, mv)
         return
     
     def do_quit(self):

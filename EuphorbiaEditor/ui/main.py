@@ -92,9 +92,6 @@ class EuphorbiaGUI(actions.ActionsManager):
         self.builder.get_object('handlebox_main').add(toolbar)
         # Statusbar
         self.status = self.builder.get_object('statusbar')
-        a = pango.AttrList()
-        a.insert(pango.AttrScale(pango.SCALE_SMALL, 0, -1))
-        self.status.get_children()[0].get_child().set_attributes(a)
         # Searchbar
         sb = searchbar.SearchBar(self.app, accg)
         self.builder.get_object('vbox_docs').pack_start(sb, False, True)
@@ -118,7 +115,6 @@ class EuphorbiaGUI(actions.ActionsManager):
         self.print_setup = gtk.PageSetup()
         self.print_setup.set_paper_size_and_default_margins(dps)
         self.print_settings = gtk.PrintSettings()
-        self.do_check_page_margins()
         return
     
     def get_widgets_by_name(self, wname, parent=None):

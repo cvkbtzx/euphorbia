@@ -83,7 +83,6 @@ class Expander(gtk.VBox):
         # Button
         button = gtk.Button()
         button.connect('clicked', lambda w: self.on_button_selected(w))
-        ###button.connect('enter', lambda w: self.on_button_selected(w))
         button.set_focus_on_click(False)
         button.set_relief(gtk.RELIEF_NONE)
         hbox = gtk.HBox()
