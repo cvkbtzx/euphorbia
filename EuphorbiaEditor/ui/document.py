@@ -49,6 +49,7 @@ class Document(tabwrapper.TabWrapper):
         self.ev.set_language(hlight)
         self.clipb = gtk.clipboard_get()
         self.gen_doc_struct()
+        self.ev.buffer.connect('modified-changed', self.ev_modified)
     
     def set_file(self, f, enc=None, hl=None):
         """Change file."""
@@ -243,6 +244,12 @@ class Document(tabwrapper.TabWrapper):
         """Go to the given position."""
         iter = self.ev.buffer.get_iter_at_line(index-1 if index>0 else 0)
         self.ev.view.scroll_to_iter(iter, 0, True, 0, 0)
+        return
+    
+    def ev_modified(self, *data):
+        """Callback executed when modification flag changes."""
+        stock = 'save' if self.ev.buffer.get_modified() else 'close'
+        self.set_close_icon(stock)
         return
 
 

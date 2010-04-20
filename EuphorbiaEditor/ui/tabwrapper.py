@@ -45,14 +45,13 @@ class TabWrapper(object):
         self.title = gtk.Label()
         self.title.set_alignment(0.0, 0.5)
         # Tab close button
-        img = gtk.Image()
-        img.set_from_stock(gtk.STOCK_CLOSE, gtk.ICON_SIZE_MENU)
         b_close = gtk.Button()
         b_close.set_relief(gtk.RELIEF_NONE)
         b_close.set_focus_on_click(False)
         b_close.connect('clicked', self.ev_close)
         b_close.set_name("b" + str(hash(str(b_close))) + "-euphorbia-tab")
-        b_close.add(img)
+        self.button_close = b_close
+        self.set_close_icon('close')
         # Tab icon
         self.icon = gtk.Image()
         # Packing
@@ -89,6 +88,12 @@ class TabWrapper(object):
                 self.icon.set_from_icon_name(n, gtk.ICON_SIZE_MENU)
                 return
         self.icon.set_from_stock(gtk.STOCK_FILE, gtk.ICON_SIZE_MENU)
+        return
+    
+    def set_close_icon(self, stock):
+        """Set close button icon."""
+        img = gtk.image_new_from_stock("gtk-"+stock, gtk.ICON_SIZE_MENU)
+        self.button_close.set_image(img)
         return
     
     def ev_close(self, *data):
