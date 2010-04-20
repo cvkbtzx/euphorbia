@@ -297,3 +297,15 @@ msgstr "Capitalize"
 msgid "Invert"
 msgstr "Invert"
 
+msgid "Stats..."
+msgstr "Document stats..."
+
+msgid "Lines:"
+msgstr "Lines:"
+
+msgid "Words:"
+msgstr "Words:"
+
+msgid "Characters:"
+msgstr "Characters:"
+

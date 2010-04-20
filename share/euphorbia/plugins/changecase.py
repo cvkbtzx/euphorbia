@@ -1,7 +1,7 @@
 # -*- coding:utf-8 -*-
 
-##  EUPHORBIA - GTK LaTeX Editor
-##  Copyright (C) 2008-2010   Bzoloid
+##  Change case plugin for Euphorbia LaTeX editor
+##  Copyright (C) 2010   Bzoloid
 ##
 ##  This program is free software; you can redistribute it and/or
 ##  modify it under the terms of the GNU General Public License
@@ -41,7 +41,7 @@ MENU = """
 #------------------------------------------------------------------------------
 
 class ChangeCase(euphorbia.Plugin):
-    """Test plugin."""
+    """Change case plugin."""
     
     def __init__(self):
         euphorbia.Plugin.__init__(self)
@@ -64,6 +64,7 @@ class ChangeCase(euphorbia.Plugin):
     def deactivate(self):
         self.app.gui.uim.remove_ui(self.menu)
         self.app.gui.uim.remove_action_group(self.actgrp)
+        self.menu, self.actgrp = None, None
     
     def replace(self, action):
         """Replace selected text after changing its case."""
@@ -73,13 +74,13 @@ class ChangeCase(euphorbia.Plugin):
             txt = tab.get_selection()
             if txt:
                 if mode == "low":
-                    txt = txt.lower()
+                    txt = txt.decode('utf8').lower().encode('utf8')
                 elif mode == "upp":
-                    txt = txt.upper()
+                    txt = txt.decode('utf8').upper().encode('utf8')
                 elif mode == "cap":
-                    txt = txt.title()
+                    txt = txt.decode('utf8').title().encode('utf8')
                 elif mode == "inv":
-                    txt = txt.swapcase()
+                    txt = txt.decode('utf8').swapcase().encode('utf8')
                 tab.insert(txt, True)
         return
 

@@ -297,3 +297,15 @@ msgstr "Titre"
 msgid "Invert"
 msgstr "Inverser"
 
+msgid "Stats..."
+msgstr "Statistiques du document..."
+
+msgid "Lines:"
+msgstr "Lignes :"
+
+msgid "Words:"
+msgstr "Mots :"
+
+msgid "Characters:"
+msgstr "Caractères :"
+

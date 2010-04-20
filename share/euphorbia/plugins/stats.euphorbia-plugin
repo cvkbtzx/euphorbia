@@ -1,0 +1,12 @@
+[Euphorbia Plugin]
+Module=stats
+Api=1
+Name=Statistics
+Name[fr]=Statistiques
+Description=Analyze the current document
+Description[fr]=Analyse le document actuel
+Version=1.0
+Authors=Bzoloid <bzoloid@gmail.com>
+Copyright=Copyright © 2010
+License=GNU GPL v2
+Website=http://code.google.com/p/euphorbia/

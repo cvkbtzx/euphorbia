@@ -285,6 +285,17 @@ class PrefsWinPlugins(gtk.VBox):
 
 #------------------------------------------------------------------------------
 
+class PrefsWinLatex(gtk.VBox):
+    """'LaTeX' tab of the preferences dialog."""
+    
+    def __init__(self, app):
+        gtk.VBox.__init__(self)
+        self.add(gtk.Label("empty"))
+        self.show_all()
+
+
+#------------------------------------------------------------------------------
+
 class OpenWin(gtk.FileChooserDialog):
     """Open file dialog."""
     

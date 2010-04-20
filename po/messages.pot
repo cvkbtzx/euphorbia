@@ -296,3 +296,15 @@ msgstr ""
 
 msgid "Invert"
 msgstr ""
+
+msgid "Stats..."
+msgstr ""
+
+msgid "Lines:"
+msgstr ""
+
+msgid "Words:"
+msgstr ""
+
+msgid "Characters:"
+msgstr ""

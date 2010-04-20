@@ -210,11 +210,11 @@ class Document(tabwrapper.TabWrapper):
         if self.ev.buffer.get_has_selection():
             self.ev.buffer.delete_selection(True, self.ev.view.get_editable())
         self.ev.buffer.insert_at_cursor(txt)
-        if select:
-            i = self.ev.buffer.get_iter_at_mark(self.ev.buffer.get_insert())
-            j = i.copy()
-            j.backward_chars(len(txt))
-            self.ev.buffer.select_range(i, j)
+        ###if select:
+        ###    i = self.ev.buffer.get_iter_at_mark(self.ev.buffer.get_insert())
+        ###    j = i.copy()
+        ###    j.backward_chars(len(txt))
+        ###    self.ev.buffer.select_range(i, j)
         return
     
     def get_selection(self):

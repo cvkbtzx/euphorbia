@@ -1,7 +1,7 @@
 # -*- coding:utf-8 -*-
 
-##  EUPHORBIA - GTK LaTeX Editor
-##  Copyright (C) 2008-2010   Bzoloid
+##  PDF viewer plugin for Euphorbia LaTeX editor
+##  Copyright (C) 2010   Bzoloid
 ##
 ##  This program is free software; you can redistribute it and/or
 ##  modify it under the terms of the GNU General Public License

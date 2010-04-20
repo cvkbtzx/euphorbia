@@ -32,6 +32,8 @@ import glib
 import locale
 import gettext
 
+locale.setlocale(locale.LC_ALL, '')
+
 import ui
 import prefs
 import exts

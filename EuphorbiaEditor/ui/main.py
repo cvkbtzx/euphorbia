@@ -46,6 +46,7 @@ class EuphorbiaGUI(actions.ActionsManager):
         }
         self.prefs_tabs = [
             ("General", dialogs.PrefsWinGeneral),
+            ("LaTeX",   dialogs.PrefsWinLatex),
             ("Plugins", dialogs.PrefsWinPlugins),
         ]
         self.build_interface()
