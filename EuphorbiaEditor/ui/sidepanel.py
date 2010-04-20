@@ -189,7 +189,7 @@ class EuphorbiaSidePanel(SidePanel):
             keys.append("name["+lng+"]")
         ret = None
         for k in keys:
-            if tool.has_key(k):
+            if k in tool:
                 ret = tool[k]
         return ret
     

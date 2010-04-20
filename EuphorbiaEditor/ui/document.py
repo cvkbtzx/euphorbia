@@ -174,13 +174,6 @@ class Document(tabwrapper.TabWrapper):
         self.ev.buffer.paste_clipboard(self.clipb, None, tv.get_editable())
         return
     
-    def insert(self, txt):
-        """Insert text in cursor position."""
-        if self.ev.buffer.get_has_selection():
-            self.ev.buffer.delete_selection(True, self.ev.view.get_editable())
-        self.ev.buffer.insert_at_cursor(txt)
-        return
-    
     def search(self, txt, case_sensitive, dir, loop):
         """Search text in document."""
         flags = gtksv.SEARCH_TEXT_ONLY | gtksv.SEARCH_VISIBLE_ONLY
@@ -207,6 +200,18 @@ class Document(tabwrapper.TabWrapper):
             self.ev.view.scroll_to_mark(self.ev.buffer.get_insert(), 0.25, True)
         elif loop or txt != self.get_selection():
             self.ev.buffer.place_cursor(iter)
+        return
+    
+    def insert(self, txt, select=False):
+        """Insert text in cursor position."""
+        if self.ev.buffer.get_has_selection():
+            self.ev.buffer.delete_selection(True, self.ev.view.get_editable())
+        self.ev.buffer.insert_at_cursor(txt)
+        if select:
+            i = self.ev.buffer.get_iter_at_mark(self.ev.buffer.get_insert())
+            j = i.copy()
+            j.backward_chars(len(txt))
+            self.ev.buffer.select_range(i, j)
         return
     
     def get_selection(self):

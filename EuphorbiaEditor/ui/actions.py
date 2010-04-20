@@ -33,28 +33,28 @@ def get_actions_list(cls):
     """Get actions with appropriate callbacks from specified class."""
     actions = [
         # Name, Stock, Label, Accelerator, Tooltip, Callback
-        ('menu_file',     None,                  _("File")),
-        ('action_newdoc', gtk.STOCK_NEW,         None, None, None, cls.act_new),
-        ('action_open',   gtk.STOCK_OPEN,        None, None, None, cls.act_open),
-        ('action_save',   gtk.STOCK_SAVE,        None, None, None, cls.act_save),
-        ('action_saveas', gtk.STOCK_SAVE_AS,     None, None, None, cls.act_saveas),
-        ('action_page',   gtk.STOCK_PAGE_SETUP,  None, None, None, cls.act_page),
-        ('action_print',  gtk.STOCK_PRINT,       None, None, None, cls.act_print),
-        ('action_close',  gtk.STOCK_CLOSE,       None, None, None, cls.act_close),
-        ('action_quit',   gtk.STOCK_QUIT,        None, None, None, cls.act_quit),
-        ('menu_edit',     None,                  _("Edit")),
-        ('action_undo',   gtk.STOCK_UNDO,        None, None, None, cls.act_undo),
-        ('action_redo',   gtk.STOCK_REDO,        None, None, None, cls.act_redo),
-        ('action_cut',    gtk.STOCK_CUT,         None, '',   None, cls.act_cut),
-        ('action_copy',   gtk.STOCK_COPY,        None, '',   None, cls.act_copy),
-        ('action_paste',  gtk.STOCK_PASTE,       None, '',   None, cls.act_paste),
-        ('action_search', gtk.STOCK_FIND,        None, None, None, cls.act_search),
-        ('menu_view',     None,                  _("View")),
-        ('menu_tools',    None,                  _("Tools")),
-        ('menu_settings', None,                  _("Settings")),
-        ('action_prefs',  gtk.STOCK_PREFERENCES, None, None, None, cls.act_prefs),
-        ('menu_help',     None,                  _("Help")),
-        ('action_about',  gtk.STOCK_ABOUT,       None, None, None, cls.act_about)
+        ('action_file',     None,                  _("File")),
+        ('action_newdoc',   gtk.STOCK_NEW,         None, None, None, cls.act_new),
+        ('action_open',     gtk.STOCK_OPEN,        None, None, None, cls.act_open),
+        ('action_save',     gtk.STOCK_SAVE,        None, None, None, cls.act_save),
+        ('action_saveas',   gtk.STOCK_SAVE_AS,     None, None, None, cls.act_saveas),
+        ('action_page',     gtk.STOCK_PAGE_SETUP,  None, None, None, cls.act_page),
+        ('action_print',    gtk.STOCK_PRINT,       None, None, None, cls.act_print),
+        ('action_close',    gtk.STOCK_CLOSE,       None, None, None, cls.act_close),
+        ('action_quit',     gtk.STOCK_QUIT,        None, None, None, cls.act_quit),
+        ('action_edit',     None,                  _("Edit")),
+        ('action_undo',     gtk.STOCK_UNDO,        None, None, None, cls.act_undo),
+        ('action_redo',     gtk.STOCK_REDO,        None, None, None, cls.act_redo),
+        ('action_cut',      gtk.STOCK_CUT,         None, '',   None, cls.act_cut),
+        ('action_copy',     gtk.STOCK_COPY,        None, '',   None, cls.act_copy),
+        ('action_paste',    gtk.STOCK_PASTE,       None, '',   None, cls.act_paste),
+        ('action_search',   gtk.STOCK_FIND,        None, None, None, cls.act_search),
+        ('action_view',     None,                  _("View")),
+        ('action_tools',    None,                  _("Tools")),
+        ('action_settings', None,                  _("Settings")),
+        ('action_prefs',    gtk.STOCK_PREFERENCES, None, None, None, cls.act_prefs),
+        ('action_help',     None,                  _("Help")),
+        ('action_about',    gtk.STOCK_ABOUT,       None, None, None, cls.act_about)
     ]
     return actions
 
@@ -76,7 +76,7 @@ class ActionsManager:
     
     def __init__(self, app):
         self.app = app
-        self.actgrp = gtk.ActionGroup('base')
+        self.actgrp = gtk.ActionGroup('euphorbia')
         self.actgrp.add_actions(get_actions_list(self))
         self.actgrp.add_toggle_actions(get_toggle_actions_list(self))
     

@@ -12,11 +12,11 @@ class HelloWorld(euphorbia.Plugin):
         euphorbia.Plugin.__init__(self)
     
     def activate(self):
-        print "Hello !"
+        print "Hello!"
         print "This is the application's main instance:", self.app
     
     def deactivate(self):
-        print "Bye !"
+        print "Bye!"
 
 
 #------------------------------------------------------------------------------

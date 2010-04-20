@@ -1,0 +1,12 @@
+[Euphorbia Plugin]
+Module=changecase
+Api=1
+Name=Change case
+Name[fr]=Changer la casse
+Description=Modify the case of the selected text
+Description[fr]=Modifie la casse du texte selectionné
+Version=1.0
+Authors=Bzoloid <bzoloid@gmail.com>
+Copyright=Copyright © 2010
+License=GNU GPL v2
+Website=http://code.google.com/p/euphorbia/

@@ -1,6 +1,6 @@
 <ui>
     <menubar name="menu_main">
-        <menu action="menu_file">
+        <menu name="menu_file" action="action_file">
             <menuitem action="action_newdoc" />
             <menuitem action="action_open" />
             <menuitem action="action_save" />
@@ -12,7 +12,7 @@
             <menuitem action="action_close" />
             <menuitem action="action_quit" />
         </menu>
-        <menu action="menu_edit">
+        <menu name="menu_edit" action="action_edit">
             <menuitem action="action_undo" />
             <menuitem action="action_redo" />
             <separator />
@@ -22,17 +22,17 @@
             <separator />
             <menuitem action="action_search" />
         </menu>
-        <menu action="menu_view">
+        <menu name="menu_view" action="action_view">
             <menuitem action="action_showsidepan" />
             <menuitem action="action_showbottompan" />
         </menu>
-        <menu action="menu_tools">
+        <menu name="menu_tools" action="action_tools">
             <placeholder />
         </menu>
-        <menu action="menu_settings">
+        <menu name="menu_settings" action="action_settings">
             <menuitem action="action_prefs" />
         </menu>
-        <menu action="menu_help">
+        <menu name="menu_help" action="action_help">
             <menuitem action="action_about" />
         </menu>
     </menubar>
