@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Euphorbia 0.0.X\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-04-19 00:40+0200\n"
+"POT-Creation-Date: 2010-04-20 18:07+0200\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Bzoloid <bzoloid@gmail.com>\n"
 "Language-Team: \n"
@@ -281,4 +281,19 @@ msgstr ""
 
 msgid "Graphics"
 msgstr "Graphiques"
+
+msgid "Change case"
+msgstr "Modifier la casse"
+
+msgid "Lowercase"
+msgstr "Minuscules"
+
+msgid "Uppercase"
+msgstr "Majuscules"
+
+msgid "Capitalize"
+msgstr "Titre"
+
+msgid "Invert"
+msgstr "Inverser"
 

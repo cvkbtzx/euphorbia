@@ -50,26 +50,23 @@ class ChangeCase(euphorbia.Plugin):
         f = self.replace
         actions = [
             ('action_changecase',     None, _("Change case")),
-            ('action_changecase_low', None, _("Lower"), None, None, f),
-            ('action_changecase_upp', None, _("Upper"), None, None, f),
+            ('action_changecase_low', None, _("Lowercase"), None, None, f),
+            ('action_changecase_upp', None, _("Uppercase"), None, None, f),
             ('action_changecase_cap', None, _("Capitalize"), None, None, f),
             ('action_changecase_inv', None, _("Invert"), None, None, f),
         ]
         self.actgrp.add_actions(actions)
     
     def activate(self):
-        print "Hello!"
         self.app.gui.uim.insert_action_group(self.actgrp, -1)
         self.menu = self.app.gui.uim.add_ui_from_string(MENU)
     
     def deactivate(self):
         self.app.gui.uim.remove_ui(self.menu)
         self.app.gui.uim.remove_action_group(self.actgrp)
-        print "Bye!"
     
     def replace(self, action):
         """Replace selected text after changing its case."""
-        print action.get_name()
         mode = action.get_name().split('_')[-1]
         tab = self.app.gui.get_current_tab()
         if hasattr(tab, 'get_selection') and hasattr(tab, 'insert'):

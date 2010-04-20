@@ -50,6 +50,8 @@ class Document(tabwrapper.TabWrapper):
         self.clipb = gtk.clipboard_get()
         self.gen_doc_struct()
         self.ev.buffer.connect('modified-changed', self.ev_modified)
+        self.button_close.connect('enter', lambda x: self.set_close_icon())
+        self.button_close.connect('leave', lambda x: self.ev_modified())
     
     def set_file(self, f, enc=None, hl=None):
         """Change file."""
