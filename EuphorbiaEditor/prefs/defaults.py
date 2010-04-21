@@ -24,9 +24,8 @@
 #------------------------------------------------------------------------------
 
 DEFAULT_PREFS = [
-    # Key, function, {allowed_values}, default_value, widget_name]
-    # Key, {functions}, None, default_value, widget_name]
-    ["window_max", {True:'maximize', False:'unmaximize'}, None, False, "window"],
+    # Key, {functions}, {allowed_values}, default_value, widget_name]
+    ["window_maximized", {True:'maximize', False:'unmaximize'}, None, False, "window"],
     ["toolbar_arrow", 'set_show_arrow', 'bool', True, "toolbar*"],
     ["toolbar_iconsize", 'set_icon_size', {"menu":1,"small-tool":2,"large-tool":3,"button":4,"dnd":5,"dialog":6}, 2, "toolbar*"],
     ["toolbar_tooltips", 'set_tooltips', 'bool', True, "toolbar*"],
@@ -72,6 +71,7 @@ DEFAULT_PREFS = [
     ["system_datadir", None, None, '', None],
     ["system_confdir", None, None, '', None],
     ["system_maindir", None, None, '', None],
+    ["plugins_list", None, None, [], None],
 ]
 
 

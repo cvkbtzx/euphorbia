@@ -31,7 +31,7 @@ LATEX_KEYWORDS = {
 
 #------------------------------------------------------------------------------
 
-class LatexParser:
+class LatexParser(object):
     """Class to retrieve informations in a LaTeX document."""
     
     def __init__(self, txt):

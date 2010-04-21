@@ -51,21 +51,25 @@ class Euphorbia:
     def __init__(self):
         # Command line args
         args = sys.argv[1:]
-        root = os.path.dirname(__path__[0]) if "--test" in args else sys.prefix
-        # Preferences and localization
+        testmode = True if "--test" in args else False
+        root = os.path.dirname(__path__[0]) if testmode else sys.prefix
+        # Directories and localization
         self.locale = locale.getdefaultlocale()
         maindir = os.path.join(root, 'share', 'euphorbia')
         datadir = os.path.join(glib.get_user_data_dir(), 'euphorbia')
         confdir = os.path.join(glib.get_user_config_dir(), 'euphorbia')
-        locales = os.path.join(root, 'share', 'locale') if "--test" else None
+        cfgfile = os.path.join(confdir, 'euphorbia.cfg')
+        locales = os.path.join(root, 'share', 'locale')
         gettext.install('euphorbia', locales)
-        self.prefm = prefs.PrefsManager()
+        # Preferences
+        self.prefm = prefs.PrefsManager(cfgfile, testmode)
         self.prefm.set_pref('system_maindir', maindir)
         self.prefm.set_pref('system_datadir', datadir)
         self.prefm.set_pref('system_confdir', confdir)
         # Load application
         self.plugm = exts.PluginsManager(self)
         self.gui = ui.EuphorbiaGUI(self)
+        self._load_plugins()
         self.prefm.autoconnect_gtk(self.gui.win)
         # Open files given in command line
         args = [a for a in args if not a.startswith("--")]
@@ -75,7 +79,18 @@ class Euphorbia:
         else:
             self.gui.act_new()
     
+    def _load_plugins(self):
+        """Load plugins from saved list."""
+        plugins = self.prefm.get_pref('plugins_list')
+        availables = self.plugm.list_available_plugins()
+        for p in plugins[:]:
+            ok = self.plugm.load_plugin(p) if p in availables else False
+            if not ok:
+                plugins.remove(p)
+        return
+    
     def run(self):
+        """Run the programm."""
         self.gui.main()
 
 

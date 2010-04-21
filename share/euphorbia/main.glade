@@ -9,6 +9,7 @@
     <property name="default_height">600</property>
     <signal name="destroy" handler="ev_destroy"/>
     <signal name="delete_event" handler="ev_delete_event"/>
+    <signal name="window_state_event" handler="ev_win_state"/>
     <child>
       <object class="GtkVBox" id="vbox_main">
         <property name="visible">True</property>
@@ -53,6 +54,7 @@
                         <property name="visible">True</property>
                         <property name="can_focus">True</property>
                         <property name="scrollable">True</property>
+                        <signal name="switch_page" handler="ev_switch_page"/>
                       </object>
                       <packing>
                         <property name="position">0</property>

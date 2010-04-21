@@ -51,7 +51,6 @@ class EuphorbiaGUI(actions.ActionsManager):
         ]
         self.build_interface()
         self.nbd = self.builder.get_object('notebook_docs')
-        self.nbd.connect('switch-page', self.ev_switch_page)
         self.nbd.tab_list = set()
         self.win.show()
     
@@ -168,6 +167,14 @@ class EuphorbiaGUI(actions.ActionsManager):
         t = self.get_current_tab(data[2])
         if t is not None:
             self.emit('changetab', t)
+        return
+    
+    def ev_win_state(self, win, event):
+        """Callback to handle window (un)maximize event."""
+        m = gtk.gdk.WINDOW_STATE_MAXIMIZED
+        if event.changed_mask & m:
+            p = True if event.new_window_state & m else False
+            self.app.prefm.set_pref('window_maximized', p)
         return
     
     def ev_hide_bottom(self, *data):

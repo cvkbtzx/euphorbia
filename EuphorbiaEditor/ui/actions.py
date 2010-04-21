@@ -86,7 +86,7 @@ class ActionsManager:
     def act_new(self, *data):
         """Callback for 'New' action."""
         self.newdoccount += 1
-        n = _("New document %i") % (self.newdoccount)
+        n = _("New_document-%i.tex") % (self.newdoccount)
         self.do_open(None, fname=n, hl='latex')
         return
     
@@ -241,6 +241,9 @@ class ActionsManager:
         dwin = dialogs.PrefsWin(self.app)
         dwin.run()
         dwin.destroy()
+        pluglist = self.app.plugm.list_loaded_plugins()
+        self.app.prefm.set_pref('plugins_list', pluglist)
+        self.app.prefm.store()
         return
     
     def act_about(self, *data):
@@ -314,7 +317,10 @@ class ActionsManager:
     def do_quit(self):
         """Ensure that the application quits correctly."""
         self.emit('quit')
+        pluglist = self.app.plugm.list_loaded_plugins()
+        self.app.prefm.set_pref('plugins_list', pluglist)
         self.app.plugm.stop_all_plugins()
+        self.app.prefm.store()
         self.ev_destroy()
         return
 

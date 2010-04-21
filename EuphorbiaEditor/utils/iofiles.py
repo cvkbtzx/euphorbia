@@ -26,7 +26,7 @@ import os.path
 
 #------------------------------------------------------------------------------
 
-class FileManager:
+class FileManager(object):
     """File manager based on GIO."""
     
     def __init__(self, name, encoding=None):
