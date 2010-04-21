@@ -177,44 +177,51 @@ class Document(tabwrapper.TabWrapper):
         self.ev.buffer.paste_clipboard(self.clipb, None, tv.get_editable())
         return
     
-    def search(self, txt, case_sensitive, dir, loop):
+    def search(self, txt, case, dir, loop):
         """Search text in document."""
+        buffer = self.ev.buffer
         flags = gtksv.SEARCH_TEXT_ONLY | gtksv.SEARCH_VISIBLE_ONLY
-        if not case_sensitive:
+        if not case:
             flags = flags | gtksv.SEARCH_CASE_INSENSITIVE
-        ibeg, iend = self.ev.buffer.get_bounds()
+        ibeg, iend = buffer.get_bounds()
         if dir > 0:
-            iter = self.ev.buffer.get_iter_at_mark(self.ev.buffer.get_selection_bound())
+            iter = buffer.get_iter_at_mark(buffer.get_selection_bound())
             res = gtksv.iter_forward_search(iter, txt, flags, None)
             if res is None and loop:
                 res = gtksv.iter_forward_search(ibeg, txt, flags, None)
         elif dir < 0:
-            iter = self.ev.buffer.get_iter_at_mark(self.ev.buffer.get_insert())
+            iter = buffer.get_iter_at_mark(buffer.get_insert())
             res = gtksv.iter_backward_search(iter, txt, flags, None)
             if res is None and loop:
                 res = gtksv.iter_backward_search(iend, txt, flags, None)
         else:
-            iter = self.ev.buffer.get_iter_at_mark(self.ev.buffer.get_insert())
+            iter = buffer.get_iter_at_mark(buffer.get_insert())
             res = gtksv.iter_forward_search(iter, txt, flags, None)
             if res is None and loop:
                 res = gtksv.iter_forward_search(ibeg, txt, flags, None)
+        s = self.get_selection()
+        low = lambda x: x.decode('utf8').lower().encode('utf8')
         if res is not None:
-            self.ev.buffer.select_range(*res)
-            self.ev.view.scroll_to_mark(self.ev.buffer.get_insert(), 0.25, True)
-        elif loop or txt != self.get_selection():
-            self.ev.buffer.place_cursor(iter)
+            buffer.select_range(*res)
+            self.ev.view.scroll_to_mark(buffer.get_insert(), 0.25, True)
+        elif loop or (txt!=s and case) or (low(txt)!=low(s) and not case):
+            buffer.place_cursor(iter)
         return
     
     def insert(self, txt, select=False):
         """Insert text in cursor position."""
         if self.ev.buffer.get_has_selection():
             self.ev.buffer.delete_selection(True, self.ev.view.get_editable())
+        iter = self.ev.buffer.get_iter_at_mark(self.ev.buffer.get_insert())
+        m1 = self.ev.buffer.create_mark(None, iter, True)
+        m2 = self.ev.buffer.create_mark(None, iter, False)
         self.ev.buffer.insert_at_cursor(txt)
-        ###if select:
-        ###    i = self.ev.buffer.get_iter_at_mark(self.ev.buffer.get_insert())
-        ###    j = i.copy()
-        ###    j.backward_chars(len(txt))
-        ###    self.ev.buffer.select_range(i, j)
+        if select:
+            i1 = self.ev.buffer.get_iter_at_mark(m1)
+            i2 = self.ev.buffer.get_iter_at_mark(m2)
+            self.ev.buffer.select_range(i1, i2)
+        self.ev.buffer.delete_mark(m1)
+        self.ev.buffer.delete_mark(m2)
         return
     
     def get_selection(self):

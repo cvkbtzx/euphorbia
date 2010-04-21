@@ -32,16 +32,19 @@ class SearchBar(gtk.Toolbar):
         gtk.Toolbar.__init__(self)
         self.app = app
         self.set_name('toolbar_search')
+        # Search label
         t = gtk.ToolItem()
         t.add(gtk.Label(_("Search:")))
         t.get_child().set_padding(5, 0)
         self.insert(t, -1)
+        # Search entry
         t = gtk.ToolItem()
         t.set_expand(False)
         self.searchtxt = gtk.Entry()
         self.searchtxt.connect('changed', lambda w: self.ev_search(w, 0))
         t.add(self.searchtxt)
         self.insert(t, -1)
+        # Search directions
         t = gtk.ToolButton(gtk.STOCK_GO_BACK)
         t.connect('clicked', lambda w: self.ev_search(w, -1))
         self.insert(t, -1)
@@ -50,19 +53,23 @@ class SearchBar(gtk.Toolbar):
         ak, am = gtk.accelerator_parse("F3")
         t.add_accelerator('clicked', accels, ak, am, gtk.ACCEL_VISIBLE)
         self.insert(t, -1)
+        # Case sensitivity button
         t = gtk.ToolItem()
         self.case = gtk.CheckButton(_("Case sensitive"))
         self.case.set_focus_on_click(False)
         self.case.connect('toggled', lambda w: self.ev_search(w, 0))
         t.add(self.case)
         self.insert(t, -1)
+        # Space
         t = gtk.ToolItem()
         t.add(gtk.Label())
         t.set_expand(True)
         self.insert(t, -1)
+        # Close button
         t = gtk.ToolButton(gtk.STOCK_CLOSE)
         t.connect('clicked', lambda w: self.hide())
         self.insert(t, -1)
+        # Display
         self.show_all()
         self.hide()
         self.connect('show', self.ev_show)
@@ -88,7 +95,6 @@ class SearchBar(gtk.Toolbar):
                 if '\n' not in txt and '\t' not in txt and len(txt) < 32:
                     self.searchtxt.set_text(txt)
         self.searchtxt.grab_focus()
-        self.searchtxt.select_region(0, -1)
         return
     
     def ev_hide(self, *data):
