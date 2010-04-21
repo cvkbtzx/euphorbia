@@ -352,7 +352,7 @@ class SaveWin(gtk.FileChooserDialog):
         self.set_local_only(False)
         if fileobj is not None:
             self.select_uri(fileobj.uri)
-        if filename is not None:
+        elif filename is not None:
             self.set_current_name(filename)
         self.set_do_overwrite_confirmation(True)
 

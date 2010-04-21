@@ -234,8 +234,9 @@ msgstr "Fichiers LaTeX"
 msgid "Save..."
 msgstr "Enregistrer..."
 
-msgid "New document"
-msgstr "Nouveau document"
+#, python-format
+msgid "New document %i"
+msgstr "Nouveau document %i"
 
 msgid "Search:"
 msgstr "Rechercher :"

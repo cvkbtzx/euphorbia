@@ -21,6 +21,7 @@
 """Files management."""
 
 import gio
+import os.path
 
 
 #------------------------------------------------------------------------------
@@ -30,6 +31,7 @@ class FileManager:
     
     def __init__(self, name, encoding=None):
         self.gfile = gio.File(name)
+        self.original_name = name
         self.mime = None
         self.encoding = encoding
         self.uri = self.gfile.get_uri()
@@ -48,8 +50,9 @@ class FileManager:
         except StandardError:
             for a in self.infos:
                 self.infos[a] = None
+            self.infos['name'] = os.path.basename(self.original_name)
             self.mime = None
-            return False
+            return
         attrs = qi.list_attributes("standard") + qi.list_attributes("access")
         for a in self.infos:
             fn = "get_" + a.replace('-', '_')
@@ -74,12 +77,18 @@ class FileManager:
             self.mime = self.infos['fast-content-type']
         else:
             self.mime = None
-        return True
+        return
     
     def get_name(self):
-        """Get name as UTF-8 string."""
+        """Get name as UTF-8 string (if possible)."""
         i = self.infos
-        return i['display-name'] if i['display-name'] else i['name']
+        if self.infos['display-name']:
+            ret = self.infos['display-name']
+        elif self.infos['name']:
+            ret = self.infos['name']
+        else:
+            ret = self.gfile.get_basename()
+        return ret
     
     def fullname(self):
         """Get file full name."""
@@ -102,8 +111,11 @@ class FileManager:
                 data = data.decode(code).encode('utf-8')
             else:
                 data.decode('utf-8')   # raise error if not utf-8
-        except StandardError:
+        except StandardError as e:
             data = None
+            if type(e) == gio.Error:
+                if e.code == gio.ERROR_NOT_FOUND:
+                    data = ""
         return data
     
     def write(self, data, backup=False):

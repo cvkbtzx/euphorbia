@@ -42,7 +42,7 @@ class Document(tabwrapper.TabWrapper):
         tabwrapper.TabWrapper.__init__(self, notebook, hp)
         self.ev = EditView()
         hp.pack1(self.ev, True, False)
-        filename = filename if filename else _("New document")
+        filename = filename if filename else "New document"
         self.set_title(filename)
         self.icon.set_from_stock(gtk.STOCK_FILE, gtk.ICON_SIZE_MENU)
         self.datafile = {'file':filename, 'encoding':None, 'hlight':hlight}
@@ -104,11 +104,11 @@ class Document(tabwrapper.TabWrapper):
             self.ev.buffer.set_modified(False)
         return ret
     
-    def saveinfos(self):
-        """Return infos about the file to save."""
+    def fileinfos(self):
+        """Return infos (name, file, modified) about the file to save."""
         f = self.datafile['file']
         m = self.ev.buffer.get_modified()
-        return (f,None,m) if type(f) is str else (None,f,m)
+        return (f,None,m) if type(f) is str else (f.get_name(),f,m)
     
     def connect_print_compositor(self, printop, prefm):
         """Connect document print compositor to PrintOperation."""

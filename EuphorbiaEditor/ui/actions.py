@@ -79,20 +79,23 @@ class ActionsManager:
         self.actgrp = gtk.ActionGroup('euphorbia')
         self.actgrp.add_actions(get_actions_list(self))
         self.actgrp.add_toggle_actions(get_toggle_actions_list(self))
+        self.newdoccount = 0
     
     # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
     
     def act_new(self, *data):
         """Callback for 'New' action."""
-        self.do_open(None, hl='latex')
+        self.newdoccount += 1
+        n = _("New document %i") % (self.newdoccount)
+        self.do_open(None, fname=n, hl='latex')
         return
     
     def act_open(self, *data):
         """Callback for 'Open' action."""
         tab, folder = self.get_current_tab(), None
-        if hasattr(tab, 'saveinfos'):
-            if tab.saveinfos()[1] is not None:
-                folder = tab.saveinfos()[1].gfile.get_parent().get_uri()
+        if hasattr(tab, 'fileinfos'):
+            if tab.fileinfos()[1] is not None:
+                folder = tab.fileinfos()[1].gfile.get_parent().get_uri()
         dwin = dialogs.OpenWin(self.app, folder)
         resp = dwin.run()
         uris = dwin.get_uris() if resp == gtk.RESPONSE_OK else []
@@ -105,8 +108,8 @@ class ActionsManager:
     def act_save(self, *data, **args):
         """Callback for 'Save' action."""
         tab = args['tab'] if 'tab' in args else self.get_current_tab()
-        if hasattr(tab, 'save') and hasattr(tab, 'saveinfos'):
-            if tab.saveinfos()[1] is None:
+        if hasattr(tab, 'save') and hasattr(tab, 'fileinfos'):
+            if tab.fileinfos()[1] is None:
                 self.act_saveas(**args)
             else:
                 if tab.save(None, self.app.prefm.get_pref('files_backup')):
@@ -116,8 +119,8 @@ class ActionsManager:
     def act_saveas(self, *data, **args):
         """Callback for 'Save as' action."""
         tab = args['tab'] if 'tab' in args else self.get_current_tab()
-        if hasattr(tab, 'save') and hasattr(tab, 'saveinfos'):
-            infos = tab.saveinfos()
+        if hasattr(tab, 'save') and hasattr(tab, 'fileinfos'):
+            infos = tab.fileinfos()
             dwin = dialogs.SaveWin(self.app, *infos[:2])
             resp = dwin.run()
             uri = dwin.get_uri() if resp == gtk.RESPONSE_OK else None
@@ -277,10 +280,10 @@ class ActionsManager:
         """Ask if save tab before closing."""
         tabask = []
         for t in tabs:
-            if hasattr(t, 'saveinfos'):
-                i = t.saveinfos()
+            if hasattr(t, 'fileinfos'):
+                i = t.fileinfos()
                 if i[2]:
-                    n = i[0] if i[0] is not None else i[1].fullname()
+                    n = i[0] if i[1] is None else i[1].fullname()
                     tabask.append((t, n))
         if len(tabask) > 0:
             dwin = dialogs.SaveBeforeCloseWin(self.app, tabask)
@@ -295,13 +298,13 @@ class ActionsManager:
             tosave = []
         return tosave
     
-    def do_open(self, filename, enc=None, hl=None):
+    def do_open(self, filepath, fname=None, enc=None, hl=None):
         """Open file in new tab."""
-        d = document.Document(self.nbd, hlight=hl)
+        d = document.Document(self.nbd, filename=fname, hlight=hl)
         d.close_action = self.act_close
         self.app.prefm.autoconnect_gtk(d.ev)
-        if filename is not None:
-            f = iofiles.FileManager(filename, enc)
+        if filepath is not None:
+            f = iofiles.FileManager(filepath, enc)
             f.update_infos()
             if not d.open_file(f, enc, hl):
                 self.send_message('error', 'close', _("OpenFileError"))
