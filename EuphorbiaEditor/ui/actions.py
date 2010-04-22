@@ -86,7 +86,7 @@ class ActionsManager:
     def act_new(self, *data):
         """Callback for 'New' action."""
         self.newdoccount += 1
-        n = _("New_document-%i.tex") % (self.newdoccount)
+        n = _("New_doc_%i.tex") % (self.newdoccount)
         self.do_open(None, fname=n, hl='latex')
         return
     

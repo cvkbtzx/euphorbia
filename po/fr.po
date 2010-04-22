@@ -235,8 +235,8 @@ msgid "Save..."
 msgstr "Enregistrer..."
 
 #, python-format
-msgid "New_document-%i.tex"
-msgstr "Nouveau_document-%i.tex"
+msgid "New_doc_%i.tex"
+msgstr "Nouveau_doc_%i.tex"
 
 msgid "Search:"
 msgstr "Rechercher :"
