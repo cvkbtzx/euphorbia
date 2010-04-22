@@ -198,7 +198,12 @@ class EuphorbiaSidePanel(SidePanel):
         txt = self.syms[categ][symb]['insert']
         tab = self.app.gui.get_current_tab()
         if hasattr(tab, 'insert'):
-            tab.insert(txt)
+            if hasattr(tab, 'insert2') and txt.count("{}") == 1:
+                i = txt.find("{}") + 1
+                txt1, txt2 = txt[:i], txt[i:]
+                tab.insert2(txt1, txt2)
+            else:
+                tab.insert(txt)
         return
     
     def update_docstruct(self, tab=None):

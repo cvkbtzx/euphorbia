@@ -83,7 +83,7 @@ class Euphorbia:
         """Load plugins from saved list."""
         plugins = self.prefm.get_pref('plugins_list')
         availables = self.plugm.list_available_plugins()
-        for p in plugins[:]:
+        for p in sorted(plugins):
             ok = self.plugm.load_plugin(p) if p in availables else False
             if not ok:
                 plugins.remove(p)
