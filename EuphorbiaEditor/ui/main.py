@@ -70,7 +70,7 @@ class EuphorbiaGUI(actions.ActionsManager):
         icons = (gtk.gdk.pixbuf_new_from_file_at_size(img,s,s) for s in sizes)
         self.win.set_icon_list(*icons)
         # Side panel
-        hp = self.builder.get_object('hpaned')
+        hp = self.builder.get_object('hpaned_main')
         hp.get_child1().destroy()
         hp.pack1(sidepanel.EuphorbiaSidePanel(self.app, self), False, True)
         hp.get_child1().showpanel = lambda x: self.do_showpanel(x, 'side')
