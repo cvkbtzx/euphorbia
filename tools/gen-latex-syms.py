@@ -49,14 +49,10 @@ for df in datafiles:
             cmd = cp.get(s, 'Compile')
             lf.write(FBEG + cmd + FEND)
         devnull = open(os.devnull, 'w')
-        p = subprocess.Popen(["pdflatex", "-interaction", "nonstopmode", "-output-directory", dir, fn("tex")], stdout=devnull, stderr=devnull)
-        p.wait()
-        p = subprocess.Popen(["perl", "/usr/bin/pdfcrop", "--margins", "0", fn("pdf"), fn("2.pdf")], stdout=devnull, stderr=devnull)
-        p.wait()
-        p = subprocess.Popen(["convert", "-density", DPI, "-resize", DIM+"x"+DIM+">", "-gravity", "Center", "-extent", DIM+"x"+DIM, fn("2.pdf"), "-normalize", "-define", "png:color-type=4", "-quality", "90", fn("2.png")])
-        p.wait()
-        p = subprocess.Popen(["convert", "-negate", fn("2.png"), "-alpha", "copy", "-negate", "-define", "png:color-type=6", "-format", "PNG32", "-quality", "90", fn("png")])
-        p.wait()
+        subprocess.Popen(["pdflatex", "-interaction", "nonstopmode", "-output-directory", dir, fn("tex")], stdout=devnull, stderr=devnull).wait()
+        subprocess.Popen(["perl", "/usr/bin/pdfcrop", "--margins", "0", fn("pdf"), fn("2.pdf")], stdout=devnull, stderr=devnull).wait()
+        subprocess.Popen(["convert", "-density", DPI, "-resize", DIM+"x"+DIM+">", "-gravity", "Center", "-extent", DIM+"x"+DIM, fn("2.pdf"), "-normalize", "-gamma", "0.9", "-define", "png:color-type=4", "-quality", "90", fn("2.png")]).wait()
+        subprocess.Popen(["convert", "-negate", fn("2.png"), "-alpha", "copy", "-negate", "-define", "png:color-type=6", "-format", "PNG32", "-quality", "90", fn("png")]).wait()
         devnull.close()
     for f in os.listdir(dir):
         if len(f.split(".")) != 2 or not f.endswith(".png"):

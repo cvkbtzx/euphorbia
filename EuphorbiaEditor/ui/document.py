@@ -210,33 +210,38 @@ class Document(tabwrapper.TabWrapper):
     
     def insert(self, txt, select=False):
         """Insert text at cursor position, replacing the selection."""
-        if self.ev.buffer.get_has_selection():
-            self.ev.buffer.delete_selection(True, self.ev.view.get_editable())
-        iter = self.ev.buffer.get_iter_at_mark(self.ev.buffer.get_insert())
-        m1 = self.ev.buffer.create_mark(None, iter, True)
-        m2 = self.ev.buffer.create_mark(None, iter, False)
-        self.ev.buffer.insert_at_cursor(txt)
+        buffer = self.ev.buffer
+        if buffer.get_has_selection():
+            buffer.delete_selection(True, self.ev.view.get_editable())
+        iter = buffer.get_iter_at_mark(buffer.get_insert())
+        m1 = buffer.create_mark(None, iter, True)
+        m2 = buffer.create_mark(None, iter, False)
+        buffer.insert_at_cursor(txt)
         if select:
-            i1 = self.ev.buffer.get_iter_at_mark(m1)
-            i2 = self.ev.buffer.get_iter_at_mark(m2)
-            self.ev.buffer.select_range(i1, i2)
-        self.ev.buffer.delete_mark(m1)
-        self.ev.buffer.delete_mark(m2)
+            i1 = buffer.get_iter_at_mark(m1)
+            i2 = buffer.get_iter_at_mark(m2)
+            buffer.select_range(i1, i2)
+        buffer.delete_mark(m1)
+        buffer.delete_mark(m2)
         return
     
     def insert2(self, txt1, txt2):
         """Insert text around selection."""
-        if self.ev.buffer.get_has_selection():
-            ibeg, iend = self.ev.buffer.get_selection_bounds()
+        buffer = self.ev.buffer
+        if buffer.get_has_selection():
+            ibeg, iend = buffer.get_selection_bounds()
             ibeg.order(iend)
-            m1 = self.ev.buffer.create_mark(None, ibeg)
-            m2 = self.ev.buffer.create_mark(None, iend)
-            self.ev.buffer.insert(self.ev.buffer.get_iter_at_mark(m1), txt1)
-            self.ev.buffer.insert(self.ev.buffer.get_iter_at_mark(m2), txt2)
-            self.ev.buffer.delete_mark(m1)
-            self.ev.buffer.delete_mark(m2)
         else:
-            self.ev.buffer.insert_at_cursor(txt1 + txt2)
+            ibeg = buffer.get_iter_at_mark(buffer.get_insert())
+            iend = ibeg.copy()
+        m1 = buffer.create_mark(None, ibeg)
+        m2 = buffer.create_mark(None, iend)
+        buffer.insert(buffer.get_iter_at_mark(m1), txt1)
+        buffer.insert(buffer.get_iter_at_mark(m2), txt2)
+        iter = buffer.get_iter_at_mark(m2)
+        buffer.delete_mark(m1)
+        buffer.delete_mark(m2)
+        buffer.place_cursor(iter)
         return
     
     def get_selection(self):

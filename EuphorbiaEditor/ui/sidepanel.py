@@ -198,7 +198,7 @@ class EuphorbiaSidePanel(SidePanel):
         txt = self.syms[categ][symb]['insert']
         tab = self.app.gui.get_current_tab()
         if hasattr(tab, 'insert'):
-            if hasattr(tab, 'insert2') and txt.count("{}") == 1:
+            if hasattr(tab, 'insert2') and "{}" in txt:
                 i = txt.find("{}") + 1
                 txt1, txt2 = txt[:i], txt[i:]
                 tab.insert2(txt1, txt2)

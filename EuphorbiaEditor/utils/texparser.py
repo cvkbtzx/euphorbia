@@ -26,6 +26,7 @@ LATEX_KEYWORDS = {
     'struct':  ["part", "chapter", "section", "subsection", "subsubsection"],
     'graphic': ["includegraphics"],
     'table':   ["tabular"],
+    'package': ["usepackage"],
 }
 
 
