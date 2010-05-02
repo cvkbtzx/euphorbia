@@ -24,10 +24,6 @@ import gtk
 import evince
 import euphorbia
 
-import os.path
-CWD = os.path.dirname(__file__)
-FILE = "file://" + CWD + "/test-doc.pdf"
-
 
 #------------------------------------------------------------------------------
 
@@ -38,12 +34,17 @@ class PdfView(euphorbia.Plugin):
         euphorbia.Plugin.__init__(self)
     
     def activate(self):
-        nb = self.app.gui.get_widgets_by_name('notebook_docs')
-        self.et = EvinceTab(nb.pop(), FILE)
+        handler = (
+            'evince',
+            _("Output files"), ["*.pdf","*.dvi","*.ps"],
+            EvinceTab, {}
+        )
+        self.app.gui.file_handlers.append(handler)
         return
     
     def deactivate(self):
-        self.et = None
+        i = [fh[0] for fh in self.app.gui.file_handlers].index('evince')
+        del self.app.gui.file_handlers[i]
         return
 
 
@@ -52,11 +53,11 @@ class PdfView(euphorbia.Plugin):
 class EvinceTab(euphorbia.TabWrapper):
     """Notebook tab containing an EvinceView."""
     
-    def __init__(self, nb, filename):
-        ev = EvinceView(filename)
-        euphorbia.TabWrapper.__init__(self, nb, ev)
-        self.title.set_text(filename.split('/')[-1])
-        self.icon.set_from_stock(gtk.STOCK_ZOOM_FIT, gtk.ICON_SIZE_MENU)
+    def __init__(self, app, fileobj, **args):
+        ev = EvinceView(fileobj.uri)
+        euphorbia.TabWrapper.__init__(self, app, ev)
+        self.set_title(fileobj.get_name())
+        self.set_icon(*fileobj.get_icons())
 
 
 #------------------------------------------------------------------------------
@@ -71,7 +72,7 @@ class EvinceView(gtk.VBox):
         self.eview = evince.View()
         self.eview.set_loading(False)
         self.eview.set_document(self.doc)
-        self.eview.set_screen_dpi(dpi)
+        self.eview.set_screen_dpi(int(dpi))
         self.eview.set_sizing_mode(evince.SIZING_FREE)
         scroll = gtk.ScrolledWindow()
         scroll.set_policy(gtk.POLICY_AUTOMATIC, gtk.POLICY_ALWAYS)

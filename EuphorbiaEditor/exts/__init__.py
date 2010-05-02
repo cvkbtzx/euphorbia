@@ -65,6 +65,7 @@ class PluginsManager:
             sys.excepthook(*sys.exc_info())
             print ""
         else:
+            log("load_plugin > "+plugin)
             self.instances[plugin] = pluginstance
             ret = True
         return ret
@@ -84,6 +85,7 @@ class PluginsManager:
             sys.excepthook(*sys.exc_info())
             print ""
         else:
+            log("unload_plugin > "+plugin)
             ret = True
         return ret
     

@@ -114,6 +114,7 @@ class PrefsManager:
     
     def set_pref(self, code, val):
         """Assign a value to a pref."""
+        log("set_pref > "+code+" > "+repr(val))
         if code in self.codes:
             if type(self.codes[code][2]) is dict:
                 if val not in self.codes[code][2].values():

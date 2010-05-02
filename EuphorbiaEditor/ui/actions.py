@@ -135,14 +135,12 @@ class ActionsManager:
     
     def act_page(self, *data):
         """Setup page."""
-        pwin = self.app.gui.win
         f = gtk.print_run_page_setup_dialog
-        self.print_setup = f(pwin, self.print_setup, self.print_settings)
+        self.print_setup = f(self.win, self.print_setup, self.print_settings)
         return
     
     def act_print(self, *data):
         """Callback for 'Print' action."""
-        pwin = self.app.gui.win
         tab = self.get_current_tab()
         if not hasattr(tab, 'connect_print_compositor'):
             return
@@ -152,7 +150,7 @@ class ActionsManager:
         tab.connect_print_compositor(printop)
         pst = lambda x: self.push_status(_("Print: %s") % (x), 'print')
         printop.connect('status-changed', lambda p: pst(p.get_status_string()))
-        res = printop.run(gtk.PRINT_OPERATION_ACTION_PRINT_DIALOG, pwin)
+        res = printop.run(gtk.PRINT_OPERATION_ACTION_PRINT_DIALOG, self.win)
         if res == gtk.PRINT_OPERATION_RESULT_ERROR:
             self.disp_message('error', 'close', _("PrintError"))
         elif res == gtk.PRINT_OPERATION_RESULT_APPLY:
@@ -270,14 +268,13 @@ class ActionsManager:
         """Show specified panel."""
         self.app.prefm.set_pref('gui_'+panel+'panelshow', visible)
         path = "/menu_main/menu_view/action_show"+panel+"pan"
-        a = self.app.gui.uim.get_action(path)
+        a = self.uim.get_action(path)
         for p in a.get_proxies():
             a.block_activate_from(p)
             p.set_active(visible)
             a.unblock_activate_from(p)
-        w = self.app.gui.get_widgets_by_name(panel+'panel').pop()
-        func = w.show if visible else w.hide
-        func()
+        w = self.get_widgets_by_name(panel+'panel').pop()
+        exe = w.show() if visible else w.hide()
         return
     
     def do_ask_save(self, tabs):
@@ -308,7 +305,7 @@ class ActionsManager:
         tab_type = self.file_handlers[i][3]
         tab_opts = self.file_handlers[i][4].copy()
         tab_opts.update(args)
-        log("do_open > '"+filter+"' > "+repr(tab_opts))
+        log("do_open > '"+filter+"' "+repr(tab_opts))
         if filepath is not None:
             enc = tab_opts['enc'] if 'enc' in tab_opts else None
             f = iofiles.FileManager(filepath, enc)
@@ -318,7 +315,8 @@ class ActionsManager:
         tab = tab_type(self.app, f, **tab_opts)
         tab.close_action = self.act_close
         self.app.prefm.autoconnect_gtk(tab.content)
-        self.emit('open', tab)
+        if tab in self.nbd.tab_list:
+            self.emit('open', tab)
         return
     
     def do_quit(self):

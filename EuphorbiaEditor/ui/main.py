@@ -158,7 +158,7 @@ class EuphorbiaGUI(actions.ActionsManager):
     def emit(self, signal, *params):
         """Emit the specified Euphorbia signal."""
         self.push_status(_("signal_"+signal))
-        log(signal)
+        log("signal > "+signal)
         for cb in self.connections[signal]:
             func = cb[0]
             func(*(params+cb[1]))
