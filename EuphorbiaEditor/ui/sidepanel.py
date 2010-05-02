@@ -150,7 +150,7 @@ class EuphorbiaSidePanel(SidePanel):
                     pixb = gtk.gdk.pixbuf_new_from_file(tool['img'])
                     pal.add_tool([t, tool['insert'], pixb])
                 except StandardError:
-                    print "Warning: can't load symbol '%s/%s'" % (categ,t)
+                    log("can't load symbol '%s/%s'" % (categ,t), 'warning')
             pal.set_item_activated_callback(self.insert_symbol, categ)
             name = self.get_local_name(tool)
             self.add_expander(categ, name, pal)

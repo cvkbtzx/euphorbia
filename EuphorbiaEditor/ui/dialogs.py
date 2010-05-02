@@ -26,10 +26,6 @@ import pango
 TXTBOLD = pango.AttrList()
 TXTBOLD.insert(pango.AttrWeight(pango.WEIGHT_BOLD, 0, -1))
 ENCODINGS = ["UTF-8", "Latin1", "Latin9", "Windows-1252"]
-FILTERS = [
-    ("All files", ["*"], False),
-    ("LaTeX files", ["*.tex","*.bib"], True),
-]
 
 
 #------------------------------------------------------------------------------
@@ -53,7 +49,7 @@ class PrefsWin(gtk.Dialog):
         self.vbox.pack_start(self.nbook, True, True)
         self.vbox.show_all()
         for p in self.app.gui.prefs_tabs:
-            self.nbook.append_page(p[1](app), gtk.Label(_(p[0])))
+            self.nbook.append_page(p[1](app), gtk.Label(p[0]))
         self.app.prefm.autoconnect_gtk(self)
         self.set_default_response(gtk.RESPONSE_CLOSE)
 
@@ -264,7 +260,7 @@ class PrefsWinPlugins(gtk.VBox):
             ret = self.app.plugm.load_plugin(p)
             if not ret:
                 msg = _("Plugin '%s' loading error") % (p)
-                self.app.gui.send_message('error', 'close', msg)
+                self.app.gui.disp_message('error', 'close', msg)
         v = self.app.plugm.is_loaded(p)
         self.tm.set_value(iter, 1, v)
         return
@@ -324,15 +320,22 @@ class OpenWin(gtk.FileChooserDialog):
         self.set_local_only(False)
         if folder is not None:
             self.set_current_folder_uri(folder)
-        for txt,exts,dft in FILTERS:
+        self.filters = {}
+        for h in app.gui.file_handlers:
             f = gtk.FileFilter()
-            f.set_name(_(txt))
-            for e in exts:
+            f.set_name(h[1])
+            for e in h[2]:
                 f.add_pattern(e)
             self.add_filter(f)
-            if dft:
-                self.set_filter(f)
+            self.filters[h[0]] = f
+        self.set_filter(self.filters['latex'])
         self.set_select_multiple(True)
+    
+    def get_filter_name(self):
+        """Get currently selected filter."""
+        cf = self.get_filter()
+        r = ''.join(n if f is cf else '' for n,f in self.filters.iteritems())
+        return 'all' if r == '' else r
 
 
 #------------------------------------------------------------------------------

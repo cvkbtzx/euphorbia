@@ -48,6 +48,7 @@ class FileManager(object):
         try:
             qi = self.gfile.query_info("standard::*,access::*")
         except StandardError:
+            log("can't query file infos", 'warning')
             for a in self.infos:
                 self.infos[a] = None
             self.infos['name'] = os.path.basename(self.original_name)
@@ -112,6 +113,7 @@ class FileManager(object):
             else:
                 data.decode('utf-8')   # raise error if not utf-8
         except StandardError as e:
+            log("error while reading the file", 'warning')
             data = None
             if type(e) == gio.Error:
                 if e.code == gio.ERROR_NOT_FOUND:
@@ -128,6 +130,7 @@ class FileManager(object):
                 data = data.decode('utf-8').encode(code)
             self.gfile.replace_contents(data, None, backup)
         except StandardError:
+            log("error while writing the file", 'warning')
             return False
         return True
     

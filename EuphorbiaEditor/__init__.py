@@ -23,7 +23,7 @@
 
 __version__ = '0.0.9'
 __date__    = '2010-04-24'
-__authors__  = ['Bzoloid <bzoloid@gmail.com>']
+__authors__ = ['Bzoloid <bzoloid@gmail.com>']
 __license__ = 'GNU GPL v2'
 
 import sys
@@ -35,6 +35,7 @@ import gettext
 import ui
 import prefs
 import exts
+import utils.log as ulog
 
 
 #------------------------------------------------------------------------------
@@ -53,6 +54,8 @@ class Euphorbia:
         args = sys.argv[1:]
         testmode = True if "--test" in args else False
         root = os.path.dirname(__path__[0]) if testmode else sys.prefix
+        debugmode = True if "--debug" in args else False
+        __builtins__['log'] = ulog.log_main if debugmode else ulog.log_null
         # Directories and localization
         self.locale = locale.getdefaultlocale()
         maindir = os.path.join(root, 'share', 'euphorbia')
@@ -75,7 +78,7 @@ class Euphorbia:
         args = [a for a in args if not a.startswith("--")]
         if args:
             for f in args:
-                self.gui.do_open(f)
+                self.gui.do_open(f, 'all')
         else:
             self.gui.act_new()
     

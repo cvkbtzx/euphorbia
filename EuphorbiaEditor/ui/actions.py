@@ -87,7 +87,7 @@ class ActionsManager:
         """Callback for 'New' action."""
         self.newdoccount += 1
         n = _("New_doc_%i.tex") % (self.newdoccount)
-        self.do_open(None, fname=n, hl='latex')
+        self.do_open(None, 'latex', fname=n)
         return
     
     def act_open(self, *data):
@@ -100,9 +100,10 @@ class ActionsManager:
         resp = dwin.run()
         uris = dwin.get_uris() if resp == gtk.RESPONSE_OK else []
         code = dwin.get_extra_widget().get_children()[1].get_active_text()
+        filter = dwin.get_filter_name()
         dwin.destroy()
         for u in uris:
-            self.do_open(u, enc=code)
+            self.do_open(u, filter, enc=code)
         return
     
     def act_save(self, *data, **args):
@@ -148,12 +149,12 @@ class ActionsManager:
         printop = gtk.PrintOperation()
         printop.set_default_page_setup(self.print_setup)
         printop.set_print_settings(self.print_settings)
-        tab.connect_print_compositor(printop, self.app.prefm)
+        tab.connect_print_compositor(printop)
         pst = lambda x: self.push_status(_("Print: %s") % (x), 'print')
         printop.connect('status-changed', lambda p: pst(p.get_status_string()))
         res = printop.run(gtk.PRINT_OPERATION_ACTION_PRINT_DIALOG, pwin)
         if res == gtk.PRINT_OPERATION_RESULT_ERROR:
-            self.send_message('error', 'close', _("PrintError"))
+            self.disp_message('error', 'close', _("PrintError"))
         elif res == gtk.PRINT_OPERATION_RESULT_APPLY:
             self.print_settings = printop.get_print_settings()
         return
@@ -301,17 +302,23 @@ class ActionsManager:
             tosave = []
         return tosave
     
-    def do_open(self, filepath, fname=None, enc=None, hl=None):
+    def do_open(self, filepath, filter, **args):
         """Open file in new tab."""
-        d = document.Document(self.nbd, filename=fname, hlight=hl)
-        d.close_action = self.act_close
-        self.app.prefm.autoconnect_gtk(d.ev)
+        i = [fh[0] for fh in self.file_handlers].index(filter)
+        tab_type = self.file_handlers[i][3]
+        tab_opts = self.file_handlers[i][4].copy()
+        tab_opts.update(args)
+        log("do_open > '"+filter+"' > "+repr(tab_opts))
         if filepath is not None:
+            enc = tab_opts['enc'] if 'enc' in tab_opts else None
             f = iofiles.FileManager(filepath, enc)
             f.update_infos()
-            if not d.open_file(f, enc, hl):
-                self.send_message('error', 'close', _("OpenFileError"))
-        self.emit('open', d)
+        else:
+            f = None
+        tab = tab_type(self.app, f, **tab_opts)
+        tab.close_action = self.act_close
+        self.app.prefm.autoconnect_gtk(tab.content)
+        self.emit('open', tab)
         return
     
     def do_quit(self):

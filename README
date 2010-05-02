@@ -23,6 +23,9 @@ Test without install:
 Install:
     python setup.py install
 
+Install on Debian/Ubuntu:
+    python setup.py install --install-layout=deb
+
 
 More infos:
 http://code.google.com/p/euphorbia/

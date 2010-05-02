@@ -37,30 +37,46 @@ STYLEM = gtksv.style_scheme_manager_get_default()
 class Document(tabwrapper.TabWrapper):
     """Class for documents managing. Includes notebook tabs and edit zone."""
     
-    def __init__(self, notebook, filename=None, hlight=None):
+    def __init__(self, app, file, **args):
+        # User interface
         hp = gtk.HPaned()
-        tabwrapper.TabWrapper.__init__(self, notebook, hp)
+        tabwrapper.TabWrapper.__init__(self, app, hp)
         self.ev = EditView()
         hp.pack1(self.ev, True, False)
-        filename = filename if filename else "New document"
-        self.set_title(filename)
-        self.icon.set_from_stock(gtk.STOCK_FILE, gtk.ICON_SIZE_MENU)
-        self.datafile = {'file':filename, 'encoding':None, 'hlight':hlight}
-        self.ev.set_language(hlight)
         self.clipb = gtk.clipboard_get()
-        self.gen_doc_struct()
+        # Parameters
+        params = {'fname':None, 'hlight':None, 'enc':None}
+        params.update(args)
+        fname, hlight, enc = params['fname'], params['hlight'], params['enc']
+        fname = fname if fname else "New document"
+        self.datafile = {'file':fname, 'encoding':enc, 'hlight':hlight}
+        # Load document
+        if file is not None:
+            if not self.open_file(file, **params):
+                self.close()
+                self.app.gui.disp_message('error', 'close', _("OpenFileError"))
+        else:
+            self.set_title(fname)
+            self.set_icon()
+            self.ev.set_language(hlight)
+            self.gen_doc_struct()
         self.ev.buffer.connect('modified-changed', self.ev_modified)
         self.button_close.connect('enter', lambda x: self.set_close_icon())
         self.button_close.connect('leave', lambda x: self.ev_modified())
     
-    def set_file(self, f, enc=None, hl=None):
+    def get_fname(self):
+        """Get tab name."""
+        f = self.datafile['file']
+        return f if type(f) is str else f.get_name()
+    
+    def set_file(self, f, enc=None, hlight=None):
         """Change file."""
         if f.uri is not None or f.mime is not None:
             hlguess = self.ev.lang_manager.guess_language(f.uri, f.mime)
             hlguess = None if hlguess is None else hlguess.get_id()
         self.datafile['file'] = f
         self.datafile['encoding'] = enc if enc else 'utf-8'
-        self.datafile['hlight'] = hl if hl else hlguess
+        self.datafile['hlight'] = hlight if hlight else hlguess
         f.encoding = self.datafile['encoding']
         self.set_icon(*f.get_icons())
         name = f.get_name()
@@ -69,14 +85,11 @@ class Document(tabwrapper.TabWrapper):
         self.ev.set_language(self.datafile['hlight'])
         return
     
-    def get_fname(self):
-        """Get tab name."""
-        f = self.datafile['file']
-        return f if type(f) is str else f.get_name()
-    
-    def open_file(self, f, enc=None, hl=None):
+    def open_file(self, f, **args):
         """Load given file as the document."""
-        self.set_file(f, enc, hl)
+        params = {'enc':None, 'hlight':None}
+        params.update(args)
+        self.set_file(f, params['enc'], params['hlight'])
         txt = f.read()
         self.ev.buffer.begin_not_undoable_action()
         self.ev.buffer.set_text("" if txt is None else txt)
@@ -85,7 +98,8 @@ class Document(tabwrapper.TabWrapper):
         self.ev.buffer.set_modified(False)
         if txt is None:
             self.datafile['file'] = f.get_name()
-        self.gen_doc_struct()
+        else:
+            self.gen_doc_struct()
         return False if txt is None else True
     
     def save(self, f, backup=False):
@@ -105,13 +119,14 @@ class Document(tabwrapper.TabWrapper):
         return ret
     
     def fileinfos(self):
-        """Return infos (name, file, modified) about the file to save."""
+        """Return infos (file_name, file_obj, is_modified) about the file."""
         f = self.datafile['file']
         m = self.ev.buffer.get_modified()
         return (f,None,m) if type(f) is str else (f.get_name(),f,m)
     
-    def connect_print_compositor(self, printop, prefm):
+    def connect_print_compositor(self, printop):
         """Connect document print compositor to PrintOperation."""
+        prefm = self.app.prefm
         compoz = gtksv.print_compositor_new_from_view(self.ev.view)
         # Compositor options from PrefsManager
         for m in ['1header','2footer']:
@@ -323,33 +338,6 @@ class EditView(gtk.ScrolledWindow):
             lang = self.lang_manager.get_language(id)
             self.buffer.set_language(lang)
         return
-
-
-#------------------------------------------------------------------------------
-
-if __name__ == '__main__':
-    setattr(__builtins__, '_', str)
-    win = gtk.Window()
-    win.set_default_size(640, 480)
-    win.set_position(gtk.WIN_POS_CENTER)
-    win.connect('destroy', lambda w: gtk.main_quit())
-    nb = gtk.Notebook()
-    nb.set_show_tabs(True)
-    nb.set_scrollable(True)
-    nb.tab_list = set()
-    nb.show()
-    win.add(nb)
-    Document(nb,"Hello")
-    Document(nb)
-    Document(nb,"Bye")
-    for d in nb.tab_list:
-        d.ev.view.set_show_line_marks(True)
-        d.ev.view.set_show_line_numbers(True)
-        d.ev.view.set_cursor_visible(True)
-        d.ev.view.set_wrap_mode(gtk.WRAP_WORD)
-        d.ev.view.set_highlight_current_line(True)
-    win.show()
-    gtk.main()
 
 
 #------------------------------------------------------------------------------

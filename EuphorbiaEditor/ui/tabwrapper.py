@@ -40,7 +40,9 @@ widget "*-euphorbia-tab" style "euphorbia-tab-style"
 class TabWrapper(object):
     """Wrapper for notebook tabs."""
     
-    def __init__(self, notebook, child):
+    def __init__(self, app, child):
+        self.app = app
+        self.notebook = self.app.gui.nbd
         # Tab title
         self.title = gtk.Label()
         self.title.set_alignment(0.0, 0.5)
@@ -61,16 +63,15 @@ class TabWrapper(object):
         hb.pack_end(b_close, False, False)
         # Add the tab to the notebook
         self.content = child
-        notebook.append_page(self.content, hb)
-        notebook.set_tab_reorderable(self.content, True)
-        notebook.set_current_page(notebook.page_num(self.content))
-        notebook.tab_list.add(self)
-        self.notebook = notebook
+        self.notebook.append_page(self.content, hb)
+        self.notebook.set_tab_reorderable(self.content, True)
+        self.notebook.set_current_page(self.notebook.page_num(self.content))
+        self.notebook.tab_list.add(self)
         # Display
         self.close_action = None
         hb.show_all()
         self.content.show()
-        notebook.set_current_page(notebook.page_num(self.content))
+        self.notebook.set_current_page(self.notebook.page_num(self.content))
     
     def set_title(self, txt):
         """Set tab title."""
@@ -110,6 +111,7 @@ class TabWrapper(object):
         self.notebook.tab_list.remove(self)
         self.notebook.remove_page(self.notebook.page_num(self.content))
         self.content.destroy()
+        self.content = None
         return
 
 

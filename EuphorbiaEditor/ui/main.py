@@ -34,6 +34,24 @@ import searchbar
 
 #------------------------------------------------------------------------------
 
+SIGNALS = ['open', 'save', 'close', 'changetab', 'quit']
+
+DEFAULT_PREFS_TABS = [
+    # Name, widget
+    ("General", dialogs.PrefsWinGeneral),
+    ("LaTeX",   dialogs.PrefsWinLatex),
+    ("Plugins", dialogs.PrefsWinPlugins),
+]
+
+DEFAULT_FILE_HANDLERS = [
+    # ID, description, patterns, object, default_params
+    ('all', "All files", ["*"], document.Document, {}),
+    ('latex', "LaTeX files", ["*.tex","*.bib"], document.Document, {'hlight':"latex"}),
+]
+
+
+#------------------------------------------------------------------------------
+
 class EuphorbiaGUI(actions.ActionsManager):
     """Graphical User Interface."""
     
@@ -41,14 +59,10 @@ class EuphorbiaGUI(actions.ActionsManager):
         actions.ActionsManager.__init__(self, app)
         self.clipb = gtk.clipboard_get()
         self.setup_printers()
-        self.connections = {
-            'open':[], 'save':[], 'close':[],'changetab':[], 'quit':[]
-        }
-        self.prefs_tabs = [
-            ("General", dialogs.PrefsWinGeneral),
-            ("LaTeX",   dialogs.PrefsWinLatex),
-            ("Plugins", dialogs.PrefsWinPlugins),
-        ]
+        self.connections = dict((s,[]) for s in SIGNALS)
+        trad = lambda x,n: x[:n] + (_(x[n]),) + x[n+1:]
+        self.prefs_tabs = [trad(p,1) for p in DEFAULT_PREFS_TABS]
+        self.file_handlers = [trad(h,1) for h in DEFAULT_FILE_HANDLERS]
         self.build_interface()
         self.nbd = self.builder.get_object('notebook_docs')
         self.nbd.tab_list = set()
@@ -144,6 +158,7 @@ class EuphorbiaGUI(actions.ActionsManager):
     def emit(self, signal, *params):
         """Emit the specified Euphorbia signal."""
         self.push_status(_("signal_"+signal))
+        log(signal)
         for cb in self.connections[signal]:
             func = cb[0]
             func(*(params+cb[1]))
@@ -155,7 +170,7 @@ class EuphorbiaGUI(actions.ActionsManager):
         self.status.push(cid, txt)
         return
     
-    def send_message(self, t, b, txt):
+    def disp_message(self, t, b, txt):
         """Display a message in a dialog window."""
         dwin = dialogs.MsgWin(self.app.gui.win, t, b, txt)
         ret = dwin.run()
