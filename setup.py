@@ -5,6 +5,8 @@ import os.path
 from distutils.core import setup
 
 
+#------------------------------------------------------------------------------
+
 pkgname = "EuphorbiaEditor"
 pkgs = [pkgname] + ['.'.join([pkgname,d]) for d in os.listdir(pkgname) if os.path.isdir(os.path.join(pkgname,d))]
 datafiles = [(w[0],map(lambda f: os.path.join(w[0],f), w[2])) for w in os.walk("share") if len(w[2])>0]
@@ -25,7 +27,8 @@ with open(os.path.join(pkgname,"__init__.py"), 'r') as f:
 setup(
     name = "euphorbia",
     version = ver,
-    description = "Euphorbia LaTeX editor",
+    description = "Euphorbia - GTK LaTeX editor",
+    long_description = "Euphorbia provides a powerful and extensible environment to edit and manage LaTeX documents.",
     author = "Bzoloid",
     author_email = "bzoloid@gmail.com",
     url = "http://code.google.com/p/euphorbia/",
@@ -34,6 +37,7 @@ setup(
     scripts = binfiles,
     data_files = datafiles
 )
+
 
 #------------------------------------------------------------------------------
 
