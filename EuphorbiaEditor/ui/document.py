@@ -275,10 +275,11 @@ class Document(tabwrapper.TabWrapper):
     
     def gen_doc_struct(self):
         """Generate document structure."""
-        f = self.get_fname()
+        if self.datafile['hlight'] != 'latex':
+            return []
         ibeg, iend = self.ev.buffer.get_bounds()
         lp = texparser.LatexParser(self.ev.buffer.get_text(ibeg, iend, False))
-        self.struct = [(f, None, lp.parse('struct'))]
+        self.struct = [(_("Table of contents"), None, lp.parse('struct'))]
         g = lp.parse('graphic')
         if len(g) > 0:
             self.struct.append((_("Graphics"), None, g))

@@ -271,7 +271,7 @@ class PrefsWinPlugins(gtk.VBox):
         if iter:
             plugin = model.get_value(iter, 0)
             infos = {}
-            for i in ['Name','Description','Version','Authors','License','Copyright','Website']:
+            for i in ['Name','Description','Authors','License','Copyright','Website']:
                 infos[i] = self.app.plugm.get_plugin_info(plugin, i, True)
             dwin = AboutPluginWin(self.get_toplevel(), infos)
             dwin.run()

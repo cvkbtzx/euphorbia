@@ -1,10 +1,10 @@
 [Euphorbia Plugin]
-Module=hello
+Module=imgview
 Api=1
-Name=Hello
-Name[fr]=Hello
-Description=Minimal test plugin
-Description[fr]=Plugin de test minimal
+Name=Image viewer
+Name[fr]=Visionneur d'images
+Description=Open images in tabs
+Description[fr]=Ouvre les images dans des onglets
 Version=1.0
 Authors=Bzoloid <bzoloid@gmail.com>
 Copyright=Copyright © 2010
