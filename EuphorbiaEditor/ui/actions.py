@@ -301,6 +301,8 @@ class ActionsManager:
     
     def do_open(self, filepath, filter, **args):
         """Open file in new tab."""
+        if filter == 'all' and filepath is not None:
+            filter = self.get_handler_from_path(filepath)
         i = [fh[0] for fh in self.file_handlers].index(filter)
         tab_type = self.file_handlers[i][3]
         tab_opts = self.file_handlers[i][4].copy()

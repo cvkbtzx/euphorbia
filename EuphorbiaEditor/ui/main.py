@@ -21,6 +21,7 @@
 """GUI constructor."""
 
 import os.path
+import fnmatch
 import gtk
 import pango
 import gtksourceview2 as gtksv
@@ -142,6 +143,14 @@ class EuphorbiaGUI(actions.ActionsManager):
             for c in parent.get_children():
                 wlist.update(self.get_widgets_by_name(wname,c))
         return wlist
+    
+    def get_handler_from_path(self, path):
+        """Try to guess file handler from patterns."""
+        handlers = []
+        for fh in self.file_handlers:
+            if any(fnmatch.fnmatch(path,e) for e in fh[2]) and fh[0] != 'all':
+                handlers.append(fh[0])
+        return handlers[0] if len(handlers)>0 else 'all'
     
     def get_current_tab(self, n=None):
         """Get the current tab object (TabWrapper subclass)."""
