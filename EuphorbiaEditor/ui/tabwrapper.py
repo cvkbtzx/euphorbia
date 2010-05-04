@@ -73,6 +73,11 @@ class TabWrapper(object):
         self.content.show()
         self.notebook.set_current_page(self.notebook.page_num(self.content))
     
+    def get_file_infos(self):
+        """Return infos (file_name, file_obj, is_modified) about the file."""
+        # Subclasses should override this method
+        return ("", None, False)
+    
     def set_title(self, txt):
         """Set tab title."""
         self.title.set_text(txt)

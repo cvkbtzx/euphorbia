@@ -56,8 +56,13 @@ class EvinceTab(euphorbia.TabWrapper):
     def __init__(self, app, fileobj, **args):
         ev = EvinceView(fileobj.uri)
         euphorbia.TabWrapper.__init__(self, app, ev)
+        self.gfile = fileobj
         self.set_title(fileobj.get_name())
         self.set_icon(*fileobj.get_icons())
+    
+    def get_file_infos(self):
+        """Return infos (file_name, file_obj, is_modified) about the file."""
+        return (self.gfile.get_name(), self.gfile, False)
 
 
 #------------------------------------------------------------------------------

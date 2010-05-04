@@ -50,6 +50,9 @@ def get_actions_list(cls):
         ('action_paste',    gtk.STOCK_PASTE,       None, '',   None, cls.act_paste),
         ('action_search',   gtk.STOCK_FIND,        None, None, None, cls.act_search),
         ('action_view',     None,                  _("View")),
+        ('action_project',  None,                  _("Project")),
+        ('action_newproj',  gtk.STOCK_NEW,         None, '',   None, None),
+        ('action_openproj', gtk.STOCK_OPEN,        None, '',   None, cls.act_open),
         ('action_tools',    None,                  _("Tools")),
         ('action_settings', None,                  _("Settings")),
         ('action_prefs',    gtk.STOCK_PREFERENCES, None, None, None, cls.act_prefs),
@@ -92,11 +95,12 @@ class ActionsManager:
     
     def act_open(self, *data):
         """Callback for 'Open' action."""
+        actions = {'action_open':'latex', 'action_openproj':'project'}
+        h = actions.get(data[0].get_name(), 'all') if len(data)>0 else 'latex'
         tab, folder = self.get_current_tab(), None
-        if hasattr(tab, 'fileinfos'):
-            if tab.fileinfos()[1] is not None:
-                folder = tab.fileinfos()[1].gfile.get_parent().get_uri()
-        dwin = dialogs.OpenWin(self.app, folder)
+        if tab.get_file_infos()[1] is not None:
+            folder = tab.get_file_infos()[1].gfile.get_parent().get_uri()
+        dwin = dialogs.OpenWin(self.app, folder, h)
         resp = dwin.run()
         uris = dwin.get_uris() if resp == gtk.RESPONSE_OK else []
         code = dwin.get_extra_widget().get_children()[1].get_active_text()
@@ -109,8 +113,8 @@ class ActionsManager:
     def act_save(self, *data, **args):
         """Callback for 'Save' action."""
         tab = args['tab'] if 'tab' in args else self.get_current_tab()
-        if hasattr(tab, 'save') and hasattr(tab, 'fileinfos'):
-            if tab.fileinfos()[1] is None:
+        if hasattr(tab, 'save'):
+            if tab.get_file_infos()[1] is None:
                 self.act_saveas(**args)
             else:
                 if tab.save(None, self.app.prefm.get_pref('files_backup')):
@@ -120,8 +124,8 @@ class ActionsManager:
     def act_saveas(self, *data, **args):
         """Callback for 'Save as' action."""
         tab = args['tab'] if 'tab' in args else self.get_current_tab()
-        if hasattr(tab, 'save') and hasattr(tab, 'fileinfos'):
-            infos = tab.fileinfos()
+        if hasattr(tab, 'save'):
+            infos = tab.get_file_infos()
             dwin = dialogs.SaveWin(self.app, *infos[:2])
             resp = dwin.run()
             uri = dwin.get_uri() if resp == gtk.RESPONSE_OK else None
@@ -281,8 +285,8 @@ class ActionsManager:
         """Ask if save tab before closing."""
         tabask = []
         for t in tabs:
-            if hasattr(t, 'fileinfos'):
-                i = t.fileinfos()
+            if hasattr(t, 'save'):
+                i = t.get_file_infos()
                 if i[2]:
                     n = i[0] if i[1] is None else i[1].fullname()
                     tabask.append((t, n))
@@ -315,8 +319,10 @@ class ActionsManager:
         else:
             f = None
         tab = tab_type(self.app, f, **tab_opts)
-        tab.close_action = self.act_close
-        self.app.prefm.autoconnect_gtk(tab.content)
+        if hasattr(tab, 'close_action'):
+            tab.close_action = self.act_close
+        if hasattr(tab, 'content'):
+            self.app.prefm.autoconnect_gtk(tab.content)
         if tab in self.nbd.tab_list:
             self.emit('open', tab)
         return

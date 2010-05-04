@@ -48,6 +48,7 @@ DEFAULT_FILE_HANDLERS = [
     # ID, description, patterns, object, default_params
     ('all', "All files", ["*"], document.Document, {}),
     ('latex', "LaTeX files", ["*.tex","*.bib"], document.Document, {'hlight':"latex"}),
+    ('project', "Project files", ["*.euphorbia","*.kilepr"], document.Document, {}),
 ]
 
 
@@ -67,6 +68,7 @@ class EuphorbiaGUI(actions.ActionsManager):
         self.build_interface()
         self.nbd = self.builder.get_object('notebook_docs')
         self.nbd.tab_list = set()
+        self.project = None
         self.win.show()
     
     def build_interface(self):

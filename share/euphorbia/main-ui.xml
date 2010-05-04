@@ -26,6 +26,10 @@
             <menuitem action="action_showsidepan" />
             <menuitem action="action_showbottompan" />
         </menu>
+        <menu name="menu_project" action="action_project">
+            <menuitem action="action_newproj" />
+            <menuitem action="action_openproj" />
+        </menu>
         <menu name="menu_tools" action="action_tools">
             <placeholder />
         </menu>

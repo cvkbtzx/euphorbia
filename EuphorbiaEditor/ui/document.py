@@ -118,7 +118,7 @@ class Document(tabwrapper.TabWrapper):
             self.ev.buffer.set_modified(False)
         return ret
     
-    def fileinfos(self):
+    def get_file_infos(self):
         """Return infos (file_name, file_obj, is_modified) about the file."""
         f = self.datafile['file']
         m = self.ev.buffer.get_modified()

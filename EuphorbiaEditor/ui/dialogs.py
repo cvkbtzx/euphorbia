@@ -295,7 +295,7 @@ class PrefsWinLatex(gtk.VBox):
 class OpenWin(gtk.FileChooserDialog):
     """Open file dialog."""
     
-    def __init__(self, app, folder=None):
+    def __init__(self, app, folder=None, handler='latex'):
         buttons = (gtk.STOCK_CANCEL, gtk.RESPONSE_CANCEL, gtk.STOCK_OPEN, gtk.RESPONSE_OK)
         action = gtk.FILE_CHOOSER_ACTION_OPEN
         gtk.FileChooserDialog.__init__(self, _("Open..."), app.gui.win, action, buttons)
@@ -328,7 +328,7 @@ class OpenWin(gtk.FileChooserDialog):
                 f.add_pattern(e)
             self.add_filter(f)
             self.filters[h[0]] = f
-        self.set_filter(self.filters['latex'])
+        self.set_filter(self.filters[handler])
         self.set_select_multiple(True)
     
     def get_filter_name(self):
