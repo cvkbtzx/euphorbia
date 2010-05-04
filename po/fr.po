@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Euphorbia 0.0.X\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-05-03 23:36+0200\n"
+"POT-Creation-Date: 2010-05-04 14:07+0200\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Bzoloid <bzoloid@gmail.com>\n"
 "Language-Team: \n"
@@ -14,6 +14,9 @@ msgstr ""
 
 msgid "Euphorbia"
 msgstr "Euphorbia"
+
+msgid "GTK LaTeX editor"
+msgstr "Éditeur LaTeX GTK"
 
 msgid "File"
 msgstr "_Fichier"
@@ -32,6 +35,12 @@ msgstr "_Options"
 
 msgid "Help"
 msgstr "A_ide"
+
+msgid "ShowSidePan"
+msgstr "Panneau latéral"
+
+msgid "ShowBottomPan"
+msgstr "Panneau inférieur"
 
 msgid "Preferences"
 msgstr "Préférences"
@@ -219,8 +228,15 @@ msgstr " "
 msgid "signal_quit"
 msgstr "Quitter"
 
+#, python-format
+msgid "Print: %s"
+msgstr "Impression : %s"
+
 msgid "Open..."
 msgstr "Ouvrir..."
+
+msgid "Save..."
+msgstr "Enregistrer..."
 
 msgid "Character encoding:"
 msgstr "Encodage :"
@@ -231,36 +247,9 @@ msgstr "Tous les fichiers (*)"
 msgid "LaTeX files"
 msgstr "Fichiers LaTeX (*.tex *.bib)"
 
-msgid "Output files"
-msgstr "Fichiers de sortie (*.pdf *.dvi *.ps)"
-
-msgid "Save..."
-msgstr "Enregistrer..."
-
 #, python-format
 msgid "New_doc_%i.tex"
 msgstr "Nouveau_doc_%i.tex"
-
-msgid "Search:"
-msgstr "Rechercher :"
-
-msgid "Case sensitive"
-msgstr "Respecter la casse"
-
-msgid "ShowSidePan"
-msgstr "Panneau latéral"
-
-msgid "ShowBottomPan"
-msgstr "Panneau inférieur"
-
-msgid "GTK LaTeX editor"
-msgstr "Éditeur LaTeX GTK"
-
-msgid "Structure"
-msgstr "Structure"
-
-msgid "PrintError"
-msgstr "Erreur d'impression !"
 
 msgid "SaveBeforeClose?"
 msgstr ""
@@ -270,18 +259,29 @@ msgstr ""
 msgid "Ignore all"
 msgstr "Ignorer tout"
 
-#, python-format
-msgid "Plugin '%s' loading error"
-msgstr "Erreur de chargement du plugin '%s'"
-
-#, python-format
-msgid "Print: %s"
-msgstr "Impression : %s"
+msgid "PrintError"
+msgstr "Erreur d'impression !"
 
 msgid "OpenFileError"
 msgstr ""
 "Erreur !\n"
 "Le fichier n'a pas pu être lu correctement."
+
+#, python-format
+msgid "Plugin '%s' loading error"
+msgstr "Erreur de chargement du plugin '%s'"
+
+msgid "Search:"
+msgstr "Rechercher :"
+
+msgid "Case sensitive"
+msgstr "Respecter la casse"
+
+msgid "Structure"
+msgstr "Structure"
+
+msgid "Table of contents"
+msgstr "Table des matières"
 
 msgid "Graphics"
 msgstr "Graphiques"
@@ -313,6 +313,18 @@ msgstr "Mots :"
 msgid "Characters:"
 msgstr "Caractères :"
 
-msgid "Table of contents"
-msgstr "Table des matières"
+msgid "Image files"
+msgstr "Fichiers images"
+
+msgid "Output files"
+msgstr "Fichiers de sortie (*.pdf *.dvi *.ps)"
+
+msgid "Zoom page"
+msgstr "Zoom page"
+
+msgid "Zoom width"
+msgstr "Zoom largeur"
+
+msgid "Zoom 100%"
+msgstr "Zoom 100%"
 

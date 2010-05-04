@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Euphorbia 0.0.X\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-05-03 23:36+0200\n"
+"POT-Creation-Date: 2010-05-04 14:07+0200\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Bzoloid <bzoloid@gmail.com>\n"
 "Language-Team: \n"
@@ -14,6 +14,9 @@ msgstr ""
 
 msgid "Euphorbia"
 msgstr "Euphorbia"
+
+msgid "GTK LaTeX editor"
+msgstr "GTK LaTeX editor"
 
 msgid "File"
 msgstr "_File"
@@ -32,6 +35,12 @@ msgstr "_Settings"
 
 msgid "Help"
 msgstr "_Help"
+
+msgid "ShowSidePan"
+msgstr "Show side panel"
+
+msgid "ShowBottomPan"
+msgstr "Show bottom panel"
 
 msgid "Preferences"
 msgstr "Preferences"
@@ -219,8 +228,15 @@ msgstr " "
 msgid "signal_quit"
 msgstr "Quit"
 
+#, python-format
+msgid "Print: %s"
+msgstr "Print: %s"
+
 msgid "Open..."
 msgstr "Open..."
+
+msgid "Save..."
+msgstr "Save..."
 
 msgid "Character encoding:"
 msgstr "Character encoding:"
@@ -231,36 +247,9 @@ msgstr "All files (*)"
 msgid "LaTeX files"
 msgstr "LaTeX files (*.tex *.bib)"
 
-msgid "Output files"
-msgstr "Output files (*.pdf *.div *.ps)"
-
-msgid "Save..."
-msgstr "Save..."
-
 #, python-format
 msgid "New_doc_%i.tex"
 msgstr "New_doc_%i.tex"
-
-msgid "Search:"
-msgstr "Search:"
-
-msgid "Case sensitive"
-msgstr "Case sensitive"
-
-msgid "ShowSidePan"
-msgstr "Show side panel"
-
-msgid "ShowBottomPan"
-msgstr "Show bottom panel"
-
-msgid "GTK LaTeX editor"
-msgstr "GTK LaTeX editor"
-
-msgid "Structure"
-msgstr "Structure"
-
-msgid "PrintError"
-msgstr "Print error!"
 
 msgid "SaveBeforeClose?"
 msgstr ""
@@ -270,18 +259,29 @@ msgstr ""
 msgid "Ignore all"
 msgstr "Ignore all"
 
-#, python-format
-msgid "Plugin '%s' loading error"
-msgstr "Plugin '%s' loading error"
-
-#, python-format
-msgid "Print: %s"
-msgstr "Print: %s"
+msgid "PrintError"
+msgstr "Print error!"
 
 msgid "OpenFileError"
 msgstr ""
 "Error!\n"
 "The file could not be read."
+
+#, python-format
+msgid "Plugin '%s' loading error"
+msgstr "Plugin '%s' loading error"
+
+msgid "Search:"
+msgstr "Search:"
+
+msgid "Case sensitive"
+msgstr "Case sensitive"
+
+msgid "Structure"
+msgstr "Structure"
+
+msgid "Table of contents"
+msgstr "Table of contents"
 
 msgid "Graphics"
 msgstr "Graphics"
@@ -313,6 +313,18 @@ msgstr "Words:"
 msgid "Characters:"
 msgstr "Characters:"
 
-msgid "Table of contents"
-msgstr "Table of contents"
+msgid "Image files"
+msgstr "Image files"
+
+msgid "Output files"
+msgstr "Output files (*.pdf *.div *.ps)"
+
+msgid "Zoom page"
+msgstr "Zoom page"
+
+msgid "Zoom width"
+msgstr "Zoom width"
+
+msgid "Zoom 100%"
+msgstr "Zoom 100%"
 

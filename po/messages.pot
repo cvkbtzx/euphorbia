@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-05-03 23:36+0200\n"
+"POT-Creation-Date: 2010-05-04 14:07+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -16,9 +16,14 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
+# TITLE -----------------------------------------
 msgid "Euphorbia"
 msgstr ""
 
+msgid "GTK LaTeX editor"
+msgstr ""
+
+# MENUS -----------------------------------------
 msgid "File"
 msgstr ""
 
@@ -37,6 +42,13 @@ msgstr ""
 msgid "Help"
 msgstr ""
 
+msgid "ShowSidePan"
+msgstr ""
+
+msgid "ShowBottomPan"
+msgstr ""
+
+# PREFERENCES -----------------------------------
 msgid "Preferences"
 msgstr ""
 
@@ -49,6 +61,7 @@ msgstr ""
 msgid "Plugins"
 msgstr ""
 
+# OPTIONS ---------------------------------------
 msgid "opt_"
 msgstr ""
 
@@ -205,6 +218,7 @@ msgstr ""
 msgid "system_datadir"
 msgstr ""
 
+# STATUSBAR -------------------------------------
 msgid "signal_"
 msgstr ""
 
@@ -223,7 +237,15 @@ msgstr ""
 msgid "signal_quit"
 msgstr ""
 
+#, python-format
+msgid "Print: %s"
+msgstr ""
+
+# DIALOGS ---------------------------------------
 msgid "Open..."
+msgstr ""
+
+msgid "Save..."
 msgstr ""
 
 msgid "Character encoding:"
@@ -235,35 +257,8 @@ msgstr ""
 msgid "LaTeX files"
 msgstr ""
 
-msgid "Output files"
-msgstr ""
-
-msgid "Save..."
-msgstr ""
-
 #, python-format
 msgid "New_doc_%i.tex"
-msgstr ""
-
-msgid "Search:"
-msgstr ""
-
-msgid "Case sensitive"
-msgstr ""
-
-msgid "ShowSidePan"
-msgstr ""
-
-msgid "ShowBottomPan"
-msgstr ""
-
-msgid "GTK LaTeX editor"
-msgstr ""
-
-msgid "Structure"
-msgstr ""
-
-msgid "PrintError"
 msgstr ""
 
 msgid "SaveBeforeClose?"
@@ -272,20 +267,34 @@ msgstr ""
 msgid "Ignore all"
 msgstr ""
 
-#, python-format
-msgid "Plugin '%s' loading error"
-msgstr ""
-
-#, python-format
-msgid "Print: %s"
+msgid "PrintError"
 msgstr ""
 
 msgid "OpenFileError"
 msgstr ""
 
+#, python-format
+msgid "Plugin '%s' loading error"
+msgstr ""
+
+# SEARCHBAR -------------------------------------
+msgid "Search:"
+msgstr ""
+
+msgid "Case sensitive"
+msgstr ""
+
+# SIDEPANEL -------------------------------------
+msgid "Structure"
+msgstr ""
+
+msgid "Table of contents"
+msgstr ""
+
 msgid "Graphics"
 msgstr ""
 
+# PLUGIN: CHANGECASE ----------------------------
 msgid "Change case"
 msgstr ""
 
@@ -301,6 +310,7 @@ msgstr ""
 msgid "Invert"
 msgstr ""
 
+# PLUGIN: STATS ---------------------------------
 msgid "Stats..."
 msgstr ""
 
@@ -313,5 +323,19 @@ msgstr ""
 msgid "Characters:"
 msgstr ""
 
-msgid "Table of contents"
+# PLUGIN: IMGVIEW -------------------------------
+msgid "Image files"
+msgstr ""
+
+# PLUGIN: PDFVIEW -------------------------------
+msgid "Output files"
+msgstr ""
+
+msgid "Zoom page"
+msgstr ""
+
+msgid "Zoom width"
+msgstr ""
+
+msgid "Zoom 100%"
 msgstr ""
