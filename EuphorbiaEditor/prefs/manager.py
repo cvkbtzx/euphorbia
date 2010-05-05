@@ -30,7 +30,7 @@ from defaults import *
 
 #------------------------------------------------------------------------------
 
-class PrefsManager:
+class PrefsManager(object):
     """Class used to manage preferences."""
     
     def __init__(self, cfgfile, use_defaults_only):
@@ -153,8 +153,9 @@ class PrefsManager:
             args = (self.codes[code][-1],)
         objs = self.codes[code][0] if object is None else [object]
         for obj in objs:
-            f = getattr(obj, fname)
-            f(*args)
+            if hasattr(obj, fname):
+                f = getattr(obj, fname)
+                f(*args)
         return
     
     def apply_all_prefs(self):

@@ -32,7 +32,7 @@ sys.modules['euphorbia'] = sys.modules['EuphorbiaEditor.exts.euphorbia']
 
 #------------------------------------------------------------------------------
 
-class PluginsManager:
+class PluginsManager(object):
     """Class to manage plugins."""
     
     def __init__(self, app):

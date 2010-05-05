@@ -69,7 +69,6 @@ class TabWrapper(object):
         self.notebook.set_current_page(self.notebook.page_num(self.content))
         self.notebook.tab_list.add(self)
         # Display
-        self.close_action = None
         hb.show_all()
         self.content.show()
         self.notebook.set_current_page(self.notebook.page_num(self.content))
@@ -106,10 +105,7 @@ class TabWrapper(object):
     
     def ev_close(self, *data):
         """Close callback."""
-        if self.close_action is not None:
-            self.close_action(**{'tab':self})
-        else:
-            self.close()
+        self.app.gui.act_close(**{'tab':self})
         return
     
     def close(self):

@@ -49,7 +49,7 @@ DEFAULT_PREFS = [
     ["editview_autoindent", 'set_auto_indent', 'bool', True, "editview"],
     ["editview_smarthomeend", 'set_smart_home_end', {"disabled":0,"before":1,"after":2,"always":3}, 3, "editview"],
     ["editview_style", 'set_stylescheme', None, 'classic', "editview"],
-    ["sidepanel_expandlevel", 'set_expand_level', 'int,0,7', 3, 'treedocstruct'],
+    ["sidepanel_expandlevel", 'set_expand_level', 'int,0,7', 3, 'structbrowser'],
     ["gui_sidepanelshow", 'showpanel', None, True, "sidepanel"],
     ["gui_bottompanelshow", 'showpanel', None, True, "bottompanel"],
     ["files_trash", None, 'bool', True, None],

@@ -75,7 +75,7 @@ def get_toggle_actions_list(cls):
 
 #------------------------------------------------------------------------------
 
-class ActionsManager:
+class ActionsManager(object):
     """Class containing actions callbacks."""
     
     def __init__(self, app):
@@ -99,8 +99,9 @@ class ActionsManager:
         actions = {'action_open':'latex', 'action_openproj':'project'}
         h = actions.get(data[0].get_name(), 'all') if len(data)>0 else 'latex'
         tab, folder = self.get_current_tab(), None
-        if tab.get_file_infos()[1] is not None:
-            folder = tab.get_file_infos()[1].gfile.get_parent().get_uri()
+        if tab is not None:
+            if tab.get_file_infos()[1] is not None:
+                folder = tab.get_file_infos()[1].gfile.get_parent().get_uri()
         dwin = dialogs.OpenWin(self.app, folder, h)
         resp = dwin.run()
         uris = dwin.get_uris() if resp == gtk.RESPONSE_OK else []
@@ -320,8 +321,6 @@ class ActionsManager:
         else:
             f = None
         tab = tab_type(self.app, f, **tab_opts)
-        if hasattr(tab, 'close_action'):
-            tab.close_action = self.act_close
         if hasattr(tab, 'content'):
             self.app.prefm.autoconnect_gtk(tab.content)
         if tab in self.nbd.tab_list:

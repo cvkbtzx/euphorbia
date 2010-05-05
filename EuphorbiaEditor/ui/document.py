@@ -51,6 +51,10 @@ class Document(tabwrapper.TabWrapper):
         fname, hlight, enc = params['fname'], params['hlight'], params['enc']
         fname = fname if fname else "New document"
         self.datafile = {'file':fname, 'encoding':enc, 'hlight':hlight}
+        # Signals
+        self.ev.buffer.connect('modified-changed', self.ev_modified)
+        self.button_close.connect('enter', lambda x: self.set_close_icon())
+        self.button_close.connect('leave', lambda x: self.ev_modified())
         # Load document
         if file is not None:
             if not self.open_file(file, **params):
@@ -62,9 +66,6 @@ class Document(tabwrapper.TabWrapper):
             self.set_icon()
             self.ev.set_language(hlight)
             self.gen_doc_struct()
-        self.ev.buffer.connect('modified-changed', self.ev_modified)
-        self.button_close.connect('enter', lambda x: self.set_close_icon())
-        self.button_close.connect('leave', lambda x: self.ev_modified())
     
     def get_fname(self):
         """Get tab name."""

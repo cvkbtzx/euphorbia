@@ -137,11 +137,11 @@ class EuphorbiaSidePanel(SidePanel):
     def __init__(self, app, gui):
         SidePanel.__init__(self)
         self.app = app
-        self.docstruct = treestruct.StructBrowser()
-        self.add_expander('struct', _("Structure"), self.docstruct)
+        self.structbrowser = treestruct.StructBrowser()
+        self.add_expander('struct', _("Structure"), self.structbrowser)
         for s in ['changetab', 'open', 'save', 'close']:
-            gui.connect(s, self.update_docstruct)
-        self.docstruct.activated_cb = self.ev_struct_activate
+            gui.connect(s, self.update_structbrowser)
+        self.structbrowser.activated_cb = self.ev_struct_activate
         self.syms = self.load_symbols_from_files()
         for categ in sorted(self.syms.keys()):
             pal = palette.Palette()
@@ -208,14 +208,14 @@ class EuphorbiaSidePanel(SidePanel):
                 tab.insert(txt)
         return
     
-    def update_docstruct(self, tab=None):
-        """Update treedocstruct widget from tab data."""
+    def update_structbrowser(self, tab=None):
+        """Update structbrowser widget from tab data."""
         if hasattr(tab, 'struct'):
-            self.docstruct.set_data(tab.struct)
+            self.structbrowser.set_data(tab.struct)
         elif len(self.app.gui.nbd.tab_list) == 0:
-            self.docstruct.set_data([])
+            self.structbrowser.set_data([])
         elif tab is not None:
-            self.docstruct.set_data([])
+            self.structbrowser.set_data([])
         return
     
     def ev_struct_activate(self, row):
@@ -224,7 +224,7 @@ class EuphorbiaSidePanel(SidePanel):
         line = row[1]
         if line is None:
             tab.gen_doc_struct()
-            self.update_docstruct(tab)
+            self.update_structbrowser(tab)
         else:
             tab.goto_index(line)
         return

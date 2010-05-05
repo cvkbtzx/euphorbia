@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Euphorbia 0.0.X\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-05-05 02:17+0200\n"
+"POT-Creation-Date: 2010-05-06 00:44+0200\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Bzoloid <bzoloid@gmail.com>\n"
 "Language-Team: \n"
@@ -28,7 +28,7 @@ msgid "View"
 msgstr "_Affichage"
 
 msgid "Project"
-msgstr "Projet"
+msgstr "_Projet"
 
 msgid "Tools"
 msgstr "Ou_tils"
@@ -248,7 +248,10 @@ msgid "All files"
 msgstr "Tous les fichiers (*)"
 
 msgid "LaTeX files"
-msgstr "Fichiers LaTeX (*.tex *.bib)"
+msgstr "Fichiers LaTeX (*.tex *.latex)"
+
+msgid "Project files"
+msgstr "Fichiers de projet (*.ephb *.kilepr)"
 
 #, python-format
 msgid "New_doc_%i.tex"
@@ -270,6 +273,7 @@ msgid "OpenFileError %s"
 msgstr ""
 "Erreur !\n"
 "Le fichier n'a pas pu être lu correctement :\n"
+"\n"
 "%s"
 
 #, python-format
@@ -290,6 +294,9 @@ msgstr "Table des matières"
 
 msgid "Graphics"
 msgstr "Graphiques"
+
+msgid "Project content"
+msgstr "Fichiers du projet"
 
 msgid "Change case"
 msgstr "Modifier la casse"

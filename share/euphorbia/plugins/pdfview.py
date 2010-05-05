@@ -34,11 +34,8 @@ class PdfView(euphorbia.Plugin):
         euphorbia.Plugin.__init__(self)
     
     def activate(self):
-        handler = (
-            'evince',
-            _("Output files"), ["*.pdf","*.dvi","*.ps"],
-            EvinceTab, {}
-        )
+        exts = ["*.pdf","*.dvi","*.ps"]
+        handler = ('evince', _("Output files"), exts, EvinceTab, {})
         self.app.gui.file_handlers.append(handler)
         return
     

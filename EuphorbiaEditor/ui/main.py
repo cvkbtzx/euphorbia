@@ -32,6 +32,7 @@ import dialogs
 import sidepanel
 import document
 import searchbar
+import project
 
 
 #------------------------------------------------------------------------------
@@ -48,8 +49,8 @@ DEFAULT_PREFS_TABS = [
 DEFAULT_FILE_HANDLERS = [
     # ID, description, patterns, object, default_params
     ('all', "All files", ["*"], document.Document, {}),
-    ('latex', "LaTeX files", ["*.tex","*.bib"], document.Document, {'hlight':"latex"}),
-    ('project', "Project files", ["*.euphorbia","*.kilepr"], document.Document, {}),
+    ('latex', "LaTeX files", ["*.tex","*.latex"], document.Document, {'hlight':"latex"}),
+    ('project', "Project files", ["*.ephb","*.kilepr"], project.ProjectManager, {}),
 ]
 
 
@@ -161,6 +162,11 @@ class EuphorbiaGUI(actions.ActionsManager):
         obj = self.nbd.get_nth_page(n)
         tab = [t for t in self.nbd.tab_list if t.content is obj]
         return tab[0] if len(tab)==1 else None
+    
+    def list_opened_files(self):
+        """List opened files."""
+        tabs = self.nbd.tab_list
+        return set(t.get_file_infos()[1] for t in tabs).difference([None])
     
     def connect(self, signal, func, *args):
         """Connect a function to the specified Euphorbia signal."""

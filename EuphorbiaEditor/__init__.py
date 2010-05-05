@@ -46,7 +46,7 @@ for var in ['version', 'date', 'authors', 'license']:
 
 #------------------------------------------------------------------------------
 
-class Euphorbia:
+class Euphorbia(object):
     """Main class."""
     
     def __init__(self):
