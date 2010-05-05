@@ -1,6 +1,7 @@
 # -*- coding:utf-8 -*-
 
 ##  EUPHORBIA - GTK LaTeX Editor
+##  Module: EuphorbiaEditor.ui.treestruct
 ##  Copyright (C) 2008-2010   Bzoloid
 ##
 ##  This program is free software; you can redistribute it and/or
@@ -26,7 +27,7 @@ import pango
 
 #------------------------------------------------------------------------------
 
-class TreeDocStruct(gtk.ScrolledWindow):
+class StructBrowser(gtk.ScrolledWindow):
     """TreeView which displays a document structure."""
     
     def __init__(self):
@@ -124,7 +125,7 @@ if __name__ == '__main__':
     win = gtk.Window()
     win.connect('destroy', lambda w: gtk.main_quit())
     win.set_default_size(200, 300)
-    tds = TreeDocStruct()
+    tds = StructBrowser()
     data, n = [("Filename", None, [])], 1
     for i in "ABC":
         x, n = (i, n, []), n + 1

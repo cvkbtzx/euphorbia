@@ -1,6 +1,7 @@
 # -*- coding:utf-8 -*-
 
 ##  EUPHORBIA - GTK LaTeX Editor
+##  Module: EuphorbiaEditor.utils.threads
 ##  Copyright (C) 2008-2010   Bzoloid
 ##
 ##  This program is free software; you can redistribute it and/or

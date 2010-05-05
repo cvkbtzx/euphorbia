@@ -1,6 +1,7 @@
 # -*- coding:utf-8 -*-
 
 ##  EUPHORBIA - GTK LaTeX Editor
+##  Module: EuphorbiaEditor.ui.sidepanel
 ##  Copyright (C) 2008-2010   Bzoloid
 ##
 ##  This program is free software; you can redistribute it and/or
@@ -136,7 +137,7 @@ class EuphorbiaSidePanel(SidePanel):
     def __init__(self, app, gui):
         SidePanel.__init__(self)
         self.app = app
-        self.docstruct = treestruct.TreeDocStruct()
+        self.docstruct = treestruct.StructBrowser()
         self.add_expander('struct', _("Structure"), self.docstruct)
         for s in ['changetab', 'open', 'save', 'close']:
             gui.connect(s, self.update_docstruct)

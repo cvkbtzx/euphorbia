@@ -1,6 +1,7 @@
 # -*- coding:utf-8 -*-
 
 ##  EUPHORBIA - GTK LaTeX Editor
+##  Module: EuphorbiaEditor.ui.document
 ##  Copyright (C) 2008-2010   Bzoloid
 ##
 ##  This program is free software; you can redistribute it and/or
@@ -54,7 +55,8 @@ class Document(tabwrapper.TabWrapper):
         if file is not None:
             if not self.open_file(file, **params):
                 self.close()
-                self.app.gui.disp_message('error', 'close', _("OpenFileError"))
+                msg = _("OpenFileError %s") % (file.fullname())
+                self.app.gui.disp_message('error', 'close', msg)
         else:
             self.set_title(fname)
             self.set_icon()

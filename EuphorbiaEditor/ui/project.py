@@ -1,6 +1,7 @@
 # -*- coding:utf-8 -*-
 
 ##  EUPHORBIA - GTK LaTeX Editor
+##  Module: EuphorbiaEditor.ui.project
 ##  Copyright (C) 2008-2010   Bzoloid
 ##
 ##  This program is free software; you can redistribute it and/or
@@ -21,6 +22,7 @@
 """Project manager."""
 
 import gtk
+import ConfigParser
 
 
 #------------------------------------------------------------------------------
@@ -55,6 +57,14 @@ class ProjectManager(object):
         return
     
     def list_tabs(self):
+        """"""
+        return
+    
+    def load(self):
+        """"""
+        return
+    
+    def save(self):
         """"""
         return
 

@@ -1,6 +1,7 @@
 # -*- coding:utf-8 -*-
 
 ##  EUPHORBIA - GTK LaTeX Editor
+##  Module: EuphorbiaEditor.prefs.defaults
 ##  Copyright (C) 2008-2010   Bzoloid
 ##
 ##  This program is free software; you can redistribute it and/or
@@ -18,7 +19,7 @@
 ##  Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 
 
-"""Definition of preferences."""
+"""Definition of default preferences."""
 
 
 #------------------------------------------------------------------------------
