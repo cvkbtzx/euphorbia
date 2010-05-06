@@ -75,18 +75,14 @@ class Document(tabwrapper.TabWrapper):
     
     def set_file(self, f, enc=None, hlight=None):
         """Change file."""
-        if f.uri is not None or f.mime is not None:
-            hlguess = self.ev.lang_manager.guess_language(f.uri, f.mime)
-            hlguess = None if hlguess is None else hlguess.get_id()
         self.datafile['file'] = f
         self.datafile['encoding'] = enc if enc else 'utf-8'
-        self.datafile['hlight'] = hlight if hlight else hlguess
+        self.set_hlight(hlight if hlight else 'auto')
         f.encoding = self.datafile['encoding']
         self.set_icon(*f.get_icons())
         name = f.get_name()
         if name:
             self.set_title(name)
-        self.ev.set_language(self.datafile['hlight'])
         return
     
     def open_file(self, f, **args):
@@ -196,6 +192,11 @@ class Document(tabwrapper.TabWrapper):
         self.ev.buffer.paste_clipboard(self.clipb, None, tv.get_editable())
         return
     
+    def focus(self):
+        """Set the focus to the tab."""
+        self.ev.view.grab_focus()
+        return
+    
     def search(self, txt, case, dir, loop):
         """Search text in document."""
         buffer = self.ev.buffer
@@ -272,9 +273,21 @@ class Document(tabwrapper.TabWrapper):
             txt = None
         return txt
     
-    def focus(self):
-        """Set the focus to the tab."""
-        self.ev.view.grab_focus()
+    def set_hlight(self, hl):
+        """Set syntax highlighting."""
+        f = self.datafile['file']
+        if type(f) is not str and hl == 'auto':
+            if f.uri is not None or f.mime is not None:
+                hlguess = self.ev.lang_manager.guess_language(f.uri, f.mime)
+                hlight = None if hlguess is None else hlguess.get_id()
+            else:
+                hlight = None
+        elif hl == 'auto' or hl == '':
+            hlight = None
+        else:
+            hlight = hl
+        self.datafile['hlight'] = hlight
+        self.ev.set_language(hlight)
         return
     
     def gen_doc_struct(self):
@@ -338,10 +351,12 @@ class EditView(gtk.ScrolledWindow):
     def set_language(self, id):
         """Set language."""
         if id is None:
+            self.buffer.set_highlight_syntax(False)
             self.buffer.set_language(None)
         else:
             lang = self.lang_manager.get_language(id)
             self.buffer.set_language(lang)
+            self.buffer.set_highlight_syntax(True)
         return
 
 

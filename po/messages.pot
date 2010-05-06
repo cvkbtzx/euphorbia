@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-05-06 00:44+0200\n"
+"POT-Creation-Date: 2010-05-07 00:02+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -16,14 +16,18 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 
-# TITLE -----------------------------------------
+#
+# --- TITLE -------------------------------------
+#
 msgid "Euphorbia"
 msgstr ""
 
 msgid "GTK LaTeX editor"
 msgstr ""
 
-# MENUS -----------------------------------------
+#
+# --- MENUS -------------------------------------
+#
 msgid "File"
 msgstr ""
 
@@ -51,7 +55,33 @@ msgstr ""
 msgid "ShowBottomPan"
 msgstr ""
 
-# PREFERENCES -----------------------------------
+msgid "Syntax highlighting"
+msgstr ""
+
+msgid "Auto"
+msgstr ""
+
+msgid "None"
+msgstr ""
+
+msgid "Add a file"
+msgstr ""
+
+msgid "Add current tab"
+msgstr ""
+
+msgid "Remove current tab"
+msgstr ""
+
+msgid "Set master document"
+msgstr ""
+
+msgid "Archive"
+msgstr ""
+
+#
+# --- PREFERENCES -------------------------------
+#
 msgid "Preferences"
 msgstr ""
 
@@ -64,7 +94,9 @@ msgstr ""
 msgid "Plugins"
 msgstr ""
 
-# OPTIONS ---------------------------------------
+#
+# --- OPTIONS -----------------------------------
+#
 msgid "opt_"
 msgstr ""
 
@@ -221,7 +253,9 @@ msgstr ""
 msgid "system_datadir"
 msgstr ""
 
-# STATUSBAR -------------------------------------
+#
+# --- STATUSBAR ---------------------------------
+#
 msgid "signal_"
 msgstr ""
 
@@ -244,7 +278,9 @@ msgstr ""
 msgid "Print: %s"
 msgstr ""
 
-# DIALOGS ---------------------------------------
+#
+# --- DIALOGS -----------------------------------
+#
 msgid "Open..."
 msgstr ""
 
@@ -281,14 +317,18 @@ msgstr ""
 msgid "Plugin '%s' loading error"
 msgstr ""
 
-# SEARCHBAR -------------------------------------
+#
+# --- SEARCHBAR ---------------------------------
+#
 msgid "Search:"
 msgstr ""
 
 msgid "Case sensitive"
 msgstr ""
 
-# SIDEPANEL -------------------------------------
+#
+# --- SIDEPANEL ---------------------------------
+#
 msgid "Structure"
 msgstr ""
 
@@ -301,7 +341,9 @@ msgstr ""
 msgid "Project content"
 msgstr ""
 
-# PLUGIN: CHANGECASE ----------------------------
+#
+# --- PLUGIN: CHANGECASE ------------------------
+#
 msgid "Change case"
 msgstr ""
 
@@ -317,7 +359,9 @@ msgstr ""
 msgid "Invert"
 msgstr ""
 
-# PLUGIN: STATS ---------------------------------
+#
+# --- PLUGIN: STATS -----------------------------
+#
 msgid "Stats..."
 msgstr ""
 
@@ -330,11 +374,15 @@ msgstr ""
 msgid "Characters:"
 msgstr ""
 
-# PLUGIN: IMGVIEW -------------------------------
+#
+# --- PLUGIN: IMGVIEW ---------------------------
+#
 msgid "Image files"
 msgstr ""
 
-# PLUGIN: PDFVIEW -------------------------------
+#
+# --- PLUGIN: PDFVIEW ---------------------------
+#
 msgid "Output files"
 msgstr ""
 

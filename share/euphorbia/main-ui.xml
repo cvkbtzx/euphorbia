@@ -25,6 +25,12 @@
         <menu name="menu_view" action="action_view">
             <menuitem action="action_showsidepan" />
             <menuitem action="action_showbottompan" />
+            <separator />
+            <menu name="menu_hlight" action="action_hlight">
+                <menuitem action="action_hlauto" />
+                <menuitem action="action_hllatex" />
+                <menuitem action="action_hlnone" />
+            </menu>
         </menu>
         <menu name="menu_project" action="action_project">
             <menuitem action="action_newproj" />

@@ -51,6 +51,10 @@ def get_actions_list(cls):
         ('action_paste',    gtk.STOCK_PASTE,       None, '',   None, cls.act_paste),
         ('action_search',   gtk.STOCK_FIND,        None, None, None, cls.act_search),
         ('action_view',     None,                  _("View")),
+        ('action_hlight',   None,                  _("Syntax highlighting")),
+        ('action_hlauto',   None,                  _("Auto"),  None, None, cls.act_hlight),
+        ('action_hllatex',  None,                  _("LaTeX"), None, None, cls.act_hlight),
+        ('action_hlnone',   None,                  _("None"),  None, None, cls.act_hlight),
         ('action_project',  None,                  _("Project")),
         ('action_newproj',  gtk.STOCK_NEW,         None, '',   None, None),
         ('action_openproj', gtk.STOCK_OPEN,        None, '',   None, cls.act_open),
@@ -241,6 +245,15 @@ class ActionsManager(object):
         """Callback for 'Show bottompanel' action."""
         p = self.app.prefm.get_pref('gui_bottompanelshow')
         self.do_showpanel(not p, 'bottom')
+        return
+    
+    def act_hlight(self, *data):
+        """Callback for 'Syntax highlighting' actions."""
+        tab = self.get_current_tab()
+        actions = {'action_hlauto':'auto', 'action_hllatex':'latex'}
+        hl = actions.get(data[0].get_name(), None) if len(data)>0 else None
+        if hasattr(tab, 'set_hlight'):
+            tab.set_hlight(hl)
         return
     
     def act_prefs(self, *data):

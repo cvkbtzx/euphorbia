@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Euphorbia 0.0.X\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-05-06 00:44+0200\n"
+"POT-Creation-Date: 2010-05-07 00:02+0200\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Bzoloid <bzoloid@gmail.com>\n"
 "Language-Team: \n"
@@ -44,6 +44,30 @@ msgstr "Show side panel"
 
 msgid "ShowBottomPan"
 msgstr "Show bottom panel"
+
+msgid "Syntax highlighting"
+msgstr "Syntax highlighting"
+
+msgid "Auto"
+msgstr "Auto"
+
+msgid "None"
+msgstr "None"
+
+msgid "Add a file"
+msgstr "Add a file"
+
+msgid "Add current tab"
+msgstr "Add current tab"
+
+msgid "Remove current tab"
+msgstr "Remove current tab"
+
+msgid "Set master document"
+msgstr "Set master document"
+
+msgid "Archive"
+msgstr "Archive"
 
 msgid "Preferences"
 msgstr "Preferences"
