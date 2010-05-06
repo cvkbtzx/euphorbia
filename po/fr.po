@@ -262,9 +262,6 @@ msgstr ""
 "Ces fichiers ont été modifiés.\n"
 "Enregistrer avant la fermeture ?"
 
-msgid "Ignore all"
-msgstr "Ignorer tout"
-
 msgid "PrintError"
 msgstr "Erreur d'impression !"
 

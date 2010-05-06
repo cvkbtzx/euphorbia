@@ -44,6 +44,7 @@ class Document(tabwrapper.TabWrapper):
         tabwrapper.TabWrapper.__init__(self, app, hp)
         self.ev = EditView()
         hp.pack1(self.ev, True, False)
+        self.type_id = "doc_text"
         self.clipb = gtk.clipboard_get()
         # Parameters
         params = {'fname':None, 'hlight':None, 'enc':None}

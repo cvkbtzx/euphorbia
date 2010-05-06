@@ -270,9 +270,6 @@ msgstr ""
 msgid "SaveBeforeClose?"
 msgstr ""
 
-msgid "Ignore all"
-msgstr ""
-
 msgid "PrintError"
 msgstr ""
 

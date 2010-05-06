@@ -94,10 +94,10 @@ class ActionsManager(object):
         self.do_open(None, 'latex', fname=n)
         return
     
-    def act_open(self, *data):
+    def act_open(self, *data, **args):
         """Callback for 'Open' action."""
         actions = {'action_open':'latex', 'action_openproj':'project'}
-        h = actions.get(data[0].get_name(), 'all') if len(data)>0 else 'latex'
+        h = actions.get(data[0].get_name(), 'all') if len(data)>0 else 'all'
         tab, folder = self.get_current_tab(), None
         if tab is not None:
             if tab.get_file_infos()[1] is not None:
@@ -108,9 +108,11 @@ class ActionsManager(object):
         code = dwin.get_extra_widget().get_children()[1].get_active_text()
         filter = dwin.get_filter_name()
         dwin.destroy()
-        for u in uris:
-            self.do_open(u, filter, enc=code)
-        return
+        do_open = args.get('do_open', True)
+        if do_open:
+            for u in uris:
+                self.do_open(u, filter, enc=code)
+        return None if do_open else uris
     
     def act_save(self, *data, **args):
         """Callback for 'Save' action."""

@@ -54,6 +54,7 @@ class ImageTab(euphorbia.TabWrapper):
     def __init__(self, app, fileobj, **args):
         li = LargeImage(fileobj.gfile)
         euphorbia.TabWrapper.__init__(self, app, li)
+        self.type_id = "imgview"
         self.gfile = fileobj
         self.set_title(fileobj.get_name())
         self.set_icon(*fileobj.get_icons())

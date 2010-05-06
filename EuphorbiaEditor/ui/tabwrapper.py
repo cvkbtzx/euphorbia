@@ -44,6 +44,7 @@ class TabWrapper(object):
     def __init__(self, app, child):
         self.app = app
         self.notebook = self.app.gui.nbd
+        self.type_id = ""
         # Tab title
         self.title = gtk.Label()
         self.title.set_alignment(0.0, 0.5)

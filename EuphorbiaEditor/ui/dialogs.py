@@ -370,7 +370,7 @@ class SaveBeforeCloseWin(gtk.Dialog):
         # Dialog initialization
         flags = gtk.DIALOG_MODAL | gtk.DIALOG_DESTROY_WITH_PARENT
         buttons = (
-            _("Ignore all"), gtk.RESPONSE_REJECT,
+            gtk.STOCK_DISCARD, gtk.RESPONSE_REJECT,
             gtk.STOCK_CANCEL, gtk.RESPONSE_CANCEL,
             gtk.STOCK_SAVE, gtk.RESPONSE_OK,
         )

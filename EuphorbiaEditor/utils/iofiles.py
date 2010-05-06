@@ -167,6 +167,12 @@ class FileManager(object):
         else:
             names = []
         return names
+    
+    def __eq__(self, file2):
+        return self.gfile.equal(file2.gfile)
+    
+    def __ne__(self, file2):
+        return not self.__eq__(file2)
 
 
 #------------------------------------------------------------------------------
