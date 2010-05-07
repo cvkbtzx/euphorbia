@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-05-07 00:02+0200\n"
+"POT-Creation-Date: 2010-05-08 00:49+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -64,7 +64,10 @@ msgstr ""
 msgid "None"
 msgstr ""
 
-msgid "Add a file"
+#
+# --- PROJECT -----------------------------------
+#
+msgid "Add files"
 msgstr ""
 
 msgid "Add current tab"
@@ -73,10 +76,16 @@ msgstr ""
 msgid "Remove current tab"
 msgstr ""
 
-msgid "Set master document"
+msgid "Set as master document"
 msgstr ""
 
 msgid "Archive"
+msgstr ""
+
+msgid "Include in archive"
+msgstr ""
+
+msgid "Remove from project"
 msgstr ""
 
 #
@@ -301,6 +310,9 @@ msgstr ""
 
 #, python-format
 msgid "New_doc_%i.tex"
+msgstr ""
+
+msgid "New_project.euph"
 msgstr ""
 
 msgid "SaveBeforeClose?"

@@ -8,7 +8,7 @@ gvfs-trash ./locale/
 for f in ../po/*.po ; do
     poname=$(basename "${f}")
     lang=${poname%.*}
-    dname="locale/${lang}/LC_MESSAGES/"
+    dname="locale/${lang}/LC_MESSAGES"
     fname="${dname}/euphorbia.mo"
     echo "${fname}"
     mkdir -p "${dname}"

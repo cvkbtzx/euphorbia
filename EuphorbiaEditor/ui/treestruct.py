@@ -55,6 +55,7 @@ class StructBrowser(gtk.ScrolledWindow):
         self.tv.set_search_column(0)
         self.tv.set_enable_tree_lines(True)
         self.tv.get_selection().set_mode(gtk.SELECTION_NONE)
+        self.tv.props.can_focus = False
         self.tv.connect('row-activated', self.ev_row_activated)
         # Column
         cr = gtk.CellRendererText()

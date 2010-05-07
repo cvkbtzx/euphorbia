@@ -42,19 +42,22 @@ MENU = """
     <menuitem action="action_addtabproj" />
     <menuitem action="action_rmtabproj" />
     <menuitem action="action_projmaster" />
+    <separator />
     <menuitem action="action_archiveproj" />
+    <menuitem action="action_projprops" />
   </menu>
 </menubar>
 """
 
 def get_actions(cls):
     actions = [
-        ('action_closeproj',   gtk.STOCK_CLOSE, None, '', None, cls.act_close),
-        ('action_openaddproj', gtk.STOCK_ADD, _("Add a file"), '', None, cls.act_openadd),
-        ('action_addtabproj',  gtk.STOCK_ADD, _("Add current tab"), '', None, cls.act_addtab),
-        ('action_rmtabproj',   gtk.STOCK_REMOVE, _("Remove current tab"), '', None, cls.act_rmtab),
-        ('action_projmaster',  gtk.STOCK_HOME, _("Set master document"), '', None, cls.act_setmaster),
+        ('action_closeproj', gtk.STOCK_CLOSE, None, '', None, cls.act_close),
+        ('action_openaddproj', gtk.STOCK_ADD, _("Add files"), '', None, cls.act_openadd),
+        ('action_addtabproj', gtk.STOCK_ADD, _("Add current tab"), '', None, cls.act_addtab),
+        ('action_rmtabproj', gtk.STOCK_REMOVE, _("Remove current tab"), '', None, cls.act_rmtab),
+        ('action_projmaster', gtk.STOCK_HOME, _("Set as master document"), '', None, cls.act_setmaster),
         ('action_archiveproj', gtk.STOCK_HARDDISK, _("Archive"), '', None, cls.act_archive),
+        ('action_projprops', gtk.STOCK_PROPERTIES, None, '', None, cls.act_properties),
     ]
     return actions
 
@@ -69,7 +72,8 @@ class ProjectManager(object):
         self.fileobj = fileobj
         self.rootdir = URImanager(fileobj.gfile.get_parent().get_uri())
         self.master = None
-        if self.load():
+        self.cparser = ConfigParser.RawConfigParser()
+        if self.load(**args):
             if self.app.gui.project is not None:
                 self.app.gui.project.act_close()
             self.app.gui.project = self
@@ -87,8 +91,10 @@ class ProjectManager(object):
             self.app.prefm.autoconnect_gtk(sidepanel)
             self.pb.update()
     
+    # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
+    
     def act_close(self, *data):
-        """Close the project."""
+        """Callback for 'Close' action."""
         self.save()
         sidepanel = self.app.gui.get_widgets_by_name('sidepanel').pop()
         sidepanel.remove_expander('project')
@@ -99,7 +105,7 @@ class ProjectManager(object):
         return
     
     def act_openadd(self, *data):
-        """"""
+        """Callback for 'Add files' action."""
         uris = self.app.gui.act_open(do_open=False)
         for u in uris:
             f = iofiles.FileManager(u)
@@ -108,21 +114,21 @@ class ProjectManager(object):
         return
     
     def act_addtab(self, *data):
-        """"""
+        """Callback for 'Add tab' action."""
         tab = self.app.gui.get_current_tab()
         if tab is not None:
             self.add_tab(tab)
         return
     
     def act_rmtab(self, *data):
-        """"""
+        """Callback for 'Remove tab' action."""
         tab = self.app.gui.get_current_tab()
         if tab is not None:
             self.rm_tab(tab)
         return
     
     def act_setmaster(self, *data):
-        """"""
+        """Callback for 'Set master' action."""
         tab = self.app.gui.get_current_tab()
         if tab is not None:
             f = tab.get_file_infos()[1]
@@ -131,38 +137,37 @@ class ProjectManager(object):
         return
     
     def act_archive(self, *data):
-        """"""
-        log("project > 'archive' not implemented", 'warning')
+        """Callback for 'Archive' action."""
+        print "Project archive"
+        return
+    
+    def act_properties(self, *data):
+        """Callback for 'Archive' action."""
+        print "Project properties"
         return
     
     # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
     
     def belongs(self, urim):
         """Test if URImanager belongs to the project."""
-        return any(urim==u for u in self.listfiles)
+        return any(urim == u for u in self.listfiles)
+    
+    def add(self, urim, hl=None, enc=None):
+        """Add an urim to the project."""
+        # {"file_urim": [hlight, enc, open, archive]}
+        test = not self.belongs(urim)
+        if test:
+            isopen = self.is_opened(urim)
+            self.listfiles[urim] = [hl, enc, isopen, True]
+            self.pb.update()
+        return test
     
     def add_file(self, f, hl=None):
         """Add a file to the project."""
         if f.uri is None:
             return False
         urim = URImanager(f.uri)
-        func = lambda x: URImanager(x.uri)
-        isopen = urim in map(func, self.app.gui.list_opened_files())
-        # {"file_uri": [hlight, enc, open, archive]}
-        if not self.belongs(urim):
-            self.listfiles[urim] = [hl, f.encoding, isopen, True]
-            self.pb.update()
-        return True
-    
-    def rm_file(self, f):
-        """Remove a file from the project."""
-        urim = URImanager(f.uri)
-        if self.belongs(urim):
-            for u in self.listfiles.keys():
-                if u == urim:
-                    del self.listfiles[u]
-            self.pb.update()
-        return
+        return self.add(urim, hl, f.encoding)
     
     def add_tab(self, tab):
         """Add tab's file to the project's files."""
@@ -174,6 +179,23 @@ class ProjectManager(object):
             ret = False
         return ret
     
+    def remove(self, urim):
+        """Remove an urim from the project."""
+        if self.master == urim:
+            self.master = None
+        if self.belongs(urim):
+            for u in self.listfiles.keys():
+                if u == urim:
+                    del self.listfiles[u]
+            self.pb.update()
+        return
+    
+    def rm_file(self, f):
+        """Remove a file from the project."""
+        urim = URImanager(f.uri)
+        self.remove(urim)
+        return
+    
     def rm_tab(self, tab):
         """Remove tab's file from the project's files."""
         i = tab.get_file_infos()
@@ -182,8 +204,8 @@ class ProjectManager(object):
         return
     
     def set_master(self, uri):
-        """"""
-        urim = URImanager(uri)
+        """Set the master document (uri or URImanager)."""
+        urim = URImanager(uri) if type(uri) is str else uri
         if not self.belongs(urim):
             log("project > this tab does not belong to the project", 'error')
         else:
@@ -191,16 +213,38 @@ class ProjectManager(object):
             self.pb.update()
         return
     
+    def is_opened(self, urim):
+        """Test if an urim is opened in a tab."""
+        func = lambda x: URImanager(x.uri)
+        tab_urims = map(func, self.app.gui.list_opened_files())
+        return any(urim == u for u in tab_urims)
+    
+    def in_archive(self, urim, value=None):
+        """Set if urim is to be archived."""
+        ### TODO ###
+        if value in [True, False]:
+            val = 'true' if value else 'false'
+        else:
+            value = True
+        return value
+    
     def list_files(self):
         """List the files (URImanager) belonging to the project."""
         return self.listfiles.keys()
     
-    def load(self):
+    def open_uri(self, urim):
+        """Open the given file (URImanager) in a new tab."""
+        self.app.gui.do_open(urim.gfile.get_uri(), 'all')
+        return
+    
+    def load(self, **args):
         """Load the project from a file."""
+        print "Project load"
         return True
     
     def save(self):
         """Save the project into a file."""
+        print "Project save"
         return
 
 
@@ -215,9 +259,11 @@ class URImanager(gobject.GObject):
     
     def relative(self, root):
         """Return path of URI relative to root."""
-        ###rel = root.gfile.get_relative_path(self.gfile)
         rel = os.path.relpath(self.gfile.get_uri(), root.gfile.get_uri())
         return rel
+    
+    def __repr__(self):
+        return self.gfile.get_uri()
     
     def __eq__(self, urim2):
         if urim2 is None:
@@ -246,7 +292,7 @@ class ProjectBrowser(gtk.ScrolledWindow):
     def build_treeview(self):
         """Build the treeview."""
         # Model
-        self.ts = gtk.TreeStore(URImanager, gtk.gdk.Pixbuf, str, pango.Weight)
+        self.ts = gtk.ListStore(URImanager, gtk.gdk.Pixbuf, str, pango.Weight)
         # View
         self.tv = gtk.TreeView()
         self.tv.set_model(self.ts)
@@ -255,7 +301,9 @@ class ProjectBrowser(gtk.ScrolledWindow):
         self.tv.set_enable_search(True)
         self.tv.set_search_column(2)
         self.tv.set_enable_tree_lines(False)
-        self.tv.get_selection().set_mode(gtk.SELECTION_NONE)
+        self.tv.get_selection().set_mode(gtk.SELECTION_SINGLE)
+        self.tv.props.can_focus = False
+        self.tv.connect('button-press-event', self.ev_right_click)
         self.tv.connect('row-activated', self.ev_row_activated)
         # Column
         c = gtk.TreeViewColumn("Files")
@@ -281,13 +329,70 @@ class ProjectBrowser(gtk.ScrolledWindow):
         master = self.manager.master
         for n in sorted(names.keys()):
             urim = names[n]
-            w = pango.WEIGHT_BOLD if urim==master else pango.WEIGHT_NORMAL
+            w = pango.WEIGHT_BOLD if urim == master else pango.WEIGHT_NORMAL
             pix = self.render_icon(gtk.STOCK_FILE, gtk.ICON_SIZE_MENU)
-            self.ts.append(None, [urim, pix, n, w])
+            self.ts.append([urim, pix, n, w])
+        return
+    
+    def get_context_menu(self, iter):
+        """Get right-click contextual menu."""
+        urim = self.ts.get_value(iter, 0)
+        item_o = gtk.ImageMenuItem(gtk.STOCK_OPEN)
+        item_o.connect('activate', self.ev_open, urim)
+        item_m = gtk.ImageMenuItem(gtk.STOCK_HOME)
+        item_m.set_label(_("Set as master document"))
+        item_m.connect('activate', self.ev_setmaster, urim)
+        item_r = gtk.ImageMenuItem(gtk.STOCK_REMOVE)
+        item_r.set_label(_("Remove from project"))
+        item_r.connect('activate', self.ev_remove, urim)
+        item_a = gtk.CheckMenuItem(_("Include in archive"))
+        item_a.set_active(self.manager.in_archive(urim))
+        item_a.connect('activate', self.ev_archive, urim)
+        menu = gtk.Menu()
+        for i in [item_o, item_m, item_r, gtk.SeparatorMenuItem(), item_a]:
+            menu.append(i)
+        menu.show_all()
+        return menu
+    
+    def ev_right_click(self, w, event):
+        """Handle right-click on treeview."""
+        if event.button == 3  and event.type == gtk.gdk.BUTTON_PRESS:
+            pathinfo = self.tv.get_path_at_pos(int(event.x), int(event.y))
+            if pathinfo is not None:
+                iter = self.ts.get_iter(pathinfo[0])
+                self.tv.get_selection().select_iter(iter)
+                menu = self.get_context_menu(iter)
+                menu.popup(None, None, None, event.button, event.time)
+            else:
+                self.tv.get_selection().unselect_all()
+            return True
+        return False
+    
+    def ev_open(self, menuitem, urim):
+        """Callback for 'open' menu event."""
+        self.manager.open_uri(urim)
+        return
+    
+    def ev_setmaster(self, menuitem, urim):
+        """Callback for 'set master' menu event."""
+        self.manager.set_master(urim)
+        return
+    
+    def ev_remove(self, menuitem, urim):
+        """Callback for 'remove' menu event."""
+        self.manager.remove(urim)
+        return
+    
+    def ev_archive(self, menuitem, urim):
+        """Callback for 'archive' menu event."""
+        self.manager.in_archive(urim, not menuitem.get_active())
         return
     
     def ev_row_activated(self, w, path, column):
         """Callback for double-click event."""
+        iter = self.ts.get_iter(path)
+        urim = self.ts.get_value(iter, 0)
+        self.manager.open_uri(urim)
         return
 
 

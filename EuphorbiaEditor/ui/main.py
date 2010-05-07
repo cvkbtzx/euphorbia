@@ -49,8 +49,8 @@ DEFAULT_PREFS_TABS = [
 DEFAULT_FILE_HANDLERS = [
     # ID, description, patterns, object, default_params
     ('all', "All files", ["*"], document.Document, {}),
-    ('latex', "LaTeX files", ["*.tex","*.latex"], document.Document, {'hlight':"latex"}),
-    ('project', "Project files", ["*.ephb","*.kilepr"], project.ProjectManager, {}),
+    ('latex', "LaTeX files", ["*.tex","*.latex","*.bib"], document.Document, {'hlight':"latex"}),
+    ('project', "Project files", ["*.ephb","*.kilepr"], project.ProjectManager, {'new':False}),
 ]
 
 

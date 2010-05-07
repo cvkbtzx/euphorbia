@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Euphorbia 0.0.X\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-05-07 00:02+0200\n"
+"POT-Creation-Date: 2010-05-07 22:32+0200\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Bzoloid <bzoloid@gmail.com>\n"
 "Language-Team: \n"
@@ -40,13 +40,13 @@ msgid "Help"
 msgstr "_Help"
 
 msgid "ShowSidePan"
-msgstr "Show side panel"
+msgstr "Show _side panel"
 
 msgid "ShowBottomPan"
-msgstr "Show bottom panel"
+msgstr "Show _bottom panel"
 
 msgid "Syntax highlighting"
-msgstr "Syntax highlighting"
+msgstr "Syntax _highlighting"
 
 msgid "Auto"
 msgstr "Auto"
@@ -54,20 +54,26 @@ msgstr "Auto"
 msgid "None"
 msgstr "None"
 
-msgid "Add a file"
-msgstr "Add a file"
+msgid "Add files"
+msgstr "Add _files"
 
 msgid "Add current tab"
-msgstr "Add current tab"
+msgstr "_Add current tab"
 
 msgid "Remove current tab"
-msgstr "Remove current tab"
+msgstr "_Remove current tab"
 
-msgid "Set master document"
-msgstr "Set master document"
+msgid "Set as master document"
+msgstr "Set as _master document"
 
 msgid "Archive"
-msgstr "Archive"
+msgstr "Archi_ve"
+
+msgid "Include in archive"
+msgstr "_Include in archive"
+
+msgid "Remove from project"
+msgstr "_Remove from project"
 
 msgid "Preferences"
 msgstr "Preferences"
@@ -280,6 +286,9 @@ msgstr "Project files (*.ephb *.kilepr)"
 #, python-format
 msgid "New_doc_%i.tex"
 msgstr "New_doc_%i.tex"
+
+msgid "New_project.euph"
+msgstr "New_project.euph"
 
 msgid "SaveBeforeClose?"
 msgstr ""
