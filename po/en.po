@@ -33,9 +33,6 @@ msgstr "_Project"
 msgid "Tools"
 msgstr "_Tools"
 
-msgid "Settings"
-msgstr "_Settings"
-
 msgid "Help"
 msgstr "_Help"
 

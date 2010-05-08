@@ -41,6 +41,7 @@ def get_actions_list(cls):
         ('action_saveas',   gtk.STOCK_SAVE_AS,      None, None, None, cls.act_saveas),
         ('action_page',     gtk.STOCK_PAGE_SETUP,   None, None, None, cls.act_page),
         ('action_print',    gtk.STOCK_PRINT,        None, None, None, cls.act_print),
+        ('action_prefs',    gtk.STOCK_PREFERENCES,  None, None, None, cls.act_prefs),
         ('action_close',    gtk.STOCK_CLOSE,        None, None, None, cls.act_close),
         ('action_quit',     gtk.STOCK_QUIT,         None, None, None, cls.act_quit),
         ('action_edit',     None,                   _("Edit")),
@@ -59,8 +60,6 @@ def get_actions_list(cls):
         ('action_newproj',  gtk.STOCK_NEW,          None, '',   None, cls.act_newproj),
         ('action_openproj', gtk.STOCK_OPEN,         None, '',   None, cls.act_open),
         ('action_tools',    None,                   _("Tools")),
-        ('action_settings', None,                   _("Settings")),
-        ('action_prefs',    gtk.STOCK_PREFERENCES,  None, None, None, cls.act_prefs),
         ('action_help',     None,                   _("Help")),
         ('action_about',    gtk.STOCK_ABOUT,        None, None, None, cls.act_about)
     ]
@@ -169,6 +168,16 @@ class ActionsManager(object):
             self.print_settings = printop.get_print_settings()
         return
     
+    def act_prefs(self, *data):
+        """Callback for 'Preferences' action."""
+        dwin = dialogs.PrefsWin(self.app)
+        dwin.run()
+        dwin.destroy()
+        pluglist = self.app.plugm.list_loaded_plugins()
+        self.app.prefm.set_pref('plugins_list', pluglist)
+        self.app.prefm.store()
+        return
+    
     def act_close(self, *data, **args):
         """Callback for 'Close' action."""
         tab = args['tab'] if 'tab' in args else self.get_current_tab()
@@ -264,16 +273,6 @@ class ActionsManager(object):
         dwin.destroy()
         if uri is not None:
             self.do_open(uri, 'project', new=True)
-        return
-    
-    def act_prefs(self, *data):
-        """Callback for 'Preferences' action."""
-        dwin = dialogs.PrefsWin(self.app)
-        dwin.run()
-        dwin.destroy()
-        pluglist = self.app.plugm.list_loaded_plugins()
-        self.app.prefm.set_pref('plugins_list', pluglist)
-        self.app.prefm.store()
         return
     
     def act_about(self, *data):

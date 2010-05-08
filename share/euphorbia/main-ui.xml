@@ -9,6 +9,8 @@
             <menuitem action="action_page" />
             <menuitem action="action_print" />
             <separator />
+            <menuitem action="action_prefs" />
+            <separator />
             <menuitem action="action_close" />
             <menuitem action="action_quit" />
         </menu>
@@ -38,9 +40,6 @@
         </menu>
         <menu name="menu_tools" action="action_tools">
             <placeholder />
-        </menu>
-        <menu name="menu_settings" action="action_settings">
-            <menuitem action="action_prefs" />
         </menu>
         <menu name="menu_help" action="action_help">
             <menuitem action="action_about" />

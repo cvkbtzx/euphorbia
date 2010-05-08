@@ -31,10 +31,7 @@ msgid "Project"
 msgstr "_Projet"
 
 msgid "Tools"
-msgstr "Ou_tils"
-
-msgid "Settings"
-msgstr "_Options"
+msgstr "_Outils"
 
 msgid "Help"
 msgstr "A_ide"
