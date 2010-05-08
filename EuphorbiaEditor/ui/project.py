@@ -21,11 +21,8 @@
 
 """Project manager."""
 
-import os.path
 import gtk
-import gio
 import pango
-import gobject
 import ConfigParser
 
 import EuphorbiaEditor.utils.iofiles as iofiles
@@ -70,7 +67,7 @@ class ProjectManager(object):
     def __init__(self, app, fileobj, **args):
         self.app = app
         self.fileobj = fileobj
-        self.rootdir = URImanager(fileobj.gfile.get_parent().get_uri())
+        self.rootdir = iofiles.URImanager(fileobj.gfile.get_parent().get_uri())
         self.master = None
         self.cparser = ConfigParser.RawConfigParser()
         if self.load(**args):
@@ -138,12 +135,12 @@ class ProjectManager(object):
     
     def act_archive(self, *data):
         """Callback for 'Archive' action."""
-        print "Project archive"
+        print "Project: archive"
         return
     
     def act_properties(self, *data):
         """Callback for 'Archive' action."""
-        print "Project properties"
+        print "Project: properties"
         return
     
     # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
@@ -166,7 +163,7 @@ class ProjectManager(object):
         """Add a file to the project."""
         if f.uri is None:
             return False
-        urim = URImanager(f.uri)
+        urim = iofiles.URImanager(f.uri)
         return self.add(urim, hl, f.encoding)
     
     def add_tab(self, tab):
@@ -192,7 +189,7 @@ class ProjectManager(object):
     
     def rm_file(self, f):
         """Remove a file from the project."""
-        urim = URImanager(f.uri)
+        urim = iofiles.URImanager(f.uri)
         self.remove(urim)
         return
     
@@ -205,7 +202,7 @@ class ProjectManager(object):
     
     def set_master(self, uri):
         """Set the master document (uri or URImanager)."""
-        urim = URImanager(uri) if type(uri) is str else uri
+        urim = iofiles.URImanager(uri) if type(uri) is str else uri
         if not self.belongs(urim):
             log("project > this tab does not belong to the project", 'error')
         else:
@@ -215,7 +212,7 @@ class ProjectManager(object):
     
     def is_opened(self, urim):
         """Test if an urim is opened in a tab."""
-        func = lambda x: URImanager(x.uri)
+        func = lambda x: iofiles.URImanager(x.uri)
         tab_urims = map(func, self.app.gui.list_opened_files())
         return any(urim == u for u in tab_urims)
     
@@ -239,39 +236,13 @@ class ProjectManager(object):
     
     def load(self, **args):
         """Load the project from a file."""
-        print "Project load"
+        print "Project: load"
         return True
     
     def save(self):
         """Save the project into a file."""
-        print "Project save"
+        print "Project: save"
         return
-
-
-#------------------------------------------------------------------------------
-
-class URImanager(gobject.GObject):
-    """Class to manage URIs."""
-    
-    def __init__(self, uri):
-        gobject.GObject.__init__(self)
-        self.gfile = gio.File(uri)
-    
-    def relative(self, root):
-        """Return path of URI relative to root."""
-        rel = os.path.relpath(self.gfile.get_uri(), root.gfile.get_uri())
-        return rel
-    
-    def __repr__(self):
-        return self.gfile.get_uri()
-    
-    def __eq__(self, urim2):
-        if urim2 is None:
-            return False
-        return self.gfile.equal(urim2.gfile)
-    
-    def __ne__(self, urim2):
-        return not self.__eq__(urim2)
 
 
 #------------------------------------------------------------------------------
@@ -292,7 +263,7 @@ class ProjectBrowser(gtk.ScrolledWindow):
     def build_treeview(self):
         """Build the treeview."""
         # Model
-        self.ts = gtk.ListStore(URImanager, gtk.gdk.Pixbuf, str, pango.Weight)
+        self.ts = gtk.ListStore(iofiles.URImanager, gtk.gdk.Pixbuf, str, pango.Weight)
         # View
         self.tv = gtk.TreeView()
         self.tv.set_model(self.ts)
@@ -330,7 +301,8 @@ class ProjectBrowser(gtk.ScrolledWindow):
         for n in sorted(names.keys()):
             urim = names[n]
             w = pango.WEIGHT_BOLD if urim == master else pango.WEIGHT_NORMAL
-            pix = self.render_icon(gtk.STOCK_FILE, gtk.ICON_SIZE_MENU)
+            stock = gtk.STOCK_HOME if urim == master else gtk.STOCK_FILE
+            pix = self.render_icon(stock, gtk.ICON_SIZE_MENU)
             self.ts.append([urim, pix, n, w])
         return
     
@@ -348,8 +320,9 @@ class ProjectBrowser(gtk.ScrolledWindow):
         item_a = gtk.CheckMenuItem(_("Include in archive"))
         item_a.set_active(self.manager.in_archive(urim))
         item_a.connect('activate', self.ev_archive, urim)
+        item_s = gtk.SeparatorMenuItem
         menu = gtk.Menu()
-        for i in [item_o, item_m, item_r, gtk.SeparatorMenuItem(), item_a]:
+        for i in [item_o, item_s(), item_m, item_r, item_s(), item_a]:
             menu.append(i)
         menu.show_all()
         return menu
