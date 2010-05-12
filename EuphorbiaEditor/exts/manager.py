@@ -125,6 +125,7 @@ class PluginsManager(object):
         for p in self.paths:
             for f in [i for i in os.listdir(p) if i.endswith(ext)]:
                 cp = ConfigParser.RawConfigParser()
+                cp.optionxform = str
                 with open(os.path.join(p,f), 'r') as fp:
                     cp.readfp(fp)
                 test = all(cp.has_option(sect, o) for o in opts)

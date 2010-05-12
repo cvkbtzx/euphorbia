@@ -236,12 +236,12 @@ class ProjectManager(object):
     
     def load(self, **args):
         """Load the project from a file."""
-        print "Project: load"
+        log("project > load")
         return True
     
     def save(self):
         """Save the project into a file."""
-        print "Project: save"
+        log("project > save")
         return
 
 

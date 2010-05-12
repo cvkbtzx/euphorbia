@@ -148,8 +148,8 @@ class EuphorbiaSidePanel(SidePanel):
             for t in sorted(self.syms[categ].keys()):
                 try:
                     tool = self.syms[categ][t]
-                    pixb = gtk.gdk.pixbuf_new_from_file(tool['img'])
-                    pal.add_tool([t, tool['insert'], pixb])
+                    pixb = gtk.gdk.pixbuf_new_from_file(tool['Img'])
+                    pal.add_tool([t, tool['Insert'], pixb])
                 except StandardError:
                     msg = "sidepanel > can't load symbol '%s/%s'" % (categ,t)
                     log(msg, 'warning')
@@ -166,13 +166,14 @@ class EuphorbiaSidePanel(SidePanel):
             if os.path.isdir(dir):
                 for f in [i for i in os.listdir(dir) if i.endswith(".data")]:
                     cp = ConfigParser.RawConfigParser()
+                    cp.optionxform = str
                     cp.read([os.path.join(dir,f)])
-                    id = cp.defaults()['id']
+                    id = cp.defaults()['Id']
                     if id not in symlist:
                         symlist[id] = {}
                     for s in cp.sections():
                         sd = dict(cp.items(s))
-                        sd['img'] = os.path.join(dir, id, s+".png")
+                        sd['Img'] = os.path.join(dir, id, s+".png")
                         if s not in symlist[id]:
                             symlist[id][s] = {}
                         symlist[id][s].update(sd)
@@ -182,13 +183,13 @@ class EuphorbiaSidePanel(SidePanel):
     
     def get_local_name(self, tool):
         """Get category's localized name from a tool dataset."""
-        keys = ['name']
+        keys = ['Name']
         lng = self.app.locale[0]
         if lng is not None:
             lng = lng.lower()
             if '_' in lng:
-                keys.append("name["+lng.split('_')[0]+"]")
-            keys.append("name["+lng+"]")
+                keys.append("Name["+lng.split('_')[0]+"]")
+            keys.append("Name["+lng+"]")
         ret = None
         for k in keys:
             if k in tool:
@@ -197,7 +198,7 @@ class EuphorbiaSidePanel(SidePanel):
     
     def insert_symbol(self, symb, categ):
         """Handle click on symbol button."""
-        txt = self.syms[categ][symb]['insert']
+        txt = self.syms[categ][symb]['Insert']
         tab = self.app.gui.get_current_tab()
         if hasattr(tab, 'insert'):
             if hasattr(tab, 'insert2') and "{}" in txt:

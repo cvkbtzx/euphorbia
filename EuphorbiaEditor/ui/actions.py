@@ -354,6 +354,8 @@ class ActionsManager(object):
     def do_quit(self):
         """Ensure that the application quits correctly."""
         self.emit('quit')
+        if self.project is not None:
+            self.project.act_close()
         pluglist = self.app.plugm.list_loaded_plugins()
         self.app.prefm.set_pref('plugins_list', pluglist)
         self.app.plugm.stop_all_plugins()
