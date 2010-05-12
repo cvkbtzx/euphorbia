@@ -247,6 +247,46 @@ class ProjectManager(object):
 
 #------------------------------------------------------------------------------
 
+class FalseFileObj(object):
+    """Use a GIO file like a local fileobj for ConfigParser."""
+    
+    def __init__(self, gfile):
+        self._gfile = gfile
+        self._r, self._w, self._i = False, False, -1
+        self._txt = ""
+    
+    def g_read(self):
+        """Get text data from gfile."""
+        data = self._gfile.read()
+        self._txt = "" if data is None else data
+        return not data is None
+    
+    def g_write(self):
+        """Write text data in gfile."""
+        return self._gfile.write(self._txt)
+    
+    def readline(self):
+        """Read text data line."""
+        self._w = False
+        if not self._r:
+            self._r = True
+            self._i = -1
+        self._i = self._i + 1
+        data = self._txt.splitlines(True)
+        return data[self._i] if len(data) < self._i else None
+    
+    def write(self, data):
+        """Write text data line."""
+        self._r = False
+        if not self._w:
+            self._w = True
+            self._txt = ""
+        self._txt = self._txt + data
+        return
+
+
+#------------------------------------------------------------------------------
+
 class ProjectBrowser(gtk.ScrolledWindow):
     """TreeView which displays project files."""
     
