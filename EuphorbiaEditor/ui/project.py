@@ -50,12 +50,6 @@ DEFAULT_GENERAL_OPTS = {
     'name'           : "",
     'lastDocument'   : "",
     'masterDocument' : "",
-    'img_extIsRegExp': "false",
-    'img_extensions' : ".eps .jpg .jpeg .png .pdf .ps .fig .gif .dvi",
-    'pkg_extIsRegExp': "false",
-    'pkg_extensions' : ".cls .sty",
-    'src_extIsRegExp': "false",
-    'src_extensions' : ".tex .ltx .latex .dtx .ins .bib .mp .bst",
 }
 
 DEFAULT_ITEM_OPTS = {
@@ -334,7 +328,7 @@ class ProjectManager(object):
             if pname.endswith(".ephb") or pname.endswith(".kilepr"):
                 pname = pname.rsplit(".", 1)[0]
             self.cparser.set('General', 'name', pname)
-        openlist = []
+        openlist, lastopen = [], None
         for sec in self.cparser.sections():
             if not sec.startswith("item:"):
                 continue
@@ -348,19 +342,28 @@ class ProjectManager(object):
                 self.listfiles[urim] = rel
                 if self.cparser.get('General', 'masterDocument') == rel:
                     self.master = urim
+                if self.cparser.get('General', 'lastDocument') == rel:
+                    lastopen = urim
             if self.cparser.getboolean(sec, 'open'):
                 order = self.cparser.get(sec, 'order')
                 openlist.append((urim, order))
         for u in sorted(openlist, key=lambda x: x[1]):
             self.open_uri(u[0])
+        if lastopen is not None:
+            self.open_uri(lastopen)
         return True
     
     def save(self):
         """Save the project into a file."""
         tabs_infos = self.app.gui.get_tabs_infos()
+        curr_tab = self.app.gui.get_current_tab()
         for urim in self.listfiles:
             for opt,val in self.get_status(urim, tabs_infos).iteritems():
                 self.set_opt(urim, opt, val)
+        cf = curr_tab.get_file_infos()[1]
+        if cf is not None:
+            urim = iofiles.URImanager(cf.uri, self.rootdir)
+            self.cparser.set('General', 'lastDocument', self.get_id(urim))
         self.cparser.write(self.fileobj)
         if not self.cparser.has_option('General', 'kileversion'):
             log("project > save")
@@ -473,6 +476,8 @@ class ProjectBrowser(gtk.ScrolledWindow):
     def get_context_menu(self, iter):
         """Get right-click contextual menu."""
         urim = self.ts.get_value(iter, 0)
+        if urim is None:
+            return None
         item_o = gtk.ImageMenuItem(gtk.STOCK_OPEN)
         item_o.connect('activate', self.ev_open, urim)
         item_m = gtk.ImageMenuItem(gtk.STOCK_HOME)
@@ -499,7 +504,8 @@ class ProjectBrowser(gtk.ScrolledWindow):
                 iter = self.ts.get_iter(pathinfo[0])
                 self.tv.get_selection().select_iter(iter)
                 menu = self.get_context_menu(iter)
-                menu.popup(None, None, None, event.button, event.time)
+                if menu is not None:
+                    menu.popup(None, None, None, event.button, event.time)
             else:
                 self.tv.get_selection().unselect_all()
             return True

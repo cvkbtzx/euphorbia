@@ -196,9 +196,7 @@ class URImanager(gobject.GObject):
         return self.gfile.get_uri()
     
     def __eq__(self, urim2):
-        if urim2 is None:
-            return False
-        return self.gfile.equal(urim2.gfile)
+        return False if urim2 is None else self.gfile.equal(urim2.gfile)
     
     def __ne__(self, urim2):
         return not self.__eq__(urim2)
