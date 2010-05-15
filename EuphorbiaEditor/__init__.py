@@ -76,9 +76,12 @@ class Euphorbia(object):
         self.prefm.autoconnect_gtk(self.gui.win)
         # Open files given in command line
         args = [a for a in args if not a.startswith("--")]
-        if args:
+        projfile = self.prefm.get_pref('files_lastprj')
+        if len(args) > 0:
             for f in args:
                 self.gui.do_open(f, 'all')
+        elif self.prefm.get_pref('files_reopenprj') and projfile is not None:
+            self.gui.do_open(projfile, 'project')
         else:
             self.gui.act_new()
     

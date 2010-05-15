@@ -159,11 +159,11 @@ class ActionsManager(object):
         printop.set_default_page_setup(self.print_setup)
         printop.set_print_settings(self.print_settings)
         tab.connect_print_compositor(printop)
-        pst = lambda x: self.push_status(_("Print: %s") % (x), 'print')
+        pst = lambda x: self.status_msg(_("Print: %s") % (x), 'print')
         printop.connect('status-changed', lambda p: pst(p.get_status_string()))
         res = printop.run(gtk.PRINT_OPERATION_ACTION_PRINT_DIALOG, self.win)
         if res == gtk.PRINT_OPERATION_RESULT_ERROR:
-            self.disp_message('error', 'close', _("PrintError"))
+            self.popup_msg('error', 'close', _("PrintError"))
         elif res == gtk.PRINT_OPERATION_RESULT_APPLY:
             self.print_settings = printop.get_print_settings()
         return
@@ -355,7 +355,7 @@ class ActionsManager(object):
         """Ensure that the application quits correctly."""
         self.emit('quit')
         if self.project is not None:
-            self.project.act_close()
+            self.project.save()
         pluglist = self.app.plugm.list_loaded_plugins()
         self.app.prefm.set_pref('plugins_list', pluglist)
         self.app.plugm.stop_all_plugins()

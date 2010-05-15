@@ -29,15 +29,15 @@ import gtksourceview2 as gtksv
 
 import actions
 import dialogs
-import sidepanel
 import document
-import searchbar
 import project
+import searchbar
+import sidepanel
 
 
 #------------------------------------------------------------------------------
 
-SIGNALS = ['open', 'save', 'close', 'changetab', 'quit']
+SIGNALS = ['open', 'save', 'close', 'changetab', 'quit', 'openprj', 'closeprj']
 
 DEFAULT_PREFS_TABS = [
     # Name, widget
@@ -161,12 +161,17 @@ class EuphorbiaGUI(actions.ActionsManager):
         n = self.nbd.get_current_page() if n is None else n
         obj = self.nbd.get_nth_page(n)
         tab = [t for t in self.nbd.tab_list if t.content is obj]
-        return tab[0] if len(tab)==1 else None
+        return tab[0] if len(tab) == 1 else None
     
-    def list_opened_files(self):
-        """List opened files."""
-        tabs = self.nbd.tab_list
-        return set(t.get_file_infos()[1] for t in tabs).difference([None])
+    def get_tabs_infos(self):
+        """Get list of tabs infos [(tab, title, position, gfile)]."""
+        infos = []
+        for tab in self.nbd.tab_list:
+            title = tab.get_title()
+            pos = self.nbd.page_num(tab.content)
+            f = tab.get_file_infos()[1]
+            infos.append((tab, title, pos, f))
+        return infos
     
     def connect(self, signal, func, *args):
         """Connect a function to the specified Euphorbia signal."""
@@ -175,20 +180,20 @@ class EuphorbiaGUI(actions.ActionsManager):
      
     def emit(self, signal, *params):
         """Emit the specified Euphorbia signal."""
-        self.push_status(_("signal_"+signal))
+        self.status_msg(_("signal_"+signal))
         log("signal > "+signal)
         for cb in self.connections[signal]:
             func = cb[0]
             func(*(params+cb[1]))
         return
     
-    def push_status(self, txt, id='standard'):
+    def status_msg(self, txt, id='standard'):
         """Update statusbar message."""
         cid = self.status.get_context_id(id)
         self.status.push(cid, txt)
         return
     
-    def disp_message(self, t, b, txt):
+    def popup_msg(self, t, b, txt):
         """Display a message in a dialog window."""
         dwin = dialogs.MsgWin(self.app.gui.win, t, b, txt)
         ret = dwin.run()

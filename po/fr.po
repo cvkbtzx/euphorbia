@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Euphorbia 0.0.X\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-05-07 22:32+0200\n"
+"POT-Creation-Date: 2010-05-15 02:44+0200\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Bzoloid <bzoloid@gmail.com>\n"
 "Language-Team: \n"
@@ -188,6 +188,9 @@ msgstr "Tenter de mettre à la corbeille"
 
 msgid "files_backup"
 msgstr "Copie de sauvegarde à l'enregistrement"
+
+msgid "files_reopenprj"
+msgstr "Réouvrir le projet au prochain démarrage"
 
 msgid "search_loop"
 msgstr "Boucler"

@@ -181,14 +181,16 @@ class FileManager(object):
 class URImanager(gobject.GObject):
     """Class to manage URIs."""
     
-    def __init__(self, uri):
+    def __init__(self, uri, root=None):
         gobject.GObject.__init__(self)
+        if type(uri) is not str:
+            uri = os.path.normpath(os.path.join(*uri))
         self.gfile = gio.File(uri)
-    
-    def relative(self, root):
-        """Return path of URI relative to root."""
-        rel = os.path.relpath(self.gfile.get_uri(), root.gfile.get_uri())
-        return rel
+        if root is None:
+            rooturi = self.gfile.get_parent().get_uri()
+        else:
+            rooturi = root.gfile.get_uri()
+        self.relative = os.path.relpath(self.gfile.get_uri(), rooturi)
     
     def __repr__(self):
         return self.gfile.get_uri()

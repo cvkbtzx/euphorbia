@@ -54,6 +54,8 @@ DEFAULT_PREFS = [
     ["gui_bottompanelshow", 'showpanel', None, True, "bottompanel"],
     ["files_trash", None, 'bool', True, None],
     ["files_backup", None, 'bool', False, None],
+    ["files_reopenprj", None, 'bool', True, None],
+    ["files_lastprj", None, None, None, None],
     ["search_loop", None, 'bool', False, None],
     ["print_1header", None, 'bool', False, None],
     ["print_1header_separator", None, 'bool', True, None],

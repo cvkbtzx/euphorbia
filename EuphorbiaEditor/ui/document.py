@@ -47,7 +47,7 @@ class Document(tabwrapper.TabWrapper):
         self.type_id = "doc_text"
         self.clipb = gtk.clipboard_get()
         # Parameters
-        params = {'fname':None, 'hlight':None, 'enc':None}
+        params = {'fname':None, 'hlight':None, 'enc':None, 'pos':None}
         params.update(args)
         fname, hlight, enc = params['fname'], params['hlight'], params['enc']
         fname = fname if fname else "New document"
@@ -61,12 +61,14 @@ class Document(tabwrapper.TabWrapper):
             if not self.open_file(file, **params):
                 self.close()
                 msg = _("OpenFileError %s") % (file.fullname())
-                self.app.gui.disp_message('error', 'close', msg)
+                self.app.gui.popup_msg('error', 'close', msg)
         else:
             self.set_title(fname)
             self.set_icon()
             self.ev.set_language(hlight)
             self.gen_doc_struct()
+        if params['pos'] is not None:
+            self.set_pos(params['pos'])
     
     def get_fname(self):
         """Get tab name."""
@@ -302,8 +304,20 @@ class Document(tabwrapper.TabWrapper):
             self.struct.append((_("Graphics"), None, g))
         return
     
+    def set_pos(self, pos):
+        """Set cursor (line,column) position."""
+        iter = self.ev.buffer.get_iter_at_line_index(*pos)
+        self.ev.buffer.place_cursor(iter)
+        self.ev.view.scroll_to_iter(iter, 0, False)
+        return
+    
+    def get_pos(self):
+        """Get cursor (line,column) position."""
+        iter = self.ev.buffer.get_iter_at_mark(self.ev.buffer.get_insert())
+        return (iter.get_line(), iter.get_line_index())
+    
     def goto_index(self, index):
-        """Go to the given position."""
+        """Go to the given index position (line number >= 1)."""
         iter = self.ev.buffer.get_iter_at_line(index-1 if index>0 else 0)
         self.ev.view.scroll_to_iter(iter, 0, True, 0, 0)
         return

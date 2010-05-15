@@ -46,6 +46,31 @@ MENU = """
 </menubar>
 """
 
+DEFAULT_GENERAL_OPTS = {
+    'name'           : "",
+    'lastDocument'   : "",
+    'masterDocument' : "",
+    'img_extIsRegExp': "false",
+    'img_extensions' : ".eps .jpg .jpeg .png .pdf .ps .fig .gif .dvi",
+    'pkg_extIsRegExp': "false",
+    'pkg_extensions' : ".cls .sty",
+    'src_extIsRegExp': "false",
+    'src_extensions' : ".tex .ltx .latex .dtx .ins .bib .mp .bst",
+}
+
+DEFAULT_ITEM_OPTS = {
+    'archive'  : "true",
+    'column'   : "0",
+    'encoding' : "",
+    'highlight': "",
+    'line'     : "0",
+    'open'     : "false",
+    'order'    : "-1",
+}
+
+
+#------------------------------------------------------------------------------
+
 def get_actions(cls):
     actions = [
         ('action_closeproj', gtk.STOCK_CLOSE, None, '', None, cls.act_close),
@@ -66,15 +91,15 @@ class ProjectManager(object):
     
     def __init__(self, app, fileobj, **args):
         self.app = app
-        self.fileobj = fileobj
+        self.fileobj = FalseFileObj(fileobj)
         self.rootdir = iofiles.URImanager(fileobj.gfile.get_parent().get_uri())
         self.master = None
-        self.cparser = ConfigParser.RawConfigParser()
+        self.listfiles = {}
         if self.load(**args):
             if self.app.gui.project is not None:
                 self.app.gui.project.act_close()
             self.app.gui.project = self
-            self.listfiles = {}
+            self.app.prefm.set_pref('files_lastprj', self.fileobj._gfile.uri)
             # Menu actions
             self.actgrp = gtk.ActionGroup('euphorbia')
             self.actgrp.add_actions(get_actions(self))
@@ -87,17 +112,20 @@ class ProjectManager(object):
             sidepanel.reorder_child(sidepanel.expanders['project'], 0)
             self.app.prefm.autoconnect_gtk(sidepanel)
             self.pb.update()
+            self.app.gui.emit('openprj')
     
     # - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - - -
     
     def act_close(self, *data):
         """Callback for 'Close' action."""
+        self.app.gui.emit('closeprj')
         self.save()
         sidepanel = self.app.gui.get_widgets_by_name('sidepanel').pop()
         sidepanel.remove_expander('project')
         self.app.gui.uim.remove_ui(self.menu)
         self.app.gui.uim.remove_action_group(self.actgrp)
         self.menu, self.actgrp = None, None
+        self.app.prefm.set_pref('files_lastprj', None)
         self.app.gui.project = None
         return
     
@@ -130,7 +158,8 @@ class ProjectManager(object):
         if tab is not None:
             f = tab.get_file_infos()[1]
             if f is not None:
-                self.set_master(f.uri)
+                urim = iofiles.URImanager(f.uri, self.rootdir)
+                self.set_master(urim)
         return
     
     def act_archive(self, *data):
@@ -149,13 +178,43 @@ class ProjectManager(object):
         """Test if URImanager belongs to the project."""
         return any(urim == u for u in self.listfiles)
     
-    def add(self, urim, hl=None, enc=None):
+    def set_opt(self, urim, opt, val):
+        """Set urim option from config."""
+        sec = "item:" + self.get_id(urim)
+        special = {True:'true', False:'false', None:''}
+        if val in special:
+            val = special[val]
+        self.cparser.set(sec, opt, val)
+        return
+    
+    def get_opt(self, urim, opt):
+        """Get urim option in config."""
+        sec = "item:" + self.get_id(urim)
+        if opt in ['archive','open']:
+            val = self.cparser.getboolean(sec, opt)
+        elif opt in ['order','line','column']:
+            val = self.cparser.getint(sec, opt)
+        else:
+            val = self.cparser.get(sec, opt)
+            val = None if val == "" else val
+        return val
+    
+    def get_id(self, urim):
+        """Get relative path id of given urim."""
+        r = [v for u,v in self.listfiles.iteritems() if u == urim]
+        return r[0] if len(r) > 0 else None
+    
+    def add(self, urim, rel=None, hlight=None, enc=None, arch=True):
         """Add an urim to the project."""
-        # {"file_urim": [hlight, enc, open, archive]}
         test = not self.belongs(urim)
         if test:
-            isopen = self.is_opened(urim)
-            self.listfiles[urim] = [hl, enc, isopen, True]
+            sec = urim.relative if rel is None else rel
+            self.listfiles[urim] = sec
+            self.cparser.add_section("item:"+sec)
+            opts = {'highlight':hlight, 'encoding':enc, 'archive':arch}
+            for op,v in DEFAULT_ITEM_OPTS.iteritems():
+                val = opts[op] if op in opts else v
+                self.set_opt(urim, op, v)
             self.pb.update()
         return test
     
@@ -163,8 +222,8 @@ class ProjectManager(object):
         """Add a file to the project."""
         if f.uri is None:
             return False
-        urim = iofiles.URImanager(f.uri)
-        return self.add(urim, hl, f.encoding)
+        urim = iofiles.URImanager(f.uri, self.rootdir)
+        return self.add(urim, hlight=hl, enc=f.encoding)
     
     def add_tab(self, tab):
         """Add tab's file to the project's files."""
@@ -181,15 +240,17 @@ class ProjectManager(object):
         if self.master == urim:
             self.master = None
         if self.belongs(urim):
-            for u in self.listfiles.keys():
+            for u,rel in self.listfiles.copy().iteritems():
                 if u == urim:
+                    sec = "item:" + rel
+                    self.cparser.remove_section(sec)
                     del self.listfiles[u]
             self.pb.update()
         return
     
     def rm_file(self, f):
         """Remove a file from the project."""
-        urim = iofiles.URImanager(f.uri)
+        urim = iofiles.URImanager(f.uri, self.rootdir)
         self.remove(urim)
         return
     
@@ -200,30 +261,48 @@ class ProjectManager(object):
             self.rm_file(i[1])
         return
     
-    def set_master(self, uri):
+    def set_master(self, urim):
         """Set the master document (uri or URImanager)."""
-        urim = iofiles.URImanager(uri) if type(uri) is str else uri
-        if not self.belongs(urim):
-            log("project > this tab does not belong to the project", 'error')
-        else:
+        if self.belongs(urim) or urim is None:
             self.master = urim
+            val = None if urim is None else self.get_id(urim)
+            self.cparser.set('General', 'masterDocument', val)
             self.pb.update()
+        else:
+            log("project > this tab does not belong to the project", 'error')
         return
     
-    def is_opened(self, urim):
-        """Test if an urim is opened in a tab."""
-        func = lambda x: iofiles.URImanager(x.uri)
-        tab_urims = map(func, self.app.gui.list_opened_files())
-        return any(urim == u for u in tab_urims)
+    def get_status(self, urim, tabs_infos):
+        """Get status of given urim."""
+        status = {'encoding':None, 'highlight':None, 'open':False, 'order':"-1"}
+        itab = None
+        for ti in tabs_infos:
+            if ti[3] is not None:
+                if ti[3].uri is not None:
+                    turim = iofiles.URImanager(ti[3].uri, self.rootdir)
+                    if urim == turim:
+                        itab = ti
+        if itab is not None:
+            tab = itab[0]
+            status['open'] = True
+            status['order'] = "%i" % (itab[2])
+            if hasattr(tab, 'datafile'):
+                status['highlight'] = tab.datafile['hlight']
+                status['encoding'] = tab.datafile['encoding']
+            if hasattr(tab, 'get_pos'):
+                pos = tab.get_pos()
+                status['line'] = "%i" % (pos[0])
+                status['column'] = "%i" % (pos[1])
+        return status
     
-    def in_archive(self, urim, value=None):
-        """Set if urim is to be archived."""
-        ### TODO ###
-        if value in [True, False]:
-            val = 'true' if value else 'false'
-        else:
-            value = True
-        return value
+    def set_archive(self, urim, val):
+        """Set if urim should be archived."""
+        self.set_opt(urim, 'archive', val)
+        return
+    
+    def get_archive(self, urim,):
+        """Get if urim should be archived."""
+        return self.get_opt(urim, 'archive')
     
     def list_files(self):
         """List the files (URImanager) belonging to the project."""
@@ -231,17 +310,61 @@ class ProjectManager(object):
     
     def open_uri(self, urim):
         """Open the given file (URImanager) in a new tab."""
-        self.app.gui.do_open(urim.gfile.get_uri(), 'all')
+        e, h = self.get_opt(urim, 'encoding'), self.get_opt(urim, 'highlight')
+        p = (self.get_opt(urim, 'line'), self.get_opt(urim, 'column'))
+        args = {'enc':e, 'hlight':h.lower() if h is not None else h, 'pos':p}
+        self.app.gui.do_open(urim.gfile.get_uri(), 'all', **args)
         return
     
     def load(self, **args):
         """Load the project from a file."""
         log("project > load")
+        self.cparser = ConfigParser.RawConfigParser()
+        self.cparser.optionxform = str
+        if not args.get('new', False):
+            self.fileobj.g_read()
+            self.cparser.readfp(self.fileobj)
+        if not self.cparser.has_section('General'):
+            self.cparser.add_section('General')
+        for op,val in DEFAULT_GENERAL_OPTS.iteritems():
+            if not self.cparser.has_option('General', op):
+                self.cparser.set('General', op, val)
+        if not self.cparser.get('General', 'name'):
+            pname = self.fileobj._gfile.get_name()
+            if pname.endswith(".ephb") or pname.endswith(".kilepr"):
+                pname = pname.rsplit(".", 1)[0]
+            self.cparser.set('General', 'name', pname)
+        openlist = []
+        for sec in self.cparser.sections():
+            if not sec.startswith("item:"):
+                continue
+            for op,val in DEFAULT_ITEM_OPTS.iteritems():
+                if not self.cparser.has_option(sec, op):
+                    self.cparser.set(sec, op, val)
+            rel = sec[5:]
+            u = (self.rootdir.gfile.get_uri(), rel)
+            urim = iofiles.URImanager(u, self.rootdir)
+            if not self.belongs(urim):
+                self.listfiles[urim] = rel
+                if self.cparser.get('General', 'masterDocument') == rel:
+                    self.master = urim
+            if self.cparser.getboolean(sec, 'open'):
+                order = self.cparser.get(sec, 'order')
+                openlist.append((urim, order))
+        for u in sorted(openlist, key=lambda x: x[1]):
+            self.open_uri(u[0])
         return True
     
     def save(self):
         """Save the project into a file."""
-        log("project > save")
+        tabs_infos = self.app.gui.get_tabs_infos()
+        for urim in self.listfiles:
+            for opt,val in self.get_status(urim, tabs_infos).iteritems():
+                self.set_opt(urim, opt, val)
+        self.cparser.write(self.fileobj)
+        if not self.cparser.has_option('General', 'kileversion'):
+            log("project > save")
+            self.fileobj.g_write()
         return
 
 
@@ -257,13 +380,17 @@ class FalseFileObj(object):
     
     def g_read(self):
         """Get text data from gfile."""
+        self._r, self._w, self._i = False, False, -1
         data = self._gfile.read()
         self._txt = "" if data is None else data
         return not data is None
     
     def g_write(self):
         """Write text data in gfile."""
-        return self._gfile.write(self._txt)
+        self._r, self._w, self._i = False, False, -1
+        ret = self._gfile.write(self._txt)
+        self._gfile.update_infos()
+        return ret
     
     def readline(self):
         """Read text data line."""
@@ -273,7 +400,7 @@ class FalseFileObj(object):
             self._i = -1
         self._i = self._i + 1
         data = self._txt.splitlines(True)
-        return data[self._i] if len(data) < self._i else None
+        return data[self._i] if len(data) > self._i else None
     
     def write(self, data):
         """Write text data line."""
@@ -334,12 +461,9 @@ class ProjectBrowser(gtk.ScrolledWindow):
     def update(self):
         """Update treeview content."""
         self.ts.clear()
-        names = {}
-        for urim in self.manager.listfiles:
-            names[urim.relative(self.manager.rootdir)] = urim
         master = self.manager.master
-        for n in sorted(names.keys()):
-            urim = names[n]
+        for u in sorted(self.manager.listfiles.items(), key=lambda x: x[1]):
+            urim, n = u
             w = pango.WEIGHT_BOLD if urim == master else pango.WEIGHT_NORMAL
             stock = gtk.STOCK_HOME if urim == master else gtk.STOCK_FILE
             pix = self.render_icon(stock, gtk.ICON_SIZE_MENU)
@@ -358,7 +482,7 @@ class ProjectBrowser(gtk.ScrolledWindow):
         item_r.set_label(_("Remove from project"))
         item_r.connect('activate', self.ev_remove, urim)
         item_a = gtk.CheckMenuItem(_("Include in archive"))
-        item_a.set_active(self.manager.in_archive(urim))
+        item_a.set_active(self.manager.get_archive(urim))
         item_a.connect('activate', self.ev_archive, urim)
         item_s = gtk.SeparatorMenuItem
         menu = gtk.Menu()
@@ -398,7 +522,7 @@ class ProjectBrowser(gtk.ScrolledWindow):
     
     def ev_archive(self, menuitem, urim):
         """Callback for 'archive' menu event."""
-        self.manager.in_archive(urim, not menuitem.get_active())
+        self.manager.set_archive(urim, menuitem.get_active())
         return
     
     def ev_row_activated(self, w, path, column):
