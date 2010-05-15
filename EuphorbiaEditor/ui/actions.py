@@ -337,13 +337,17 @@ class ActionsManager(object):
         tab_type = self.file_handlers[i][3]
         tab_opts = self.file_handlers[i][4].copy()
         tab_opts.update(args)
-        log("do_open > '"+filter+"' "+repr(tab_opts))
         if filepath is not None:
             enc = tab_opts['enc'] if 'enc' in tab_opts else None
             f = iofiles.FileManager(filepath, enc)
             f.update_infos()
+            for ti in self.get_tabs_infos():
+                if f == ti[3]:
+                    self.nbd.set_current_page(ti[2])
+                    return
         else:
             f = None
+        log("do_open > '"+filter+"' "+repr(tab_opts))
         tab = tab_type(self.app, f, **tab_opts)
         if hasattr(tab, 'content'):
             self.app.prefm.autoconnect_gtk(tab.content)
