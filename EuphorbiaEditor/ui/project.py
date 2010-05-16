@@ -356,14 +356,15 @@ class ProjectManager(object):
     def save(self):
         """Save the project into a file."""
         tabs_infos = self.app.gui.get_tabs_infos()
-        curr_tab = self.app.gui.get_current_tab()
         for urim in self.listfiles:
             for opt,val in self.get_status(urim, tabs_infos).iteritems():
                 self.set_opt(urim, opt, val)
-        cf = curr_tab.get_file_infos()[1]
-        if cf is not None:
-            urim = iofiles.URImanager(cf.uri, self.rootdir)
-            self.cparser.set('General', 'lastDocument', self.get_id(urim))
+        curr_tab = self.app.gui.get_current_tab()
+        if curr_tab is not None:
+            cf = curr_tab.get_file_infos()[1]
+            if cf is not None:
+                urim = iofiles.URImanager(cf.uri, self.rootdir)
+                self.cparser.set('General', 'lastDocument', self.get_id(urim))
         self.cparser.write(self.fileobj)
         if not self.cparser.has_option('General', 'kileversion'):
             log("project > save")
