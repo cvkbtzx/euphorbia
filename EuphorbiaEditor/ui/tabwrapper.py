@@ -25,14 +25,17 @@ import gtk
 
 ICONTHEME = gtk.icon_theme_get_default()
 
+
+#------------------------------------------------------------------------------
+
 gtk.rc_parse_string("""
-style "euphorbia-tab-style" {
+style "euphorbia-small-style" {
     GtkWidget::focus-padding = 0
     GtkWidget::focus-line-width = 0
     xthickness = 0
     ythickness = 0
 }
-widget "*-euphorbia-tab" style "euphorbia-tab-style"
+widget "*-euphorbia-small" style "euphorbia-small-style"
 """)
 
 
@@ -53,7 +56,7 @@ class TabWrapper(object):
         b_close.set_relief(gtk.RELIEF_NONE)
         b_close.set_focus_on_click(False)
         b_close.connect('clicked', self.ev_close)
-        b_close.set_name("b" + str(hash(str(b_close))) + "-euphorbia-tab")
+        b_close.set_name('buttonclose-euphorbia-small')
         self.button_close = b_close
         self.set_close_icon()
         # Tab icon
