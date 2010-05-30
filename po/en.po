@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Euphorbia 0.0.X\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-05-15 02:44+0200\n"
+"POT-Creation-Date: 2010-05-30 14:20+0200\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Bzoloid <bzoloid@gmail.com>\n"
 "Language-Team: \n"
@@ -242,6 +242,81 @@ msgstr "User config directory"
 
 msgid "system_datadir"
 msgstr "Data directory"
+
+#
+# --- OPTIONS LISTS -----------------------------
+#
+msgid "l_size-menu"
+msgstr "menus"
+
+msgid "l_size-small-tool"
+msgstr "small tools"
+
+msgid "l_size-large-tool"
+msgstr "large tools"
+
+msgid "l_size-button"
+msgstr "buttons"
+
+msgid "l_size-dnd"
+msgstr "drag'n'drop"
+
+msgid "l_size-dialog"
+msgstr "dialogs"
+
+msgid "l_b-icon"
+msgstr "icon"
+
+msgid "l_b-text"
+msgstr "text"
+
+msgid "l_b-text-under-icon"
+msgstr "text under icon"
+
+msgid "l_b-text-alongside-icon"
+msgstr "text alongside icon"
+
+msgid "l_wrap-none"
+msgstr "none"
+
+msgid "l_wrap-char"
+msgstr "chars"
+
+msgid "l_wrap-word"
+msgstr "words"
+
+msgid "l_wrap-word+char"
+msgstr "words & chars"
+
+msgid "l_draw-none"
+msgstr "none"
+
+msgid "l_draw-space"
+msgstr "spaces"
+
+msgid "l_draw-tab"
+msgstr "tabs"
+
+msgid "l_draw-tab+space"
+msgstr "tabs & spaces"
+
+msgid "l_draw-eol"
+msgstr "ends of line"
+
+msgid "l_draw-all"
+msgstr "all"
+
+msgid "l_home-disabled"
+msgstr "disabled"
+
+msgid "l_home-before"
+msgstr "before"
+
+msgid "l_home-after"
+msgstr "after"
+
+msgid "l_home-always"
+msgstr "always"
 
 msgid "signal_"
 msgstr "signal_"

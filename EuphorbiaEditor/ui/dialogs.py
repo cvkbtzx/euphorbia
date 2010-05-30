@@ -134,7 +134,7 @@ class PrefsWinGeneral(gtk.ScrolledWindow):
         w = gtk.combo_box_new_text()
         na = None
         for i,v in enumerate(vals):
-            w.append_text(v[0])
+            w.append_text(_(v[0]) if v[0].startswith("l_") else v[0])
             na = i if v[1]==cv else na
         if na is not None:
             w.set_active(na)

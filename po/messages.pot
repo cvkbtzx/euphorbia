@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-05-15 02:44+0200\n"
+"POT-Creation-Date: 2010-05-30 14:49+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -260,6 +260,81 @@ msgid "system_homedir"
 msgstr ""
 
 msgid "system_datadir"
+msgstr ""
+
+#
+# --- OPTIONS LISTS -----------------------------
+#
+msgid "l_size-menu"
+msgstr ""
+
+msgid "l_size-small-tool"
+msgstr ""
+
+msgid "l_size-large-tool"
+msgstr ""
+
+msgid "l_size-button"
+msgstr ""
+
+msgid "l_size-dnd"
+msgstr ""
+
+msgid "l_size-dialog"
+msgstr ""
+
+msgid "l_b-icon"
+msgstr ""
+
+msgid "l_b-text"
+msgstr ""
+
+msgid "l_b-text-under-icon"
+msgstr ""
+
+msgid "l_b-text-alongside-icon"
+msgstr ""
+
+msgid "l_wrap-none"
+msgstr ""
+
+msgid "l_wrap-char"
+msgstr ""
+
+msgid "l_wrap-word"
+msgstr ""
+
+msgid "l_wrap-word+char"
+msgstr ""
+
+msgid "l_draw-none"
+msgstr ""
+
+msgid "l_draw-space"
+msgstr ""
+
+msgid "l_draw-tab"
+msgstr ""
+
+msgid "l_draw-tab+space"
+msgstr ""
+
+msgid "l_draw-eol"
+msgstr ""
+
+msgid "l_draw-all"
+msgstr ""
+
+msgid "l_home-disabled"
+msgstr ""
+
+msgid "l_home-before"
+msgstr ""
+
+msgid "l_home-after"
+msgstr ""
+
+msgid "l_home-always"
 msgstr ""
 
 #
