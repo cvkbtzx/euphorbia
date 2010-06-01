@@ -6,8 +6,7 @@ cd "${dn}"
 
 workdir="./symbols"
 
-gvfs-trash "${workdir}"
-mkdir "./symbols"
+mkdir -p "${workdir}"
 cp -v ../share/euphorbia/symbols/*.data "${workdir}/"
 
 python2 gen-latex-syms.py
@@ -16,7 +15,7 @@ for f in ${workdir}/* ; do
     test -d "${f}" && cp -Rfv "${f}" "../share/euphorbia/symbols/"
 done
 
-gvfs-trash "${workdir}"
+rm -R "${workdir}"
 
 exit 0
 

@@ -3,7 +3,7 @@
 
 dn=$(dirname "$0")
 cd "${dn}/../share/"
-gvfs-trash ./locale/
+rm -Rv ./locale/
 
 for f in ../po/*.po ; do
     poname=$(basename "${f}")
