@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Euphorbia 0.0.X\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2010-05-30 14:20+0200\n"
+"POT-Creation-Date: 2010-08-22 19:13+0200\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Bzoloid <bzoloid@gmail.com>\n"
 "Language-Team: \n"
@@ -182,6 +182,9 @@ msgstr "Jeu de couleurs"
 
 msgid "sidepanel_expandlevel"
 msgstr "Niveau d'expansion de la structure"
+
+msgid "sidepanel_symcolorfromtheme"
+msgstr "Couleur du thème pour les symboles (redémarrer)"
 
 msgid "files_trash"
 msgstr "Tenter de mettre à la corbeille"

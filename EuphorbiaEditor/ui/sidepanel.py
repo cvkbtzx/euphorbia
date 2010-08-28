@@ -1,4 +1,4 @@
-# -*- coding:utf-8 -*-
+#-*- coding:utf-8 -*-
 
 ##  EUPHORBIA - GTK LaTeX Editor
 ##  Module: EuphorbiaEditor.ui.sidepanel
@@ -137,6 +137,8 @@ class EuphorbiaSidePanel(SidePanel):
     def __init__(self, app, gui):
         SidePanel.__init__(self)
         self.app = app
+        tc = gtk.widget_get_default_style().text[gtk.STATE_NORMAL]
+        textcolor = "".join(map(chr, [tc.red, tc.green, tc.blue]))
         self.structbrowser = treestruct.StructBrowser()
         self.add_expander('struct', _("Structure"), self.structbrowser)
         for s in ['changetab', 'open', 'save', 'close']:
@@ -149,6 +151,15 @@ class EuphorbiaSidePanel(SidePanel):
                 try:
                     tool = self.syms[categ][t]
                     pixb = gtk.gdk.pixbuf_new_from_file(tool['Img'])
+                    if self.app.prefm.get_pref('sidepanel_symcolorfromtheme'):
+                        datapix = pixb.get_pixels()
+                        datapix2 = ""
+                        for i in xrange(len(datapix)/4):
+                            datapix2 += textcolor + datapix[4*i+3]
+                        pixb = gtk.gdk.pixbuf_new_from_data(datapix2,
+                                pixb.get_colorspace(), pixb.get_has_alpha(),
+                                pixb.get_bits_per_sample(), pixb.get_width(),
+                                pixb.get_height(), pixb.get_rowstride())
                     pal.add_tool([t, tool['Insert'], pixb])
                 except StandardError:
                     msg = "sidepanel > can't load symbol '%s/%s'" % (categ,t)

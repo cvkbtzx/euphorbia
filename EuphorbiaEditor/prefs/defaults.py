@@ -1,4 +1,4 @@
-# -*- coding:utf-8 -*-
+#-*- coding:utf-8 -*-
 
 ##  EUPHORBIA - GTK LaTeX Editor
 ##  Module: EuphorbiaEditor.prefs.defaults
@@ -25,7 +25,7 @@
 #------------------------------------------------------------------------------
 
 DEFAULT_PREFS = [
-    # Key, {functions}, {allowed_values}, default_value, widget_name]
+    # [Key, {functions}, {allowed_values}, default_value, widget_name]
     ["window_maximized", {True:'maximize', False:'unmaximize'}, None, False, "window"],
     ["toolbar_arrow", 'set_show_arrow', 'bool', True, "toolbar*"],
     ["toolbar_iconsize", 'set_icon_size', {"l_size-menu":1,"l_size-small-tool":2,"l_size-large-tool":3,"l_size-button":4,"l_size-dnd":5,"l_size-dialog":6}, 2, "toolbar*"],
@@ -50,6 +50,7 @@ DEFAULT_PREFS = [
     ["editview_smarthomeend", 'set_smart_home_end', {"l_home-disabled":0,"l_home-before":1,"l_home-after":2,"l_home-always":3}, 3, "editview"],
     ["editview_style", 'set_stylescheme', None, 'classic', "editview"],
     ["sidepanel_expandlevel", 'set_expand_level', 'int,0,7', 3, 'structbrowser'],
+    ["sidepanel_symcolorfromtheme", None, 'bool', False, None],
     ["gui_sidepanelshow", 'showpanel', None, True, "sidepanel"],
     ["gui_bottompanelshow", 'showpanel', None, True, "bottompanel"],
     ["files_trash", None, 'bool', True, None],
@@ -65,10 +66,10 @@ DEFAULT_PREFS = [
     ["print_2footer_separator", None, 'bool', True, None],
     ["print_2footer_text", None, 'text', "%F||page %N/%Q", None],
     ["print_2footer_font", None, 'font', "Sans 8", None],
-    ["print_margin_1top", None, 'int,0,999', 0, None],
-    ["print_margin_2left", None, 'int,0,999', 0, None],
-    ["print_margin_3right", None, 'int,0,999', 0, None],
-    ["print_margin_4bottom", None, 'int,0,999', 0, None],
+    ["print_margin_1top", None, 'int,0,9999', 0, None],
+    ["print_margin_2left", None, 'int,0,9999', 0, None],
+    ["print_margin_3right", None, 'int,0,9999', 0, None],
+    ["print_margin_4bottom", None, 'int,0,9999', 0, None],
     ["print_nlinesfont", None, 'font', "Monospace 6", None],
     ["print_nlinesinterval", None, 'int,0,50', 5, None],
     ["system_datadir", None, None, '', None],

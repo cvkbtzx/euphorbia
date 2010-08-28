@@ -1,5 +1,5 @@
 #!/usr/bin/python2
-# -*- coding:utf-8 -*-
+#-*- coding:utf-8 -*-
 
 ##  EUPHORBIA - GTK LaTeX Editor
 ##  Copyright (C) 2008-2010   Bzoloid

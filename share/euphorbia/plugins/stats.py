@@ -1,4 +1,4 @@
-# -*- coding:utf-8 -*-
+#-*- coding:utf-8 -*-
 
 ##  Stats plugin for Euphorbia LaTeX editor
 ##  Copyright (C) 2008-2010   Bzoloid

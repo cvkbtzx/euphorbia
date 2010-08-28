@@ -1,4 +1,4 @@
-# -*- coding:utf-8 -*-
+#-*- coding:utf-8 -*-
 
 ##  Change case plugin for Euphorbia LaTeX editor
 ##  Copyright (C) 2010   Bzoloid

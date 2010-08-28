@@ -1,5 +1,5 @@
 #!/bin/bash
-# -*- coding:utf-8 -*-
+#-*- coding:utf-8 -*-
 
 dn=$(dirname "$0")
 cd "${dn}"
@@ -12,7 +12,7 @@ cp -v ../share/euphorbia/symbols/*.data "${workdir}/"
 python2 gen-latex-syms.py
 
 for f in ${workdir}/* ; do
-    test -d "${f}" && cp -Rfv "${f}" "../share/euphorbia/symbols/"
+    test -d "${f}" && cp -Rf "${f}" "../share/euphorbia/symbols/"
 done
 
 rm -R "${workdir}"
