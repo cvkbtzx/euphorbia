@@ -51,7 +51,7 @@ for df in datafiles:
         subprocess.Popen(["pdflatex", "-interaction", "nonstopmode", "-output-directory", dir, fn("tex")], stdout=devnull, stderr=devnull).wait()
         subprocess.Popen(["perl", "/usr/bin/pdfcrop", "--margins", "0", fn("pdf"), fn("2.pdf")], stdout=devnull, stderr=devnull).wait()
         subprocess.Popen(["sh", "../autodensity.sh", fn("2.pdf"), DPI, DIM, fn("2.png")]).wait()
-        subprocess.Popen(["convert", "-size", DIM+"x"+DIM, "xc:white", fn("2.png"), "-negate", "-compose", "Copy_Opacity", "-composite", "-define", "png:color-type=6", "-quality", "90", fn("png")]).wait()
+        subprocess.Popen(["convert", "-size", DIM+"x"+DIM, "xc:white", fn("2.png"), "-negate", "-compose", "Copy_Opacity", "-composite", "-define", "png:color-type=6",  "-depth", "8", "-quality", "90", fn("png")]).wait()
         devnull.close()
     for f in os.listdir(dir):
         if len(f.split(".")) != 2 or not f.endswith(".png"):
