@@ -21,10 +21,12 @@
 
 """Euphorbia LaTeX editor."""
 
-__version__ = '0.0.11'
-__date__    = '2010-08-29'
-__authors__ = ['Bzoloid <bzoloid@gmail.com>']
-__license__ = 'GNU GPL v2'
+__version__   = '0.0.11'
+__date__      = '2010-08-29'
+__authors__   = ['Bzoloid <bzoloid@gmail.com>']
+__license__   = 'GNU GPL v2'
+__copyright__ = "Copyright \xc2\xa9 2008-2011   Bzoloid"
+__website__   = "http://euphorbia.googlecode.com/"
 
 import sys
 import os.path
@@ -40,7 +42,7 @@ import utils.log as ulog
 
 #------------------------------------------------------------------------------
 
-for var in ['version', 'date', 'authors', 'license']:
+for var in ['version', 'date', 'authors', 'license', 'copyright', 'website']:
     __builtins__['euphorbia_'+var] = locals()['__'+var+'__']
 
 

@@ -306,7 +306,6 @@ class Document(tabwrapper.TabWrapper):
     
     def set_pos(self, pos):
         """Set cursor (line,column) position."""
-        ###iter = self.ev.buffer.get_iter_at_line_index(*pos)
         iter = self.ev.buffer.get_start_iter()
         iter.set_line(pos[0])
         iter.set_line_offset(pos[1])

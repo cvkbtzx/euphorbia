@@ -78,12 +78,6 @@ class EvinceView(gtk.VBox):
         self.model.set_document(self.doc)
         self.model.set_sizing_mode(evince.SIZING_FREE)
         self.eview.set_model(self.model)
-        ###dpi = evince.document_misc_get_screen_dpi(gtk.gdk.screen_get_default())
-        ###dpi = gtk.settings_get_default().get_property('gtk-xft-dpi') / 1024
-        ###min_scale = self.model.get_min_scale()
-        ###max_scale = self.model.get_max_scale()
-        ###self.model.set_min_scale(min_scale * dpi / 72.0)
-        ###self.model.set_max_scale(max_scale * dpi / 72.0)
         scroll = gtk.ScrolledWindow()
         scroll.set_policy(gtk.POLICY_AUTOMATIC, gtk.POLICY_ALWAYS)
         scroll.add(self.eview)
