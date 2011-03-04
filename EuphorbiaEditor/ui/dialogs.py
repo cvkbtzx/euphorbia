@@ -2,7 +2,7 @@
 
 ##  EUPHORBIA - GTK LaTeX Editor
 ##  Module: EuphorbiaEditor.ui.dialogs
-##  Copyright (C) 2008-2010   Bzoloid
+##  Copyright (C) 2008-2011   Bzoloid
 ##
 ##  This program is free software; you can redistribute it and/or
 ##  modify it under the terms of the GNU General Public License
@@ -498,7 +498,7 @@ class AboutWin(gtk.AboutDialog):
         self.set_version(euphorbia_version)
         self.set_license(euphorbia_license)
         self.set_authors(euphorbia_authors)
-        self.set_copyright("Copyright \xc2\xa9 2008-2010   Bzoloid")
+        self.set_copyright("Copyright \xc2\xa9 2008-2011   Bzoloid")
         self.set_website("http://euphorbia.googlecode.com/")
         self.set_logo_icon_name("euphorbia")
 

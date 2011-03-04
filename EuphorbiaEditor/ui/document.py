@@ -2,7 +2,7 @@
 
 ##  EUPHORBIA - GTK LaTeX Editor
 ##  Module: EuphorbiaEditor.ui.document
-##  Copyright (C) 2008-2010   Bzoloid
+##  Copyright (C) 2008-2011   Bzoloid
 ##
 ##  This program is free software; you can redistribute it and/or
 ##  modify it under the terms of the GNU General Public License
@@ -306,7 +306,10 @@ class Document(tabwrapper.TabWrapper):
     
     def set_pos(self, pos):
         """Set cursor (line,column) position."""
-        iter = self.ev.buffer.get_iter_at_line_index(*pos)
+        ###iter = self.ev.buffer.get_iter_at_line_index(*pos)
+        iter = self.ev.buffer.get_start_iter()
+        iter.set_line(pos[0])
+        iter.set_line_offset(pos[1])
         self.ev.buffer.place_cursor(iter)
         self.ev.view.scroll_to_iter(iter, 0, False)
         return
@@ -314,7 +317,7 @@ class Document(tabwrapper.TabWrapper):
     def get_pos(self):
         """Get cursor (line,column) position."""
         iter = self.ev.buffer.get_iter_at_mark(self.ev.buffer.get_insert())
-        return (iter.get_line(), iter.get_line_index())
+        return (iter.get_line(), iter.get_line_offset())
     
     def goto_index(self, index):
         """Go to the given index position (line number >= 1)."""

@@ -11,8 +11,8 @@ THIS SOFTWARE IS STILL INCOMPLETE AND LACKS A LOT OF FEATURES.
 Dependencies:
     python >=2.5 <3.0
     pygtk >=2.14
-    pygtksourceview >=2
-    python-evince >=2.26 (optional)
+    pygtksourceview >=2.0
+    python-evince >=2.30 (optional)
     texlive
 
 

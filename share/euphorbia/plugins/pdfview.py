@@ -1,7 +1,7 @@
 #-*- coding:utf-8 -*-
 
 ##  PDF viewer plugin for Euphorbia LaTeX editor
-##  Copyright (C) 2010   Bzoloid
+##  Copyright (C) 2010-2011   Bzoloid
 ##
 ##  This program is free software; you can redistribute it and/or
 ##  modify it under the terms of the GNU General Public License
@@ -70,13 +70,20 @@ class EvinceView(gtk.VBox):
     
     def __init__(self, filename):
         gtk.VBox.__init__(self)
-        dpi = gtk.settings_get_default().get_property('gtk-xft-dpi') / 1024
-        self.doc = evince.factory_get_document(filename)
+        self.dpi = gtk.settings_get_default().get_property('gtk-xft-dpi') / 1024
         self.eview = evince.View()
         self.eview.set_loading(False)
-        self.eview.set_document(self.doc)
-        self.eview.set_screen_dpi(int(dpi))
-        self.eview.set_sizing_mode(evince.SIZING_FREE)
+        self.doc = evince.document_factory_get_document(filename)
+        self.model = evince.DocumentModel()
+        self.model.set_document(self.doc)
+        self.model.set_sizing_mode(evince.SIZING_FREE)
+        self.eview.set_model(self.model)
+        ###dpi = evince.document_misc_get_screen_dpi(gtk.gdk.screen_get_default())
+        ###dpi = gtk.settings_get_default().get_property('gtk-xft-dpi') / 1024
+        ###min_scale = self.model.get_min_scale()
+        ###max_scale = self.model.get_max_scale()
+        ###self.model.set_min_scale(min_scale * dpi / 72.0)
+        ###self.model.set_max_scale(max_scale * dpi / 72.0)
         scroll = gtk.ScrolledWindow()
         scroll.set_policy(gtk.POLICY_AUTOMATIC, gtk.POLICY_ALWAYS)
         scroll.add(self.eview)
@@ -118,14 +125,12 @@ class EvinceView(gtk.VBox):
         """Callback zoom."""
         i = widget.get_active()
         if i == 0:
-            self.eview.set_sizing_mode(evince.SIZING_BEST_FIT)
-            self.eview.update_view_size(self.eview.get_parent())
+            self.model.set_sizing_mode(evince.SIZING_BEST_FIT)
         if i == 1:
-            self.eview.set_sizing_mode(evince.SIZING_FIT_WIDTH)
-            self.eview.update_view_size(self.eview.get_parent())
+            self.model.set_sizing_mode(evince.SIZING_FIT_WIDTH)
         if i == 2:
-            self.eview.set_sizing_mode(evince.SIZING_FREE)
-            self.eview.set_zoom(1.0, False)
+            self.model.set_sizing_mode(evince.SIZING_FREE)
+            self.model.set_scale(self.dpi / 72.0)   # 100%
         return
     
     def ev_up(self, *data):

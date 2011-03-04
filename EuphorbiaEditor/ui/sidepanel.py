@@ -2,7 +2,7 @@
 
 ##  EUPHORBIA - GTK LaTeX Editor
 ##  Module: EuphorbiaEditor.ui.sidepanel
-##  Copyright (C) 2008-2010   Bzoloid
+##  Copyright (C) 2008-2011   Bzoloid
 ##
 ##  This program is free software; you can redistribute it and/or
 ##  modify it under the terms of the GNU General Public License
@@ -22,6 +22,7 @@
 """Side panel widget."""
 
 import os
+import glib
 import gtk
 import ConfigParser
 
@@ -160,7 +161,8 @@ class EuphorbiaSidePanel(SidePanel):
                                 pixb.get_colorspace(), pixb.get_has_alpha(),
                                 pixb.get_bits_per_sample(), pixb.get_width(),
                                 pixb.get_height(), pixb.get_rowstride())
-                    pal.add_tool([t, tool['Insert'], pixb])
+                    tooltip = glib.markup_escape_text(tool['Insert'])
+                    pal.add_tool([t, tooltip, pixb])
                 except StandardError:
                     msg = "sidepanel > can't load symbol '%s/%s'" % (categ,t)
                     log(msg, 'warning')

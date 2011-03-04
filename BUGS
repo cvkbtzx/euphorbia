@@ -4,7 +4,5 @@ BUGS
 
 * GtkSourceView has bad char encoding support, so opening problems may occur
 * When searching from selected text, the selection is unselected
-* PDF plugin doesn't work anymore with evince-python > 2.28 due to API changes
-* Image viewer plugin encounters memory leaks (1 Go RAM with a 80 Mo jpeg)
 
 
