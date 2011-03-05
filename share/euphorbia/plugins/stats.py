@@ -44,7 +44,7 @@ class StatsPlugin(euphorbia.Plugin):
         self.menu = None
         self.actgrp = gtk.ActionGroup('euphorbia')
         actions = [
-            ('action_stats', None, _("Stats..."), None, None, self.disp_stats),
+            ('action_stats', None, _("Statistics"), None, None, self.disp_stats),
         ]
         self.actgrp.add_actions(actions)
     
@@ -97,6 +97,7 @@ class StatsDialog(gtk.Dialog):
         self.set_default_size(300, 100)
         self.set_position(gtk.WIN_POS_CENTER_ON_PARENT)
         self.set_has_separator(False)
+        self.set_title(_("Statistics"))
         # Content
         bold = pango.AttrList()
         bold.insert(pango.AttrWeight(pango.WEIGHT_BOLD, 0, -1))

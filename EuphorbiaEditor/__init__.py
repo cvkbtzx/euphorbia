@@ -45,6 +45,8 @@ import utils.log as ulog
 for var in ['version', 'date', 'authors', 'license', 'copyright', 'website']:
     __builtins__['euphorbia_'+var] = locals()['__'+var+'__']
 
+locale.setlocale(locale.LC_ALL, '')
+
 
 #------------------------------------------------------------------------------
 
@@ -59,7 +61,7 @@ class Euphorbia(object):
         debugmode = True if "--debug" in args else False
         __builtins__['log'] = ulog.log_main if debugmode else ulog.log_null
         # Directories and localization
-        self.locale = locale.getdefaultlocale()
+        self.locale = locale.getlocale()
         maindir = os.path.join(root, 'share', 'euphorbia')
         datadir = os.path.join(glib.get_user_data_dir(), 'euphorbia')
         confdir = os.path.join(glib.get_user_config_dir(), 'euphorbia')
