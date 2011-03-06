@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Euphorbia 0.0.X\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-03-05 20:23+0100\n"
+"POT-Creation-Date: 2011-03-06 18:43+0100\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Bzoloid <bzoloid@gmail.com>\n"
 "Language-Team: \n"
@@ -344,6 +344,16 @@ msgstr "Quitter"
 msgid "Print: %s"
 msgstr "Impression : %s"
 
+msgid "OVR"
+msgstr "REP"
+
+msgid "INS"
+msgstr "INS"
+
+#, python-format
+msgid "%(ins)s L%(lin)i,C%(col)i"
+msgstr "%(ins)s L%(lin)i,C%(col)i"
+
 msgid "Open..."
 msgstr "Ouvrir..."
 
@@ -440,6 +450,10 @@ msgstr "Fichiers images"
 msgid "Output files"
 msgstr "Fichiers de sortie (*.pdf *.dvi *.ps)"
 
+#, python-format
+msgid "Page %(page)i/%(total)i"
+msgstr "Page %(page)i/%(total)i"
+
 msgid "Zoom page"
 msgstr "Zoom page"
 
@@ -448,3 +462,4 @@ msgstr "Zoom largeur"
 
 msgid "Zoom 100%"
 msgstr "Zoom 100%"
+

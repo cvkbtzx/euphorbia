@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-03-05 20:23+0100\n"
+"POT-Creation-Date: 2011-03-06 18:43+0100\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -366,6 +366,16 @@ msgstr ""
 msgid "Print: %s"
 msgstr ""
 
+msgid "OVR"
+msgstr ""
+
+msgid "INS"
+msgstr ""
+
+#, python-format
+msgid "%(ins)s L%(lin)i,C%(col)i"
+msgstr ""
+
 #
 # --- DIALOGS -----------------------------------
 #
@@ -475,6 +485,10 @@ msgstr ""
 # --- PLUGIN: PDFVIEW ---------------------------
 #
 msgid "Output files"
+msgstr ""
+
+#, python-format
+msgid "Page %(page)i/%(total)i"
 msgstr ""
 
 msgid "Zoom page"

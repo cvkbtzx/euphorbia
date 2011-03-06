@@ -111,6 +111,10 @@ class EuphorbiaGUI(actions.ActionsManager):
         self.builder.get_object('handlebox_main').add(toolbar)
         # Statusbar
         self.status = self.builder.get_object('statusbar')
+        self.locmsg = gtk.Label()
+        statusbox = self.status.get_children()[0].get_children()[0]
+        statusbox.pack_start(self.locmsg, False, True)
+        self.locmsg.show_all()
         # Searchbar
         sb = searchbar.SearchBar(self.app, accg)
         self.builder.get_object('vbox_docs').pack_start(sb, False, True)
@@ -202,9 +206,11 @@ class EuphorbiaGUI(actions.ActionsManager):
     
     def ev_switch_page(self, *data):
         """Callback switch document."""
-        t = self.get_current_tab(data[2])
-        if t is not None:
-            self.emit('changetab', t)
+        tab = self.get_current_tab(data[2])
+        if tab is not None:
+            if hasattr(tab, 'ev_selected'):
+                tab.ev_selected()
+            self.emit('changetab', tab)
         return
     
     def ev_win_state(self, win, event):

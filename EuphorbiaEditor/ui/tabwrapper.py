@@ -107,6 +107,12 @@ class TabWrapper(object):
         self.button_close.set_image(img)
         return
     
+    def ev_selected(self):
+        """Tabselected callback."""
+        loc = self.get_location() if hasattr(self, 'get_location') else ""
+        self.app.gui.locmsg.set_text(loc)
+        return
+    
     def ev_close(self, *data):
         """Close callback."""
         self.app.gui.act_close(**{'tab':self})

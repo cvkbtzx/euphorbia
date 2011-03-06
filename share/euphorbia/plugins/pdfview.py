@@ -53,14 +53,50 @@ class EvinceTab(euphorbia.TabWrapper):
     def __init__(self, app, fileobj, **args):
         ev = EvinceView(fileobj.uri)
         euphorbia.TabWrapper.__init__(self, app, ev)
+        self.ev = ev
         self.type_id = "pdfview"
         self.gfile = fileobj
         self.set_title(fileobj.get_name())
         self.set_icon(*fileobj.get_icons())
+        self.ev.model.connect('page-changed', self.ev_page_changed)
     
     def get_file_infos(self):
         """Return infos (file_name, file_obj, is_modified) about the file."""
         return (self.gfile.get_name(), self.gfile, False)
+    
+    def copy(self):
+        """Copy text into clipboard."""
+        self.ev.eview.copy()
+        return
+    
+    def set_pos(self, pos):
+        """Set position (page,X)."""
+        self.goto_index(pos[0]+1)
+        return
+    
+    def get_pos(self):
+        """Get position (page,0)."""
+        page = self.ev.model.get_page()
+        return (page, 0)
+    
+    def goto_index(self, index):
+        """Go to the given index position (page number >= 1)."""
+        if index > self.ev.doc.get_n_pages():
+            index = self.ev.doc.get_n_pages()
+        index = index if index > 0 else 1
+        self.ev.model.set_page(index-1)
+        return
+    
+    def get_location(self):
+        """Get textual location of the page."""
+        p = self.ev.model.get_page() + 1
+        t = self.ev.doc.get_n_pages()
+        return _("Page %(page)i/%(total)i" % {'page':p, 'total':t})
+    
+    def ev_page_changed(self, *data):
+        """Callback executed when the page changes."""
+        self.app.gui.locmsg.set_text(self.get_location())
+        return
 
 
 #------------------------------------------------------------------------------
@@ -113,28 +149,6 @@ class EvinceView(gtk.VBox):
         al.add(cb)
         b.add(al)
         tb.insert(b, -1)
-        return
-    
-    def copy(self):
-        """Copy text into clipboard."""
-        self.eview.copy()
-        return
-    
-    def set_pos(self, pos):
-        """Set position (page,X)."""
-        self.goto_index(pos[0])
-        return
-    
-    def get_pos(self):
-        """Get position (page,0)."""
-        page = self.model.get_page()
-        return (page, 0)
-    
-    def goto_index(self, index):
-        """Go to the given index position (page number)."""
-        if index > self.doc.get_n_pages():
-            index = self.doc.get_n_pages()
-        self.model.set_page(index)
         return
     
     def ev_combo(self, widget):

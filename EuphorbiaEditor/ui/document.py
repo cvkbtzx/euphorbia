@@ -53,6 +53,8 @@ class Document(tabwrapper.TabWrapper):
         fname = fname if fname else "New document"
         self.datafile = {'file':fname, 'encoding':enc, 'hlight':hlight}
         # Signals
+        self.ev.view.connect('toggle-overwrite', self.ev_cursor_changed)
+        self.ev.buffer.connect('mark-set', self.ev_cursor_changed)
         self.ev.buffer.connect('modified-changed', self.ev_modified)
         self.button_close.connect('enter', lambda x: self.set_close_icon())
         self.button_close.connect('leave', lambda x: self.ev_modified())
@@ -318,10 +320,29 @@ class Document(tabwrapper.TabWrapper):
         iter = self.ev.buffer.get_iter_at_mark(self.ev.buffer.get_insert())
         return (iter.get_line(), iter.get_line_offset())
     
+    def get_location(self, param=None):
+        """Get textual location of cursor."""
+        if not hasattr(self, 'ev'):
+            return ""
+        (l,c) = map(lambda x: x+1, self.get_pos())
+        ins = self.ev.view.get_overwrite()
+        ins = not ins if param == 'overvrite' else ins
+        ins = _("OVR") if ins else _("INS")
+        return _("%(ins)s L%(lin)i,C%(col)i" % {'ins':ins, 'lin':l, 'col':c})
+    
     def goto_index(self, index):
         """Go to the given index position (line number >= 1)."""
         iter = self.ev.buffer.get_iter_at_line(index-1 if index>0 else 0)
         self.ev.view.scroll_to_iter(iter, 0, True, 0, 0)
+        return
+    
+    def ev_cursor_changed(self, *data):
+        """Callback executed when the cursor moves."""
+        if data[0] == self.ev.buffer:   # 'mark-set' event
+            if not data[2].get_visible():
+                return
+        param = 'overvrite' if data[0] == self.ev.view else None
+        self.app.gui.locmsg.set_text(self.get_location(param))
         return
     
     def ev_modified(self, *data):
