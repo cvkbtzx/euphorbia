@@ -267,7 +267,7 @@ class ActionsManager(object):
     
     def act_newproj(self, *data):
         """Callback for 'New project' action."""
-        dwin = dialogs.SaveWin(self.app, filename=_("New_project.euph"))
+        dwin = dialogs.SaveWin(self.app, filename=_("New_project.ephb"))
         resp = dwin.run()
         uri = dwin.get_uri() if resp == gtk.RESPONSE_OK else None
         dwin.destroy()

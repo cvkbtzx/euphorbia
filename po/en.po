@@ -366,8 +366,8 @@ msgstr "Project files (*.ephb *.kilepr)"
 msgid "New_doc_%i.tex"
 msgstr "New_doc_%i.tex"
 
-msgid "New_project.euph"
-msgstr "New_project.euph"
+msgid "New_project.ephb"
+msgstr "New_project.ephb"
 
 msgid "SaveBeforeClose?"
 msgstr ""

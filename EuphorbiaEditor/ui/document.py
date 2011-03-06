@@ -295,7 +295,7 @@ class Document(tabwrapper.TabWrapper):
     def gen_doc_struct(self):
         """Generate document structure."""
         if self.datafile['hlight'] != 'latex':
-            return []
+            return
         ibeg, iend = self.ev.buffer.get_bounds()
         lp = texparser.LatexParser(self.ev.buffer.get_text(ibeg, iend, False))
         self.struct = [(_("Table of contents"), None, lp.parse('struct'))]

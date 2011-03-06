@@ -115,6 +115,28 @@ class EvinceView(gtk.VBox):
         tb.insert(b, -1)
         return
     
+    def copy(self):
+        """Copy text into clipboard."""
+        self.eview.copy()
+        return
+    
+    def set_pos(self, pos):
+        """Set position (page,X)."""
+        self.goto_index(pos[0])
+        return
+    
+    def get_pos(self):
+        """Get position (page,0)."""
+        page = self.model.get_page()
+        return (page, 0)
+    
+    def goto_index(self, index):
+        """Go to the given index position (page number)."""
+        if index > self.doc.get_n_pages():
+            index = self.doc.get_n_pages()
+        self.model.set_page(index)
+        return
+    
     def ev_combo(self, widget):
         """Callback zoom."""
         i = widget.get_active()

@@ -391,7 +391,7 @@ msgstr ""
 msgid "New_doc_%i.tex"
 msgstr ""
 
-msgid "New_project.euph"
+msgid "New_project.ephb"
 msgstr ""
 
 msgid "SaveBeforeClose?"
