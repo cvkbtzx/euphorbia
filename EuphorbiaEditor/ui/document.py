@@ -224,6 +224,7 @@ class Document(tabwrapper.TabWrapper):
             if res is None and loop:
                 res = gtksv.iter_forward_search(ibeg, txt, flags, None)
         s = self.get_selection()
+        s = "" if not s else s
         low = lambda x: x.decode('utf8').lower().encode('utf8')
         if res is not None:
             buffer.select_range(*res)
