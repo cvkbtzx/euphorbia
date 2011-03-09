@@ -21,7 +21,7 @@
 
 """Euphorbia LaTeX editor."""
 
-__version__   = '0.0.11'
+__version__   = '0.0.12'
 __authors__   = ['Bzoloid <bzoloid@gmail.com>']
 __license__   = 'GNU GPL v2'
 __copyright__ = "Copyright \xc2\xa9 2008-2011   Bzoloid"
