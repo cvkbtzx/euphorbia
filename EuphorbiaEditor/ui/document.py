@@ -53,8 +53,9 @@ class Document(tabwrapper.TabWrapper):
         fname = fname if fname else "New document"
         self.datafile = {'file':fname, 'encoding':enc, 'hlight':hlight}
         # Signals
-        self.ev.view.connect('toggle-overwrite', self.ev_cursor_changed)
-        self.ev.buffer.connect('mark-set', self.ev_cursor_changed)
+        self.ev.view.connect('toggle-overwrite', self.ev_cursor_changed, 'o')
+        self.ev.buffer.connect('mark-set', self.ev_cursor_changed, 'm')
+        self.ev.buffer.connect('changed', self.ev_cursor_changed, 'c')
         self.ev.buffer.connect('modified-changed', self.ev_modified)
         self.button_close.connect('enter', lambda x: self.set_close_icon())
         self.button_close.connect('leave', lambda x: self.ev_modified())
@@ -339,10 +340,10 @@ class Document(tabwrapper.TabWrapper):
     
     def ev_cursor_changed(self, *data):
         """Callback executed when the cursor moves."""
-        if data[0] == self.ev.buffer:   # 'mark-set' event
+        if data[-1] == 'm':
             if not data[2].get_visible():
                 return
-        param = 'overvrite' if data[0] == self.ev.view else None
+        param = 'overvrite' if data[-1] == 'o' else None
         self.app.gui.locmsg.set_text(self.get_location(param))
         return
     
