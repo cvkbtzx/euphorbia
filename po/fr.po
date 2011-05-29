@@ -116,7 +116,7 @@ msgid "window_max"
 msgstr "Fenêtre maximisée"
 
 msgid "toolbar_arrow"
-msgstr "Flèche si trop petite"
+msgstr "Flèche si barre trop petite"
 
 msgid "toolbar_iconsize"
 msgstr "Taille des icônes"
@@ -155,7 +155,7 @@ msgid "editview_tabwidth"
 msgstr "Taille des tabulations"
 
 msgid "editview_showrightmargin"
-msgstr "Marge de droite"
+msgstr "Afficher la marge de droite"
 
 msgid "editview_rightmarginpos"
 msgstr "Position de la marge de droite"
@@ -165,9 +165,6 @@ msgstr "Surligner les parenthèses correspondantes"
 
 msgid "editview_spacesinsteadoftabs"
 msgstr "Remplacer les tabulations par des espaces"
-
-msgid "editview_indentwidth"
-msgstr "Taille de l'indentation"
 
 msgid "editview_indentontab"
 msgstr "Indenter lors d'une tabulation"
@@ -188,7 +185,7 @@ msgid "sidepanel_symcolorfromtheme"
 msgstr "Couleur du thème pour les symboles (redémarrer)"
 
 msgid "files_trash"
-msgstr "Tenter de mettre à la corbeille"
+msgstr "Mettre à la corbeille en supprimant"
 
 msgid "files_backup"
 msgstr "Copie de sauvegarde à l'enregistrement"
@@ -197,7 +194,7 @@ msgid "files_reopenprj"
 msgstr "Réouvrir le projet au prochain démarrage"
 
 msgid "search_loop"
-msgstr "Boucler"
+msgstr "Recherche circulaire"
 
 msgid "print_1header"
 msgstr "Activer les en-têtes"
@@ -239,7 +236,7 @@ msgid "print_nlinesfont"
 msgstr "Police des numéros de ligne"
 
 msgid "print_nlinesinterval"
-msgstr "Intervalle des numéros de ligne"
+msgstr "Intervalle de numérotation des lignes"
 
 msgid "system_homedir"
 msgstr "Dossier de la configuration utilisateur"

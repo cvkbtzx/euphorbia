@@ -44,7 +44,6 @@ DEFAULT_PREFS = [
     ["editview_rightmarginpos", 'set_right_margin_position', 'int,1,999', 72, "editview"],
     ["editview_highlightmatchingbrackets", 'set_highlight_matching_brackets', 'bool', False, "editview"],
     ["editview_spacesinsteadoftabs", 'set_insert_spaces_instead_of_tabs', 'bool', False, "editview"],
-    ["editview_indentwidth", 'set_indent_width', 'int,-1,32', -1, "editview"],
     ["editview_indentontab", 'set_indent_on_tab', 'bool', False, "editview"],
     ["editview_autoindent", 'set_auto_indent', 'bool', True, "editview"],
     ["editview_smarthomeend", 'set_smart_home_end', {"l_home-disabled":0,"l_home-before":1,"l_home-after":2,"l_home-always":3}, 3, "editview"],

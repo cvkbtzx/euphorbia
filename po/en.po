@@ -166,9 +166,6 @@ msgstr "Highlight matching brackets"
 msgid "editview_spacesinsteadoftabs"
 msgstr "Insert spaces instead of tabs"
 
-msgid "editview_indentwidth"
-msgstr "Indent width"
-
 msgid "editview_indentontab"
 msgstr "Indent on tab"
 
