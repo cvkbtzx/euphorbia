@@ -26,8 +26,8 @@ import glib
 import gtk
 import ConfigParser
 
-import palette
-import treestruct
+from . import palette
+from . import treestruct
 
 
 #------------------------------------------------------------------------------

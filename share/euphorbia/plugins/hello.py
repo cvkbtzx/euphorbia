@@ -1,5 +1,8 @@
 #-*- coding:utf-8 -*-
 
+## License: Public domain
+
+
 import euphorbia
 
 

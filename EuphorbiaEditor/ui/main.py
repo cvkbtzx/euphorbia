@@ -1,7 +1,7 @@
 #-*- coding:utf-8 -*-
 
 ##  EUPHORBIA - GTK LaTeX Editor
-##  Module: EuphorbiaEditor.ui.main
+##  Module: EuphorbiaEditor.ui
 ##  Copyright (C) 2008-2011   Bzoloid
 ##
 ##  This program is free software; you can redistribute it and/or
@@ -19,7 +19,7 @@
 ##  Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 
 
-"""GUI constructor."""
+"""Euphorbia GUI management."""
 
 import os.path
 import fnmatch
@@ -27,12 +27,12 @@ import gtk
 import pango
 import gtksourceview2 as gtksv
 
-import actions
-import dialogs
-import document
-import project
-import searchbar
-import sidepanel
+from . import actions
+from . import dialogs
+from . import document
+from . import project
+from . import searchbar
+from . import sidepanel
 
 
 #------------------------------------------------------------------------------

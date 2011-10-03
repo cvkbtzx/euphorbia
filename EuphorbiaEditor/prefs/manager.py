@@ -1,7 +1,7 @@
 #-*- coding:utf-8 -*-
 
 ##  EUPHORBIA - GTK LaTeX Editor
-##  Module: EuphorbiaEditor.prefs.manager
+##  Module: EuphorbiaEditor.prefs
 ##  Copyright (C) 2008-2011   Bzoloid
 ##
 ##  This program is free software; you can redistribute it and/or
@@ -19,13 +19,13 @@
 ##  Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 
 
-"""Preferences manager."""
+"""Preferences management."""
 
 import os
 import os.path
 import pickle
 
-from defaults import *
+from . import defaults
 
 
 #------------------------------------------------------------------------------
@@ -175,7 +175,7 @@ class PrefsManager(object):
                     self.types = save[1]
         if len(self.codes) * len(self.types) == 0:
             self.codes, self.types = {}, {}
-            for p in DEFAULT_PREFS:
+            for p in defaults.DEFAULT_PREFS:
                 self.add_pref(*p)
         return
     

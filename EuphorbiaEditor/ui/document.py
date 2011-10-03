@@ -26,9 +26,9 @@ import gtk
 import pango
 import gtksourceview2 as gtksv
 
-import dialogs
-import tabwrapper
-import EuphorbiaEditor.utils.texparser as texparser
+from . import dialogs
+from . import tabwrapper
+from ..utils import texparser
 
 STYLEM = gtksv.style_scheme_manager_get_default()
 

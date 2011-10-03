@@ -23,9 +23,9 @@
 
 import gtk
 
-import dialogs
-import document
-import EuphorbiaEditor.utils.iofiles as iofiles
+from . import dialogs
+from . import document
+from ..utils import iofiles
 
 
 #------------------------------------------------------------------------------

@@ -1,7 +1,7 @@
 #-*- coding:utf-8 -*-
 
 ##  EUPHORBIA - GTK LaTeX Editor
-##  Module: EuphorbiaEditor.utils.log
+##  Module: EuphorbiaEditor.utils.logm
 ##  Copyright (C) 2008-2011   Bzoloid
 ##
 ##  This program is free software; you can redistribute it and/or
@@ -38,7 +38,7 @@ def log_main(msg, ltype='debug'):
 
 def log_null(*data):
     """Do not display log."""
-    pass
+    return
 
 
 #------------------------------------------------------------------------------

@@ -33,10 +33,13 @@ import glib
 import locale
 import gettext
 
-import ui
-import prefs
-import exts
-import utils.log as ulog
+import gobject
+gobject.threads_init()
+
+from . import ui
+from . import prefs
+from . import exts
+from .utils import logm
 
 
 #------------------------------------------------------------------------------
@@ -58,7 +61,7 @@ class Euphorbia(object):
         testmode = True if "--test" in args else False
         root = os.path.dirname(__path__[0]) if testmode else sys.prefix
         debugmode = True if "--debug" in args else False
-        __builtins__['log'] = ulog.log_main if debugmode else ulog.log_null
+        __builtins__['log'] = logm.log_main if debugmode else logm.log_null
         # Directories and localization
         self.locale = locale.getlocale()
         maindir = os.path.join(root, 'share', 'euphorbia')

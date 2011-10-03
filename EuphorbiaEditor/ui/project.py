@@ -25,7 +25,7 @@ import gtk
 import pango
 import ConfigParser
 
-import EuphorbiaEditor.utils.iofiles as iofiles
+from ..utils import iofiles
 
 
 #------------------------------------------------------------------------------

@@ -1,7 +1,7 @@
 #-*- coding:utf-8 -*-
 
 ##  EUPHORBIA - GTK LaTeX Editor
-##  Module: EuphorbiaEditor.exts.manager
+##  Module: EuphorbiaEditor.exts
 ##  Copyright (C) 2008-2011   Bzoloid
 ##
 ##  This program is free software; you can redistribute it and/or
@@ -19,14 +19,14 @@
 ##  Inc., 51 Franklin Street, Fifth Floor, Boston, MA 02110-1301, USA.
 
 
-"""Plugins manager."""
+"""Plugins management."""
 
 import sys
 import os
 import os.path
 import ConfigParser
 
-import euphorbia
+from . import euphorbia
 sys.modules['euphorbia'] = sys.modules['EuphorbiaEditor.exts.euphorbia']
 
 
