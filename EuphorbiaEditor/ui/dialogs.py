@@ -375,18 +375,22 @@ class SaveBeforeCloseWin(gtk.Dialog):
             gtk.STOCK_SAVE, gtk.RESPONSE_OK,
         )
         gtk.Dialog.__init__(self, _("Save..."), app.gui.win, flags, buttons)
-        self.set_default_size(400, 250)
+        self.set_default_size(500, 300)
         self.set_position(gtk.WIN_POS_CENTER_ON_PARENT)
         self.set_has_separator(True)
         vb = gtk.VBox()
         vb.set_spacing(7)
         vb.set_border_width(9)
-        self.vbox.add(vb)
+        self.get_content_area().add(vb)
         # Message
         lab = gtk.Label(_("SaveBeforeClose?"))
         lab.set_alignment(0, 0.5)
         lab.set_padding(0, 5)
         vb.pack_start(lab, False, True)
+        # File list
+        hb = gtk.HBox()
+        hb.set_spacing(7)
+        vb.pack_start(hb, True, True)
         # Treeview
         self.tabnames = sorted(tabnames, key=lambda x: x[1])
         self.build_treeview()
@@ -394,10 +398,22 @@ class SaveBeforeCloseWin(gtk.Dialog):
         sw.set_policy(gtk.POLICY_NEVER, gtk.POLICY_ALWAYS)
         sw.set_shadow_type(gtk.SHADOW_IN)
         sw.add(self.tv)
-        vb.pack_start(sw, True, True)
+        hb.pack_start(sw, True, True)
+        # Quick selection
+        bb = gtk.VButtonBox()
+        bb.set_layout(gtk.BUTTONBOX_SPREAD)
+        b1 = gtk.Button()
+        b1.set_image(gtk.image_new_from_stock(gtk.STOCK_ADD, gtk.ICON_SIZE_BUTTON))
+        b1.connect('clicked', self.ev_reset_all, True)
+        bb.pack_start(b1, False, False)
+        b2 = gtk.Button()
+        b2.set_image(gtk.image_new_from_stock(gtk.STOCK_REMOVE, gtk.ICON_SIZE_BUTTON))
+        b2.connect('clicked', self.ev_reset_all, False)
+        bb.pack_start(b2, False, False)
+        hb.pack_start(bb, False, True)
         # Display
         self.set_default_response(gtk.RESPONSE_OK)
-        self.vbox.show_all()
+        self.show_all()
     
     def build_treeview(self):
         """Build treeview containing filenames."""
@@ -433,6 +449,12 @@ class SaveBeforeCloseWin(gtk.Dialog):
         iter = self.tm.get_iter(path)
         v = self.tm.get_value(iter, 1)
         self.tm.set_value(iter, 1, not v)
+        return
+    
+    def ev_reset_all(self, w, val):
+        """Handle click on '(un)select all' button."""
+        f = lambda m,p,i: m.set_value(i, 1, val)
+        self.tm.foreach(f)
         return
     
     def get_tabs_to_save(self):
