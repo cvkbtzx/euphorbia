@@ -38,59 +38,44 @@ class SpawnManager(object):
         self.cb_err = cb_err
         self.pid = None
         self.wid = [None, None]
+        self.end = [False, False]
     
     def run(self):
-        """Start the programm."""
-        flags = glib.SPAWN_SEARCH_PATH|glib.SPAWN_STDOUT_TO_DEV_NULL|glib.SPAWN_STDERR_TO_DEV_NULL
-        try:
-            data = glib.spawn_async(self.exe, [], self.pwd, flags, None, None, False, False, False)
-            self.pid = data[0]
-            glib.child_watch_add(self.pid, self.callback_end)
-        except:
-            return False
-        return True
-    
-    def run_with_output(self):
         """Start the programm and retrieve the output."""
-        flags = glib.SPAWN_SEARCH_PATH
+        flags = glib.SPAWN_SEARCH_PATH | glib.SPAWN_DO_NOT_REAP_CHILD
+        log("spawn > start > " + repr(self.exe))
         try:
             data = glib.spawn_async(self.exe, [], self.pwd, flags, None, None, False, True, True)
             self.pid = data[0]
             glib.child_watch_add(self.pid, self.callback_end)
         except:
             return False
-        out = os.fdopen(data[2])
-        err = os.fdopen(data[3])
-        self.wid[0] = glib.io_add_watch(data[2], glib.IO_IN|glib.IO_HUP, self.callback_out, out)
-        self.wid[1] = glib.io_add_watch(data[3], glib.IO_IN|glib.IO_HUP, self.callback_err, err)
+        out = os.fdopen(data[2], 'r')
+        err = os.fdopen(data[3], 'r')
+        self.wid[0] = glib.io_add_watch(data[2], glib.IO_IN|glib.IO_HUP, self.read_callback, out, 1)
+        self.wid[1] = glib.io_add_watch(data[3], glib.IO_IN|glib.IO_HUP, self.read_callback, err, 2)
         return True
     
-    def callback_out(self, src, condition, data):
+    def read_callback(self, src, condition, data, t):
         """Callback to execute when the programm writes on std output."""
-        if condition == glib.IO_HUP:
+        txt = data.readline()
+        if txt:
+            if (t == 1) and (self.cb_out is not None):
+                self.cb_out(txt)
+            if (t == 2) and (self.cb_err is not None):
+                self.cb_err(txt)
+        elif self.end[t-1]:
+            log("spawn > closepipe > %d" % t)
             data.close()
-            self.callback_end(self.pid, None)
+            glib.source_remove(self.wid[t-1])
             return False
-        if self.cb_out is not None:
-            self.cb_out(data.readline())
-        return True
-    
-    def callback_err(self, src, condition, data):
-        """Callback to execute when the programm writes on err output."""
         if condition == glib.IO_HUP:
-            data.close()
-            self.callback_end(self.pid, None)
-            return False
-        if self.cb_err is not None:
-            self.cb_err(data.readline())
+            self.end[t-1] = True
         return True
     
     def callback_end(self, pid, condition):
         """Callback to execute when the programm exits."""
-        if self.wid[0] is not None:
-            glib.source_remove(self.wid[0])
-        if self.wid[1] is not None:
-            glib.source_remove(self.wid[1])
+        log("spawn > end")
         if self.cb_end is not None:
             self.cb_end()
         return
@@ -101,12 +86,12 @@ class SpawnManager(object):
 if __name__ == '__main__':
     import sys
     import gtk
-    def disp(txt):
-        if txt:
-            print txt.replace('\n', '')
-    end = lambda: gtk.main_quit()
-    sm = SpawnManager(sys.argv[1:], "./", end, disp, None)
-    sm.run_with_output()
+    import logm
+    log = logm.log_main
+    f_disp = sys.stdout.write
+    f_end = lambda: glib.timeout_add(1000, gtk.main_quit)
+    sm = SpawnManager(sys.argv[1:], "./", f_end, f_disp, None)
+    sm.run()
     gtk.main()
 
 
