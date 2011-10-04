@@ -21,7 +21,8 @@
 
 """Execute external programms."""
 
-import gobject
+import os
+import glib
 
 
 #------------------------------------------------------------------------------
@@ -29,23 +30,84 @@ import gobject
 class SpawnManager(object):
     """Class that can run an external prog."""
     
-    def __init__(self, exe, pwd, func):
+    def __init__(self, exe, pwd, cb_end=None, cb_out=None, cb_err=None):
         self.exe = exe
         self.pwd = pwd
-        self.func = func
+        self.cb_end = cb_end
+        self.cb_out = cb_out
+        self.cb_err = cb_err
         self.pid = None
+        self.wid = [None, None]
     
     def run(self):
         """Start the programm."""
-        data = gobject.spawn_async(self.exe, None, self.pwd, 0, None, None, False, True, True)
-        self.pid = data[0]
-        gobject.child_watch_add(self.pid, self.callback, tuple(data[2:]))
-        return
+        flags = glib.SPAWN_SEARCH_PATH|glib.SPAWN_STDOUT_TO_DEV_NULL|glib.SPAWN_STDERR_TO_DEV_NULL
+        try:
+            data = glib.spawn_async(self.exe, [], self.pwd, flags, None, None, False, False, False)
+            self.pid = data[0]
+            glib.child_watch_add(self.pid, self.callback_end)
+        except:
+            return False
+        return True
     
-    def callback(self, pid, condition, *data):
+    def run_with_output(self):
+        """Start the programm and retrieve the output."""
+        flags = glib.SPAWN_SEARCH_PATH
+        try:
+            data = glib.spawn_async(self.exe, [], self.pwd, flags, None, None, False, True, True)
+            self.pid = data[0]
+            glib.child_watch_add(self.pid, self.callback_end)
+        except:
+            return False
+        out = os.fdopen(data[2])
+        err = os.fdopen(data[3])
+        self.wid[0] = glib.io_add_watch(data[2], glib.IO_IN|glib.IO_HUP, self.callback_out, out)
+        self.wid[1] = glib.io_add_watch(data[3], glib.IO_IN|glib.IO_HUP, self.callback_err, err)
+        return True
+    
+    def callback_out(self, src, condition, data):
+        """Callback to execute when the programm writes on std output."""
+        if condition == glib.IO_HUP:
+            data.close()
+            self.callback_end(self.pid, None)
+            return False
+        if self.cb_out is not None:
+            self.cb_out(data.readline())
+        return True
+    
+    def callback_err(self, src, condition, data):
+        """Callback to execute when the programm writes on err output."""
+        if condition == glib.IO_HUP:
+            data.close()
+            self.callback_end(self.pid, None)
+            return False
+        if self.cb_err is not None:
+            self.cb_err(data.readline())
+        return True
+    
+    def callback_end(self, pid, condition):
         """Callback to execute when the programm exits."""
-        self.func(*data)
+        if self.wid[0] is not None:
+            glib.source_remove(self.wid[0])
+        if self.wid[1] is not None:
+            glib.source_remove(self.wid[1])
+        if self.cb_end is not None:
+            self.cb_end()
         return
+
+
+#------------------------------------------------------------------------------
+
+if __name__ == '__main__':
+    import sys
+    import gtk
+    def disp(txt):
+        if txt:
+            print txt.replace('\n', '')
+    end = lambda: gtk.main_quit()
+    sm = SpawnManager(sys.argv[1:], "./", end, disp, None)
+    sm.run_with_output()
+    gtk.main()
 
 
 #------------------------------------------------------------------------------
