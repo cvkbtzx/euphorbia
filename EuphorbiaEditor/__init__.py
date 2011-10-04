@@ -29,12 +29,9 @@ __website__   = "http://euphorbia.googlecode.com/"
 
 import sys
 import os.path
-import glib
 import locale
 import gettext
-
-import gobject
-gobject.threads_init()
+import glib
 
 from . import ui
 from . import prefs
@@ -43,6 +40,8 @@ from .utils import logm
 
 
 #------------------------------------------------------------------------------
+
+glib.threads_init()
 
 for var in ['version', 'authors', 'license', 'copyright', 'website']:
     __builtins__['euphorbia_'+var] = locals()['__'+var+'__']

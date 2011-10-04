@@ -21,7 +21,7 @@
 
 """Module with documents management classes."""
 
-import gobject
+import glib
 import gtk
 import pango
 import gtksourceview2 as gtksv
@@ -374,7 +374,7 @@ class EditView(gtk.ScrolledWindow):
         self.view.set_stylescheme = self.set_stylescheme
         self.add(self.view)
         self.show_all()
-        gobject.timeout_add(250, self.view.grab_focus)
+        glib.timeout_add(250, self.view.grab_focus)
     
     def set_font(self, font):
         """Set font."""

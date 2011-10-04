@@ -21,7 +21,6 @@
 
 """Threads management."""
 
-import gobject
 import threading
 
 
@@ -47,7 +46,7 @@ class ThreadManager(threading.Thread):
     def run(self):
         self.func(*self.args)
         # Execute GUI stuff from func:
-        #   gobject.idle_add(update_label, value)
+        #   glib.idle_add(update_label, value)
         return
 
 

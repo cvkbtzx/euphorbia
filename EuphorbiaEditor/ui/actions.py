@@ -342,7 +342,7 @@ class ActionsManager(object):
             f = iofiles.FileManager(filepath, enc)
             f.update_infos()
             for ti in self.get_tabs_infos():
-                if f == ti[3]:
+                if f.is_same_file_as(ti[3]):
                     self.nbd.set_current_page(ti[2])
                     return
         else:

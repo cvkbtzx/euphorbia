@@ -4,6 +4,7 @@ syntax: glob
 *~
 archive*
 tmp-*
+test
 *test-*
 *-test*
 *.old

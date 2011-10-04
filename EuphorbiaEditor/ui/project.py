@@ -170,7 +170,7 @@ class ProjectManager(object):
     
     def belongs(self, urim):
         """Test if URImanager belongs to the project."""
-        return any(urim == u for u in self.listfiles)
+        return any(urim.is_same_file_as(u) for u in self.listfiles)
     
     def set_opt(self, urim, opt, val):
         """Set urim option from config."""
@@ -195,7 +195,7 @@ class ProjectManager(object):
     
     def get_id(self, urim):
         """Get relative path id of given urim."""
-        r = [v for u,v in self.listfiles.iteritems() if u == urim]
+        r = [v for u,v in self.listfiles.iteritems() if urim.is_same_file_as(u)]
         return r[0] if len(r) > 0 else None
     
     def add(self, urim, rel=None, hlight=None, enc=None, arch=True):
@@ -231,11 +231,11 @@ class ProjectManager(object):
     
     def remove(self, urim):
         """Remove an urim from the project."""
-        if self.master == urim:
+        if self.master.is_same_file_as(urim):
             self.master = None
         if self.belongs(urim):
             for u,rel in self.listfiles.copy().iteritems():
-                if u == urim:
+                if urim.is_same_file_as(u):
                     sec = "item:" + rel
                     self.cparser.remove_section(sec)
                     del self.listfiles[u]
@@ -274,7 +274,7 @@ class ProjectManager(object):
             if ti[3] is not None:
                 if ti[3].uri is not None:
                     turim = iofiles.URImanager(ti[3].uri, self.rootdir)
-                    if urim == turim:
+                    if urim.is_same_file_as(turim):
                         itab = ti
         if itab is not None:
             tab = itab[0]
@@ -468,8 +468,12 @@ class ProjectBrowser(gtk.ScrolledWindow):
         master = self.manager.master
         for u in sorted(self.manager.listfiles.items(), key=lambda x: x[1]):
             urim, n = u
-            w = pango.WEIGHT_BOLD if urim == master else pango.WEIGHT_NORMAL
-            stock = gtk.STOCK_HOME if urim == master else gtk.STOCK_FILE
+            if urim.is_same_file_as(master):
+                w = pango.WEIGHT_BOLD
+                stock = gtk.STOCK_HOME
+            else:
+                w = pango.WEIGHT_NORMAL
+                stock = gtk.STOCK_FILE
             pix = self.render_icon(stock, gtk.ICON_SIZE_MENU)
             self.ts.append([urim, pix, n, w])
         return

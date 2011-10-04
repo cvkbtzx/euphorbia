@@ -22,7 +22,6 @@
 """Files management."""
 
 import gio
-import gobject
 import os.path
 
 
@@ -169,20 +168,16 @@ class FileManager(object):
             names = []
         return names
     
-    def __eq__(self, file2):
+    def is_same_file_as(self, file2):
         return False if file2 is None else self.gfile.equal(file2.gfile)
-    
-    def __ne__(self, file2):
-        return not self.__eq__(file2)
 
 
 #------------------------------------------------------------------------------
 
-class URImanager(gobject.GObject):
+class URImanager(object):
     """Class to manage URIs."""
     
     def __init__(self, uri, root=None):
-        gobject.GObject.__init__(self)
         if type(uri) is not str:
             uri = os.path.normpath(os.path.join(*uri))
         self.gfile = gio.File(uri)
@@ -192,14 +187,11 @@ class URImanager(gobject.GObject):
             rooturi = root.gfile.get_uri()
         self.relative = os.path.relpath(self.gfile.get_uri(), rooturi)
     
-    def __repr__(self):
-        return self.gfile.get_uri()
-    
-    def __eq__(self, urim2):
+    def is_same_file_as(self, urim2):
         return False if urim2 is None else self.gfile.equal(urim2.gfile)
     
-    def __ne__(self, urim2):
-        return not self.__eq__(urim2)
+    def __repr__(self):
+        return self.gfile.get_uri()
 
 
 #------------------------------------------------------------------------------
