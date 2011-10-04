@@ -33,16 +33,16 @@ class SearchBar(gtk.Toolbar):
         gtk.Toolbar.__init__(self)
         self.app = app
         self.set_name('toolbar_search')
-        # Search label
-        t = gtk.ToolItem()
-        t.add(gtk.Label(_("Search:")))
-        t.get_child().set_padding(5, 0)
-        self.insert(t, -1)
         # Search entry
         t = gtk.ToolItem()
-        t.set_expand(False)
+        t.set_expand(True)
         self.searchtxt = gtk.Entry()
+        self.searchtxt.set_icon_from_stock(gtk.ENTRY_ICON_PRIMARY, gtk.STOCK_FIND)
+        self.searchtxt.set_icon_activatable(gtk.ENTRY_ICON_PRIMARY, False)
+        self.searchtxt.set_icon_from_stock(gtk.ENTRY_ICON_SECONDARY, gtk.STOCK_CLEAR)
+        self.searchtxt.set_icon_activatable(gtk.ENTRY_ICON_SECONDARY, True)
         self.searchtxt.connect('changed', lambda w: self.ev_search(w, 0))
+        self.searchtxt.connect('icon-release', self.ev_clear)
         t.add(self.searchtxt)
         self.insert(t, -1)
         # Search directions
@@ -85,6 +85,11 @@ class SearchBar(gtk.Toolbar):
         loop = self.app.prefm.get_pref('search_loop')
         if hasattr(tab, 'search'):
             tab.search(txt, self.case.get_active(), dir, loop)
+        return
+    
+    def ev_clear(self, *data):
+        """Callback clear."""
+        self.searchtxt.set_text("")
         return
     
     def ev_show(self, *data):
