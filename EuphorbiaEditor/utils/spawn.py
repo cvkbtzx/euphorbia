@@ -39,6 +39,7 @@ class SpawnManager(object):
         self.pid = None
         self.wid = [None, None]
         self.end = [False, False]
+        self.isrunning = False
     
     def run(self):
         """Start the programm and retrieve the output."""
@@ -54,7 +55,12 @@ class SpawnManager(object):
         err = os.fdopen(data[3], 'r')
         self.wid[0] = glib.io_add_watch(data[2], glib.IO_IN|glib.IO_HUP, self.read_callback, out, 1)
         self.wid[1] = glib.io_add_watch(data[3], glib.IO_IN|glib.IO_HUP, self.read_callback, err, 2)
+        self.isrunning = True
         return True
+    
+    def is_running(self):
+        """Check if the child process is running."""
+        return self.isrunning
     
     def read_callback(self, src, condition, data, t):
         """Callback to execute when the programm writes on std output."""
@@ -76,6 +82,7 @@ class SpawnManager(object):
     def callback_end(self, pid, condition):
         """Callback to execute when the programm exits."""
         log("spawn > end")
+        self.isrunning = False
         if self.cb_end is not None:
             self.cb_end()
         return
