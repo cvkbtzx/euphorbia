@@ -33,6 +33,7 @@ from . import document
 from . import project
 from . import searchbar
 from . import sidepanel
+from . import outlogview
 
 
 #------------------------------------------------------------------------------
@@ -133,8 +134,7 @@ class EuphorbiaGUI(actions.ActionsManager):
         self.builder.get_object('vbox_docs').pack_start(sb, False, True)
         self.searchb = sb
         # Output textviews
-        self.builder.get_object('textview_logs').modify_font(pango.FontDescription('Monospace 8'))
-        self.builder.get_object('textview_warn').modify_font(pango.FontDescription('Monospace 8'))
+        self.outlogs = outlogview.OutputLogsView(self.app, self.builder)
         # Sourceview styles
         ssm = gtksv.style_scheme_manager_get_default()
         s = [(ssm.get_scheme(id).get_name(),id) for id in ssm.get_scheme_ids()]
