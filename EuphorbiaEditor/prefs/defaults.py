@@ -31,6 +31,7 @@ DEFAULT_PREFS = [
     ["toolbar_iconsize", 'set_icon_size', {"l_size-menu":1,"l_size-small-tool":2,"l_size-large-tool":3,"l_size-button":4,"l_size-dnd":5,"l_size-dialog":6}, 2, "toolbar*"],
     ["toolbar_tooltips", 'set_tooltips', 'bool', True, "toolbar*"],
     ["toolbar_style", 'set_style', {"l_b-icon":0,"l_b-text":1,"l_b-text-under-icon":2,"l_b-text-alongside-icon":3}, 0, "toolbar*"],
+    ["toolbar_tabsborder", 'set_tab_border', 'int,0,15', 2, "notebook*"],
     ["editview_showlinemarks", 'set_show_line_marks', 'bool', True, "editview"],
     ["editview_showlinenumbers", 'set_show_line_numbers', 'bool', True, "editview"],
     ["editview_cursorvisible", 'set_cursor_visible', 'bool', True, "editview"],

@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Euphorbia 0.0.X\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-03-06 18:43+0100\n"
+"POT-Creation-Date: 2011-10-06 21:02+0200\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Bzoloid <bzoloid@gmail.com>\n"
 "Language-Team: \n"
@@ -126,6 +126,9 @@ msgstr "Infobulles"
 
 msgid "toolbar_style"
 msgstr "Style"
+
+msgid "toolbar_tabsborder"
+msgstr "Bordure des onglets"
 
 msgid "editview_showlinemarks"
 msgstr "Signets visibles"
@@ -396,9 +399,6 @@ msgstr ""
 msgid "Plugin '%s' loading error"
 msgstr "Erreur de chargement du plugin '%s'"
 
-msgid "Search:"
-msgstr "Rechercher :"
-
 msgid "Case sensitive"
 msgstr "Respecter la casse"
 
@@ -460,3 +460,5 @@ msgstr "Zoom largeur"
 msgid "Zoom 100%"
 msgstr "Zoom 100%"
 
+#~ msgid "Search:"
+#~ msgstr "Rechercher :"

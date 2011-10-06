@@ -68,7 +68,6 @@ class EuphorbiaGUI(actions.ActionsManager):
         self.prefs_tabs = [trad(p,1) for p in DEFAULT_PREFS_TABS]
         self.file_handlers = [trad(h,1) for h in DEFAULT_FILE_HANDLERS]
         self.build_interface()
-        self.nbd = self.builder.get_object('notebook_docs')
         self.nbd.tab_list = set()
         self.project = None
         self.win.show()
@@ -109,6 +108,20 @@ class EuphorbiaGUI(actions.ActionsManager):
         self.builder.get_object('vbox_main').reorder_child(menu, 0)
         toolbar = self.uim.get_widget("/toolbar_main")
         self.builder.get_object('handlebox_main').add(toolbar)
+        # Documents notebook
+        self.nbd = self.builder.get_object('notebook_docs')
+        if hasattr(self.nbd, 'set_action_widget'):   # REQ ptgtk-2.22
+            ba = gtk.Button()
+            ba.set_image(gtk.image_new_from_stock(gtk.STOCK_ADD, gtk.ICON_SIZE_MENU))
+            ba.set_relief(gtk.RELIEF_NONE)
+            ba.set_focus_on_click(False)
+            ba.set_name('buttonadd-euphorbia-small')
+            ba.connect('clicked', self.act_new)
+            af = gtk.AspectFrame(obey_child=False)
+            af.set_shadow_type(gtk.SHADOW_NONE)
+            af.add(ba)
+            self.nbd.set_action_widget(af, gtk.PACK_END)
+            af.show_all()
         # Statusbar
         self.status = self.builder.get_object('statusbar')
         self.locmsg = gtk.Label()
