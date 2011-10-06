@@ -459,6 +459,3 @@ msgstr "Zoom largeur"
 
 msgid "Zoom 100%"
 msgstr "Zoom 100%"
-
-#~ msgid "Search:"
-#~ msgstr "Rechercher :"
