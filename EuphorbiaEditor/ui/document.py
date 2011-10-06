@@ -257,9 +257,11 @@ class Document(tabwrapper.TabWrapper):
         if buffer.get_has_selection():
             ibeg, iend = buffer.get_selection_bounds()
             ibeg.order(iend)
+            move = 0
         else:
             ibeg = buffer.get_iter_at_mark(buffer.get_insert())
             iend = ibeg.copy()
+            move = len(txt2)
         m1 = buffer.create_mark(None, ibeg)
         m2 = buffer.create_mark(None, iend)
         buffer.insert(buffer.get_iter_at_mark(m1), txt1)
@@ -267,6 +269,7 @@ class Document(tabwrapper.TabWrapper):
         iter = buffer.get_iter_at_mark(m2)
         buffer.delete_mark(m1)
         buffer.delete_mark(m2)
+        iter.backward_chars(move)
         buffer.place_cursor(iter)
         return
     
