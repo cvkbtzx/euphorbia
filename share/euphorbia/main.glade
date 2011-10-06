@@ -2,8 +2,8 @@
 <interface>
   <requires lib="gtk+" version="2.20"/>
   <!-- interface-naming-policy project-wide -->
-  <object class="GtkTextBuffer" id="textbuffer_logs"/>
-  <object class="GtkTextBuffer" id="textbuffer_warn"/>
+  <object class="GtkTextBuffer" id="textbuffer_out"/>
+  <object class="GtkTextBuffer" id="textbuffer_err"/>
   <object class="GtkWindow" id="window">
     <property name="can_focus">False</property>
     <property name="title" translatable="yes">Euphorbia</property>
@@ -97,7 +97,7 @@
                         <property name="can_focus">True</property>
                         <property name="tab_pos">left</property>
                         <child>
-                          <object class="GtkScrolledWindow" id="scrolledwin_logs">
+                          <object class="GtkScrolledWindow" id="scrolledwin_out">
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="hscrollbar_policy">never</property>
@@ -109,13 +109,13 @@
                                 <property name="editable">False</property>
                                 <property name="wrap_mode">char</property>
                                 <property name="cursor_visible">False</property>
-                                <property name="buffer">textbuffer_logs</property>
+                                <property name="buffer">textbuffer_out</property>
                               </object>
                             </child>
                           </object>
                         </child>
                         <child type="tab">
-                          <object class="GtkImage" id="image_logs">
+                          <object class="GtkImage" id="image_out">
                             <property name="visible">True</property>
                             <property name="can_focus">False</property>
                             <property name="pixel_size">16</property>
@@ -126,7 +126,7 @@
                           </packing>
                         </child>
                         <child>
-                          <object class="GtkScrolledWindow" id="scrolledwindow_warn">
+                          <object class="GtkScrolledWindow" id="scrolledwindow_err">
                             <property name="visible">True</property>
                             <property name="can_focus">True</property>
                             <property name="hscrollbar_policy">never</property>
@@ -138,7 +138,7 @@
                                 <property name="editable">False</property>
                                 <property name="wrap_mode">char</property>
                                 <property name="cursor_visible">False</property>
-                                <property name="buffer">textbuffer_warn</property>
+                                <property name="buffer">textbuffer_err</property>
                               </object>
                             </child>
                           </object>
@@ -147,7 +147,7 @@
                           </packing>
                         </child>
                         <child type="tab">
-                          <object class="GtkImage" id="image_warn">
+                          <object class="GtkImage" id="image_err">
                             <property name="visible">True</property>
                             <property name="can_focus">False</property>
                             <property name="pixel_size">16</property>
