@@ -48,6 +48,8 @@ class SearchBar(gtk.Toolbar):
         # Search directions
         t = gtk.ToolButton(gtk.STOCK_GO_BACK)
         t.connect('clicked', lambda w: self.ev_search(w, -1))
+        ak, am = gtk.accelerator_parse("<Shift>F3")
+        t.add_accelerator('clicked', accels, ak, am, gtk.ACCEL_VISIBLE)
         self.insert(t, -1)
         t = gtk.ToolButton(gtk.STOCK_GO_FORWARD)
         t.connect('clicked', lambda w: self.ev_search(w, 1))

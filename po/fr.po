@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Euphorbia 0.0.X\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-10-06 21:02+0200\n"
+"POT-Creation-Date: 2011-10-07 23:33+0200\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Bzoloid <bzoloid@gmail.com>\n"
 "Language-Team: \n"
@@ -36,6 +36,12 @@ msgstr "_Outils"
 
 msgid "Help"
 msgstr "A_ide"
+
+msgid "Mark"
+msgstr "Basculer signet"
+
+msgid "GoMark"
+msgstr "Signet suivant"
 
 msgid "ShowSidePan"
 msgstr "Panneau _latéral"
@@ -459,3 +465,4 @@ msgstr "Zoom largeur"
 
 msgid "Zoom 100%"
 msgstr "Zoom 100%"
+

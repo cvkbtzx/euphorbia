@@ -46,6 +46,7 @@ class Document(tabwrapper.TabWrapper):
         hp.pack1(self.ev, True, False)
         self.type_id = "doc_text"
         self.clipb = gtk.clipboard_get()
+        self.ev.view.set_mark_category_icon_from_stock('default', gtk.STOCK_YES)
         # Parameters
         params = {'fname':None, 'hlight':None, 'enc':None, 'pos':None}
         params.update(args)
@@ -340,6 +341,28 @@ class Document(tabwrapper.TabWrapper):
         ins = not ins if param == 'overvrite' else ins
         ins = _("OVR") if ins else _("INS")
         return _("%(ins)s L%(lin)i,C%(col)i" % {'ins':ins, 'lin':l, 'col':c})
+    
+    def toggle_mark(self, cat='default'):
+        """Toggle line mark."""
+        iter = self.ev.buffer.get_iter_at_mark(self.ev.buffer.get_insert())
+        marks = self.ev.buffer.get_source_marks_at_line(iter.get_line(), cat)
+        if marks:
+            for m in marks:
+                self.ev.buffer.delete_mark(m)
+        else:
+            self.ev.buffer.create_source_mark(None, cat, iter)
+        return
+    
+    def goto_next_mark(self, cat='default'):
+        """Go to next line mark."""
+        iter = self.ev.buffer.get_iter_at_mark(self.ev.buffer.get_insert())
+        if not self.ev.buffer.forward_iter_to_source_mark(iter, cat):
+            iter = self.ev.buffer.get_start_iter()
+            if not self.ev.buffer.forward_iter_to_source_mark(iter, cat):
+                return
+        self.ev.view.scroll_to_iter(iter, 0.125, False)
+        self.ev.buffer.place_cursor(iter)
+        return
     
     def ev_cursor_changed(self, *data):
         """Callback executed when the cursor moves."""

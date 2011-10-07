@@ -22,6 +22,9 @@
             <menuitem action="action_copy" />
             <menuitem action="action_paste" />
             <separator />
+            <menuitem action="action_mark" />
+            <menuitem action="action_gomark" />
+            <separator />
             <menuitem action="action_search" />
         </menu>
         <menu name="menu_view" action="action_view">

@@ -50,6 +50,8 @@ def get_actions_list(cls):
         ('action_cut',      gtk.STOCK_CUT,          None, '',   None, cls.act_cut),
         ('action_copy',     gtk.STOCK_COPY,         None, '',   None, cls.act_copy),
         ('action_paste',    gtk.STOCK_PASTE,        None, '',   None, cls.act_paste),
+        ('action_mark',     None,                   _("Mark"), '<Ctrl>F2', None, cls.act_mark),
+        ('action_gomark',   None,                   _("GoMark"), 'F2', None, cls.act_gomark),
         ('action_search',   gtk.STOCK_FIND,         None, None, None, cls.act_search),
         ('action_view',     None,                   _("View")),
         ('action_hlight',   gtk.STOCK_SELECT_COLOR, _("Syntax highlighting")),
@@ -234,6 +236,20 @@ class ActionsManager(object):
         tab = self.get_current_tab()
         if hasattr(tab, 'paste'):
             tab.paste()
+        return
+    
+    def act_mark(self, *data):
+        """Callback for 'Mark' action."""
+        tab = self.get_current_tab()
+        if hasattr(tab, 'toggle_mark'):
+            tab.toggle_mark()
+        return
+    
+    def act_gomark(self, *data):
+        """Callback for 'GoMark' action."""
+        tab = self.get_current_tab()
+        if hasattr(tab, 'goto_next_mark'):
+            tab.goto_next_mark()
         return
     
     def act_search(self, *data):

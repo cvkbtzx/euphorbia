@@ -27,7 +27,7 @@
 DEFAULT_PREFS = [
     # [Key, {functions}, {allowed_values}, default_value, widget_name]
     ["window_maximized", {True:'maximize', False:'unmaximize'}, None, False, "window"],
-    ["toolbar_arrow", 'set_show_arrow', 'bool', True, "toolbar*"],
+    ["toolbar_arrow", 'set_show_arrow', 'bool', False, "toolbar*"],
     ["toolbar_iconsize", 'set_icon_size', {"l_size-menu":1,"l_size-small-tool":2,"l_size-large-tool":3,"l_size-button":4,"l_size-dnd":5,"l_size-dialog":6}, 2, "toolbar*"],
     ["toolbar_tooltips", 'set_tooltips', 'bool', True, "toolbar*"],
     ["toolbar_style", 'set_style', {"l_b-icon":0,"l_b-text":1,"l_b-text-under-icon":2,"l_b-text-alongside-icon":3}, 0, "toolbar*"],
@@ -47,7 +47,7 @@ DEFAULT_PREFS = [
     ["editview_spacesinsteadoftabs", 'set_insert_spaces_instead_of_tabs', 'bool', False, "editview"],
     ["editview_indentontab", 'set_indent_on_tab', 'bool', False, "editview"],
     ["editview_autoindent", 'set_auto_indent', 'bool', True, "editview"],
-    ["editview_smarthomeend", 'set_smart_home_end', {"l_home-disabled":0,"l_home-before":1,"l_home-after":2,"l_home-always":3}, 3, "editview"],
+    ["editview_smarthomeend", 'set_smart_home_end', {"l_home-disabled":0,"l_home-before":1,"l_home-after":2,"l_home-always":3}, 1, "editview"],
     ["editview_style", 'set_stylescheme', None, 'classic', "editview"],
     ["sidepanel_expandlevel", 'set_expand_level', 'int,0,7', 3, 'structbrowser'],
     ["sidepanel_symcolorfromtheme", None, 'bool', False, None],
