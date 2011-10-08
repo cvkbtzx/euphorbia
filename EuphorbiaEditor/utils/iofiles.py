@@ -21,6 +21,7 @@
 
 """Files management."""
 
+import glib
 import gio
 import os.path
 
@@ -83,9 +84,11 @@ class FileManager(object):
     
     def get_name(self):
         """Get name as UTF-8 string (if possible)."""
-        i = self.infos
         if self.infos['display-name']:
             ret = self.infos['display-name']
+        elif self.path:
+            ret = glib.filename_display_basename(self.path)
+            ret = ret.encode('utf8')
         elif self.infos['name']:
             ret = self.infos['name']
         else:
@@ -95,7 +98,8 @@ class FileManager(object):
     def fullname(self):
         """Get file full name."""
         if self.path:
-            ret = self.path
+            ret = glib.filename_display_name(self.path)
+            ret = ret.encode('utf8')
         elif self.uri:
             ret = self.uri
         else:
@@ -154,6 +158,10 @@ class FileManager(object):
     def delete(self):
         """Delete file."""
         return self.gfile.delete() if self.infos['can-delete'] else False
+    
+    def delete_try_trash(self):
+        """Delete file, try to use the trash first."""
+        return self.delete() if not self.trash() else True
     
     def get_app(self):
         """Get file's default application."""
