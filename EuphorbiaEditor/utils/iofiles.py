@@ -95,9 +95,11 @@ class FileManager(object):
             ret = self.gfile.get_basename()
         return ret
     
-    def fullname(self):
-        """Get file full name."""
-        if self.path:
+    def get_fullname(self):
+        """Get file full path, as UTF-8 if possible."""
+        if self.path or self.uri:
+            ret = self.gfile.get_parse_name()
+        elif self.path:
             ret = glib.filename_display_name(self.path)
             ret = ret.encode('utf8')
         elif self.uri:
@@ -185,21 +187,68 @@ class FileManager(object):
 class URImanager(object):
     """Class to manage URIs."""
     
-    def __init__(self, uri, root=None):
+    def __init__(self, uri):
         if type(uri) is not str:
             uri = os.path.normpath(os.path.join(*uri))
         self.gfile = gio.File(uri)
-        if root is None:
-            rooturi = self.gfile.get_parent().get_uri()
-        else:
-            rooturi = root.gfile.get_uri()
-        self.relative = os.path.relpath(self.gfile.get_uri(), rooturi)
+    
+    def get_relative_path_from(self, urim0):
+        """Get relative path from a root URImanager."""
+        ret = urim0.gfile.get_relative_path(self.gfile)
+        if ret is None:
+            ret = os.path.relpath(self.gfile.get_uri(), urim0.gfile.get_uri())
+        return ret
     
     def is_same_file_as(self, urim2):
+        """Compare URImanagers to know if it is the same actual file."""
         return False if urim2 is None else self.gfile.equal(urim2.gfile)
     
     def __repr__(self):
         return self.gfile.get_uri()
+
+
+#------------------------------------------------------------------------------
+
+class FalseFileObj(object):
+    """Use a GIO file like a local fileobj (for use with ConfigParser)."""
+    
+    def __init__(self, gfile):
+        self._gfile = gfile
+        self._r, self._w, self._i = False, False, -1
+        self._txt = ""
+    
+    def g_read(self):
+        """Get text data from gfile."""
+        self._r, self._w, self._i = False, False, -1
+        data = self._gfile.read()
+        self._txt = "" if data is None else data
+        return not data is None
+    
+    def g_write(self):
+        """Write text data in gfile."""
+        self._r, self._w, self._i = False, False, -1
+        ret = self._gfile.write(self._txt)
+        self._gfile.update_infos()
+        return ret
+    
+    def readline(self):
+        """Read text data line."""
+        self._w = False
+        if not self._r:
+            self._r = True
+            self._i = -1
+        self._i = self._i + 1
+        data = self._txt.splitlines(True)
+        return data[self._i] if len(data) > self._i else None
+    
+    def write(self, data):
+        """Write text data line."""
+        self._r = False
+        if not self._w:
+            self._w = True
+            self._txt = ""
+        self._txt = self._txt + data
+        return
 
 
 #------------------------------------------------------------------------------

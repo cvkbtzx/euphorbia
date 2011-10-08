@@ -161,11 +161,11 @@ class ActionsManager(object):
         printop.set_default_page_setup(self.print_setup)
         printop.set_print_settings(self.print_settings)
         tab.connect_print_compositor(printop)
-        pst = lambda x: self.status_msg(_("Print: %s") % (x), 'print')
+        pst = lambda x: self.disp_status_msg(_("Print: %s") % (x), 'print')
         printop.connect('status-changed', lambda p: pst(p.get_status_string()))
         res = printop.run(gtk.PRINT_OPERATION_ACTION_PRINT_DIALOG, self.win)
         if res == gtk.PRINT_OPERATION_RESULT_ERROR:
-            self.popup_msg('error', 'close', _("PrintError"))
+            self.disp_popup_msg('error', 'close', _("PrintError"))
         elif res == gtk.PRINT_OPERATION_RESULT_APPLY:
             self.print_settings = printop.get_print_settings()
         return
@@ -330,7 +330,7 @@ class ActionsManager(object):
             if hasattr(t, 'save'):
                 i = t.get_file_infos()
                 if i[2]:
-                    n = i[0] if i[1] is None else i[1].fullname()
+                    n = i[0] if i[1] is None else i[1].get_fullname()
                     tabask.append((t, n))
         if len(tabask) > 0:
             dwin = dialogs.SaveBeforeCloseWin(self.app, tabask)

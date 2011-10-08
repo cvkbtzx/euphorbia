@@ -63,7 +63,7 @@ class EuphorbiaGUI(actions.ActionsManager):
     def __init__(self, app):
         actions.ActionsManager.__init__(self, app)
         self.clipb = gtk.clipboard_get()
-        self.setup_printers()
+        self.build_printers()
         self.connections = dict((s,[]) for s in SIGNALS)
         trad = lambda x,n: x[:n] + (_(x[n]),) + x[n+1:]
         self.prefs_tabs = [trad(p,1) for p in DEFAULT_PREFS_TABS]
@@ -148,7 +148,7 @@ class EuphorbiaGUI(actions.ActionsManager):
                 w.set_name(gtk.Buildable.get_name(w))
         return
     
-    def setup_printers(self):
+    def build_printers(self):
         """Setup print properties."""
         dps = gtk.PaperSize(gtk.paper_size_get_default())
         self.print_setup = gtk.PageSetup()
@@ -200,20 +200,20 @@ class EuphorbiaGUI(actions.ActionsManager):
      
     def emit(self, signal, *params):
         """Emit the specified Euphorbia signal."""
-        self.status_msg(_("signal_"+signal))
+        self.disp_status_msg(_("signal_"+signal))
         log("signal > "+signal)
         for cb in self.connections[signal]:
             func = cb[0]
             func(*(params+cb[1]))
         return
     
-    def status_msg(self, txt, id='standard'):
+    def disp_status_msg(self, txt, id='standard'):
         """Update statusbar message."""
         cid = self.status.get_context_id(id)
         self.status.push(cid, txt)
         return
     
-    def popup_msg(self, t, b, txt):
+    def disp_popup_msg(self, t, b, txt):
         """Display a message in a dialog window."""
         dwin = dialogs.MsgWin(self.app.gui.win, t, b, txt)
         ret = dwin.run()

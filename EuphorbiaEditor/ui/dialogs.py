@@ -262,7 +262,7 @@ class PrefsWinPlugins(gtk.VBox):
             ret = self.app.plugm.load_plugin(p)
             if not ret:
                 msg = _("Plugin '%s' loading error") % (p)
-                self.app.gui.popup_msg('error', 'close', msg)
+                self.app.gui.disp_popup_msg('error', 'close', msg)
         v = self.app.plugm.is_loaded(p)
         self.tm.set_value(iter, 1, v)
         return

@@ -64,8 +64,8 @@ class Document(tabwrapper.TabWrapper):
         if file is not None:
             if not self.open_file(file, **params):
                 self.close()
-                msg = _("OpenFileError %s") % (file.fullname())
-                self.app.gui.popup_msg('error', 'close', msg)
+                msg = _("OpenFileError %s") % (file.get_fullname())
+                self.app.gui.disp_popup_msg('error', 'close', msg)
         else:
             self.set_title(fname)
             self.set_icon()

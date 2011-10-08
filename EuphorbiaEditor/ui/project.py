@@ -83,10 +83,10 @@ def get_actions(cls):
 class ProjectManager(object):
     """Manage project files."""
     
-    def __init__(self, app, fileobj, **args):
+    def __init__(self, app, p_gfile, **args):
         self.app = app
-        self.fileobj = FalseFileObj(fileobj)
-        self.rootdir = iofiles.URImanager(fileobj.gfile.get_parent().get_uri())
+        self.fileobj = iofiles.FalseFileObj(p_gfile)
+        self.rootdir = iofiles.URImanager(p_gfile.gfile.get_parent().get_uri())
         self.master = None
         self.listfiles = {}
         if self.load(**args):
@@ -152,7 +152,7 @@ class ProjectManager(object):
         if tab is not None:
             f = tab.get_file_infos()[1]
             if f is not None:
-                urim = iofiles.URImanager(f.uri, self.rootdir)
+                urim = iofiles.URImanager(f.uri)
                 self.set_master(urim)
         return
     
@@ -170,6 +170,8 @@ class ProjectManager(object):
     
     def belongs(self, urim):
         """Test if URImanager belongs to the project."""
+        if urim is None:
+            return False
         return any(urim.is_same_file_as(u) for u in self.listfiles)
     
     def set_opt(self, urim, opt, val):
@@ -198,11 +200,11 @@ class ProjectManager(object):
         r = [v for u,v in self.listfiles.iteritems() if urim.is_same_file_as(u)]
         return r[0] if len(r) > 0 else None
     
-    def add(self, urim, rel=None, hlight=None, enc=None, arch=True):
+    def add(self, urim, hlight=None, enc=None, arch=True):
         """Add an urim to the project."""
         test = not self.belongs(urim)
         if test:
-            sec = urim.relative if rel is None else rel
+            sec = urim.get_relative_path_from(self.rootdir)
             self.listfiles[urim] = sec
             self.cparser.add_section("item:"+sec)
             opts = {'highlight':hlight, 'encoding':enc, 'archive':arch}
@@ -216,7 +218,7 @@ class ProjectManager(object):
         """Add a file to the project."""
         if f.uri is None:
             return False
-        urim = iofiles.URImanager(f.uri, self.rootdir)
+        urim = iofiles.URImanager(f.uri)
         return self.add(urim, hlight=hl, enc=f.encoding)
     
     def add_tab(self, tab):
@@ -231,8 +233,8 @@ class ProjectManager(object):
     
     def remove(self, urim):
         """Remove an urim from the project."""
-        if self.master.is_same_file_as(urim):
-            self.master = None
+        if urim.is_same_file_as(self.master):
+            self.set_master(None)
         if self.belongs(urim):
             for u,rel in self.listfiles.copy().iteritems():
                 if urim.is_same_file_as(u):
@@ -244,7 +246,7 @@ class ProjectManager(object):
     
     def rm_file(self, f):
         """Remove a file from the project."""
-        urim = iofiles.URImanager(f.uri, self.rootdir)
+        urim = iofiles.URImanager(f.uri)
         self.remove(urim)
         return
     
@@ -256,7 +258,7 @@ class ProjectManager(object):
         return
     
     def set_master(self, urim):
-        """Set the master document (uri or URImanager)."""
+        """Set the master document."""
         if self.belongs(urim) or urim is None:
             self.master = urim
             val = None if urim is None else self.get_id(urim)
@@ -266,6 +268,10 @@ class ProjectManager(object):
             log("project > this tab does not belong to the project", 'error')
         return
     
+    def get_master(self):
+        """Get the master document."""
+        return self.master
+    
     def get_status(self, urim, tabs_infos):
         """Get status of given urim."""
         status = {'encoding':None, 'highlight':None, 'open':False, 'order':"-1"}
@@ -273,7 +279,7 @@ class ProjectManager(object):
         for ti in tabs_infos:
             if ti[3] is not None:
                 if ti[3].uri is not None:
-                    turim = iofiles.URImanager(ti[3].uri, self.rootdir)
+                    turim = iofiles.URImanager(ti[3].uri)
                     if urim.is_same_file_as(turim):
                         itab = ti
         if itab is not None:
@@ -336,8 +342,8 @@ class ProjectManager(object):
                 if not self.cparser.has_option(sec, op):
                     self.cparser.set(sec, op, val)
             rel = sec[5:]
-            u = (self.rootdir.gfile.get_uri(), rel)
-            urim = iofiles.URImanager(u, self.rootdir)
+            f = self.rootdir.gfile.resolve_relative_path(rel)
+            urim = iofiles.URImanager(f.get_uri())
             if not self.belongs(urim):
                 self.listfiles[urim] = rel
                 if self.cparser.get('General', 'masterDocument') == rel:
@@ -363,56 +369,12 @@ class ProjectManager(object):
         if curr_tab is not None:
             cf = curr_tab.get_file_infos()[1]
             if cf is not None:
-                urim = iofiles.URImanager(cf.uri, self.rootdir)
+                urim = iofiles.URImanager(cf.uri)
                 self.cparser.set('General', 'lastDocument', self.get_id(urim))
         self.cparser.write(self.fileobj)
         if not self.cparser.has_option('General', 'kileversion'):
             log("project > save")
             self.fileobj.g_write()
-        return
-
-
-#------------------------------------------------------------------------------
-
-class FalseFileObj(object):
-    """Use a GIO file like a local fileobj for ConfigParser."""
-    
-    def __init__(self, gfile):
-        self._gfile = gfile
-        self._r, self._w, self._i = False, False, -1
-        self._txt = ""
-    
-    def g_read(self):
-        """Get text data from gfile."""
-        self._r, self._w, self._i = False, False, -1
-        data = self._gfile.read()
-        self._txt = "" if data is None else data
-        return not data is None
-    
-    def g_write(self):
-        """Write text data in gfile."""
-        self._r, self._w, self._i = False, False, -1
-        ret = self._gfile.write(self._txt)
-        self._gfile.update_infos()
-        return ret
-    
-    def readline(self):
-        """Read text data line."""
-        self._w = False
-        if not self._r:
-            self._r = True
-            self._i = -1
-        self._i = self._i + 1
-        data = self._txt.splitlines(True)
-        return data[self._i] if len(data) > self._i else None
-    
-    def write(self, data):
-        """Write text data line."""
-        self._r = False
-        if not self._w:
-            self._w = True
-            self._txt = ""
-        self._txt = self._txt + data
         return
 
 
@@ -434,7 +396,7 @@ class ProjectBrowser(gtk.ScrolledWindow):
     def build_treeview(self):
         """Build the treeview."""
         # Model
-        self.ts = gtk.ListStore(iofiles.URImanager, gtk.gdk.Pixbuf, str, pango.Weight)
+        self.ts = gtk.ListStore(object, gtk.gdk.Pixbuf, str, pango.Weight)
         # View
         self.tv = gtk.TreeView()
         self.tv.set_model(self.ts)
@@ -465,7 +427,7 @@ class ProjectBrowser(gtk.ScrolledWindow):
     def update(self):
         """Update treeview content."""
         self.ts.clear()
-        master = self.manager.master
+        master = self.manager.get_master()
         for u in sorted(self.manager.listfiles.items(), key=lambda x: x[1]):
             urim, n = u
             if urim.is_same_file_as(master):

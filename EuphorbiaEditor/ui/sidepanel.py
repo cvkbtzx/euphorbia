@@ -60,10 +60,10 @@ class SidePanel(gtk.VBox):
         """Check if one of the Expanders is indeed expanded."""
         c = self.get_children()
         if len(c)>0 and not any(w.get_expanded() for w in c):
-            self.on_expander(c[0])
+            self.ev_expander(c[0])
         return
     
-    def on_expander(self, widget):
+    def ev_expander(self, widget):
         """Callback to execute when an Expander is selected."""
         for n,exp in self.expanders.iteritems():
             if exp is widget:
@@ -84,7 +84,7 @@ class Expander(gtk.VBox):
         gtk.VBox.__init__(self)
         # Button
         button = gtk.Button()
-        button.connect('clicked', lambda w: self.on_button_selected(w))
+        button.connect('clicked', lambda w: self.ev_button_selected(w))
         button.set_focus_on_click(False)
         button.set_relief(gtk.RELIEF_NONE)
         hbox = gtk.HBox()
@@ -124,9 +124,9 @@ class Expander(gtk.VBox):
         """Return 'True' if the Expander is expanded."""
         return self.expanded
     
-    def on_button_selected(self, *data):
+    def ev_button_selected(self, *data):
         """Callback to execute when the button is selected."""
-        self.get_parent().on_expander(self)
+        self.get_parent().ev_expander(self)
         return
 
 
