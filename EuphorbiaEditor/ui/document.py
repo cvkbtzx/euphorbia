@@ -350,6 +350,7 @@ class Document(tabwrapper.TabWrapper):
             for m in marks:
                 self.ev.buffer.delete_mark(m)
         else:
+            iter = self.ev.buffer.get_iter_at_line(iter.get_line())
             self.ev.buffer.create_source_mark(None, cat, iter)
         return
     
