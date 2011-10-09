@@ -50,7 +50,7 @@ class PrefsWin(gtk.Dialog):
         self.get_content_area().pack_start(self.nbook, True, True)
         self.get_content_area().show_all()
         for p in self.app.gui.prefs_tabs:
-            self.nbook.append_page(p[1](app), gtk.Label(p[0]))
+            self.nbook.append_page(p[1](app), gtk.Label(_(p[0])))
         self.app.prefm.autoconnect_gtk(self)
         self.set_default_response(gtk.RESPONSE_CLOSE)
 

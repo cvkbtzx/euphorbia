@@ -1,0 +1,12 @@
+[Euphorbia Plugin]
+Module=webview
+Api=1
+Name=Html viewer
+Name[fr]=Visionneur Html
+Description=Open HTML documents and provide a link to the LaTeX Wikibook
+Description[fr]=Ouvre les documents HTML et affiche le Wikibook LaTeX
+Version=1.0
+Authors=Bzoloid <bzoloid@gmail.com>
+Copyright=Copyright © 2011-2011
+License=GNU GPL v2
+Website=http://euphorbia.googlecode.com/

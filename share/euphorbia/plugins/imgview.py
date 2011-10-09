@@ -55,13 +55,13 @@ class ImageTab(euphorbia.TabWrapper):
         li = LargeImage(fileobj.gfile)
         euphorbia.TabWrapper.__init__(self, app, li)
         self.type_id = "imgview"
-        self.gfile = fileobj
+        self.iofile = fileobj
         self.set_title(fileobj.get_name())
         self.set_icon(*fileobj.get_icons())
     
     def get_file_infos(self):
         """Return infos (file_name, file_obj, is_modified) about the file."""
-        return (self.gfile.get_name(), self.gfile, False)
+        return (self.iofile.get_name(), self.iofile, False)
 
 
 #------------------------------------------------------------------------------

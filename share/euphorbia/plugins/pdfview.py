@@ -55,14 +55,14 @@ class EvinceTab(euphorbia.TabWrapper):
         euphorbia.TabWrapper.__init__(self, app, ev)
         self.ev = ev
         self.type_id = "pdfview"
-        self.gfile = fileobj
+        self.iofile = fileobj
         self.set_title(fileobj.get_name())
         self.set_icon(*fileobj.get_icons())
         self.ev.model.connect('page-changed', self.ev_page_changed)
     
     def get_file_infos(self):
         """Return infos (file_name, file_obj, is_modified) about the file."""
-        return (self.gfile.get_name(), self.gfile, False)
+        return (self.iofile.get_name(), self.iofile, False)
     
     def copy(self):
         """Copy text into clipboard."""
@@ -104,12 +104,12 @@ class EvinceTab(euphorbia.TabWrapper):
 class EvinceView(gtk.VBox):
     """Display area, handled by evince."""
     
-    def __init__(self, filename):
+    def __init__(self, uri):
         gtk.VBox.__init__(self)
         self.dpi = gtk.settings_get_default().get_property('gtk-xft-dpi') / 1024
         self.eview = evince.View()
         self.eview.set_loading(False)
-        self.doc = evince.document_factory_get_document(filename)
+        self.doc = evince.document_factory_get_document(uri)
         self.model = evince.DocumentModel()
         self.model.set_document(self.doc)
         self.model.set_sizing_mode(evince.SIZING_FREE)
@@ -118,9 +118,6 @@ class EvinceView(gtk.VBox):
         scroll.set_policy(gtk.POLICY_AUTOMATIC, gtk.POLICY_ALWAYS)
         scroll.add(self.eview)
         tb = gtk.Toolbar()
-        tb.set_style(gtk.TOOLBAR_BOTH_HORIZ)
-        tb.set_icon_size(gtk.ICON_SIZE_SMALL_TOOLBAR)
-        tb.set_tooltips(True)
         self.populate_toolbar(tb)
         self.pack_start(tb, False, True)
         self.pack_start(scroll, True, True)

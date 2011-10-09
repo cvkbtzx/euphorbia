@@ -42,9 +42,11 @@
             <menuitem action="action_openproj" />
         </menu>
         <menu name="menu_tools" action="action_tools">
-            <placeholder />
+            <placeholder name="placeholder_tools"/>
         </menu>
         <menu name="menu_help" action="action_help">
+            <placeholder name="placeholder_help"/>
+            <separator />
             <menuitem action="action_about" />
         </menu>
     </menubar>
