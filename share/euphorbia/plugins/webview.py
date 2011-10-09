@@ -117,6 +117,13 @@ class WebkitTab(euphorbia.TabWrapper):
         """Paste text from clipboard."""
         self.ev.wview.paste_clipboard()
         return
+    
+    def search(self, txt, case, dir, loop):
+        """Search text in page."""
+        dir = True if dir > 0 else False
+        self.ev.wview.search_text(txt, case, dir, loop)
+        return
+    
 
 
 #------------------------------------------------------------------------------
@@ -237,7 +244,10 @@ class WebkitFrame(gtk.VBox):
     def ev_load_finished(self, *data):
         """Handle 'document-load-finished' event."""
         self.bstop.set_sensitive(False)
-        uri = self.wview.get_property('uri')
+        if hasattr(self.wview, 'get_uri'):
+            uri = self.wview.get_uri()
+        else:
+            uri = self.wview.get_property('uri')
         self.urlentry.set_text("" if uri is None else uri)
         return
 
