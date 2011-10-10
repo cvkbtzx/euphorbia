@@ -88,9 +88,10 @@ class WebkitTab(euphorbia.TabWrapper):
     """Notebook tab containing a WebkitFrame."""
     
     def __init__(self, app, fileobj, **args):
-        ev = WebkitFrame(app, fileobj.uri)
-        euphorbia.TabWrapper.__init__(self, app, ev)
-        self.ev = ev
+        wf = WebkitFrame(app, fileobj.uri)
+        euphorbia.TabWrapper.__init__(self, app, wf)
+        self.wf = wf
+        self.app.gui.autobuild_tooltips(self.wf.get_children()[0])
         self.type_id = "webview"
         self.iofile = fileobj
         t = fileobj.get_name()
@@ -105,25 +106,24 @@ class WebkitTab(euphorbia.TabWrapper):
     
     def cut(self):
         """Cut text into clipboard."""
-        self.ev.wview.cut_clipboard()
+        self.wf.wview.cut_clipboard()
         return
     
     def copy(self):
         """Copy text into clipboard."""
-        self.ev.wview.copy_clipboard()
+        self.wf.wview.copy_clipboard()
         return
     
     def paste(self):
         """Paste text from clipboard."""
-        self.ev.wview.paste_clipboard()
+        self.wf.wview.paste_clipboard()
         return
     
     def search(self, txt, case, dir, loop):
         """Search text in page."""
         dir = True if dir > 0 else False
-        self.ev.wview.search_text(txt, case, dir, loop)
+        self.wf.wview.search_text(txt, case, dir, loop)
         return
-    
 
 
 #------------------------------------------------------------------------------
@@ -192,6 +192,9 @@ class WebkitFrame(gtk.VBox):
         t = gtk.ToolItem()
         t.set_expand(True)
         self.urlentry = gtk.Entry()
+        self.urlentry.set_icon_from_stock(gtk.ENTRY_ICON_SECONDARY, gtk.STOCK_OK)
+        self.urlentry.set_icon_activatable(gtk.ENTRY_ICON_SECONDARY, True)
+        self.urlentry.connect('icon-release', self.ev_activate)
         self.urlentry.connect('activate', self.ev_activate)
         t.add(self.urlentry)
         tb.insert(t, -1)

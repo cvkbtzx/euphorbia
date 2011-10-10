@@ -108,6 +108,7 @@ class EuphorbiaGUI(actions.ActionsManager):
         self.builder.get_object('vbox_main').pack_start(menu, False, True)
         self.builder.get_object('vbox_main').reorder_child(menu, 0)
         toolbar = self.uim.get_widget("/toolbar_main")
+        self.autobuild_tooltips(toolbar)
         self.builder.get_object('handlebox_main').add(toolbar)
         # Documents notebook
         self.nbd = self.builder.get_object('notebook_docs')
@@ -131,6 +132,7 @@ class EuphorbiaGUI(actions.ActionsManager):
         self.locmsg.show_all()
         # Searchbar
         sb = searchbar.SearchBar(self.app, accg)
+        self.autobuild_tooltips(sb)
         self.builder.get_object('vbox_docs').pack_start(sb, False, True)
         self.searchb = sb
         # Output textviews
@@ -193,11 +195,23 @@ class EuphorbiaGUI(actions.ActionsManager):
             infos.append((tab, title, pos, f))
         return infos
     
+    def autobuild_tooltips(self, toolbar):
+        """Scan GTK Toolbar recursively and set the Buttons tooltip."""
+        for c in toolbar.get_children():
+            if hasattr(c, 'get_stock_id'):
+                stock = c.get_stock_id()
+                if stock is not None and not c.get_property('has-tooltip'):
+                    infos = gtk.stock_lookup(stock)
+                    if infos is not None:
+                        txt = infos[1].replace('_','')
+                        c.set_tooltip_text(txt)
+        return
+    
     def connect(self, signal, func, *args):
         """Connect a function to the specified Euphorbia signal."""
         self.connections[signal].append((func, args))
         return
-     
+    
     def emit(self, signal, *params):
         """Emit the specified Euphorbia signal."""
         self.disp_status_msg(_("signal_"+signal))

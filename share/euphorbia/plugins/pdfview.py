@@ -54,6 +54,7 @@ class EvinceTab(euphorbia.TabWrapper):
         ev = EvinceView(fileobj.uri)
         euphorbia.TabWrapper.__init__(self, app, ev)
         self.ev = ev
+        self.app.gui.autobuild_tooltips(self.ev.get_children()[0])
         self.type_id = "pdfview"
         self.iofile = fileobj
         self.set_title(fileobj.get_name())
