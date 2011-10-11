@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Euphorbia 0.0.X\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-10-09 17:56+0200\n"
+"POT-Creation-Date: 2011-10-11 23:05+0200\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Bzoloid <bzoloid@gmail.com>\n"
 "Language-Team: \n"
@@ -13,12 +13,18 @@ msgstr ""
 "X-Poedit-Language: English\n"
 "X-Poedit-SourceCharset: utf-8\n"
 
+#
+# --- TITLE -------------------------------------
+#
 msgid "Euphorbia"
 msgstr "Euphorbia"
 
 msgid "GTK LaTeX editor"
 msgstr "GTK LaTeX editor"
 
+#
+# --- MENUS -------------------------------------
+#
 msgid "File"
 msgstr "_File"
 
@@ -34,6 +40,9 @@ msgstr "_Project"
 msgid "Tools"
 msgstr "_Tools"
 
+#
+# --- PLUGIN: PDFVIEW ---------------------------
+#
 msgid "Help"
 msgstr "_Help"
 
@@ -58,6 +67,9 @@ msgstr "Auto"
 msgid "None"
 msgstr "None"
 
+#
+# --- PROJECT -----------------------------------
+#
 msgid "Add files"
 msgstr "Add _files"
 
@@ -79,6 +91,9 @@ msgstr "_Include in archive"
 msgid "Remove from project"
 msgstr "_Remove from project"
 
+#
+# --- PREFERENCES -------------------------------
+#
 msgid "Preferences"
 msgstr "Preferences"
 
@@ -91,6 +106,9 @@ msgstr "LaTeX"
 msgid "Plugins"
 msgstr "Plugins"
 
+#
+# --- OPTIONS -----------------------------------
+#
 msgid "opt_"
 msgstr "opt_"
 
@@ -126,9 +144,6 @@ msgstr "Show arrows when too small"
 
 msgid "toolbar_iconsize"
 msgstr "Icons size"
-
-msgid "toolbar_tooltips"
-msgstr "Tooltips"
 
 msgid "toolbar_style"
 msgstr "Style"
@@ -328,6 +343,9 @@ msgstr "after"
 msgid "l_home-always"
 msgstr "always"
 
+#
+# --- STATUSBAR ---------------------------------
+#
 msgid "signal_"
 msgstr "signal_"
 
@@ -360,6 +378,9 @@ msgstr "INS"
 msgid "%(ins)s L%(lin)i,C%(col)i"
 msgstr "%(ins)s L%(lin)i,C%(col)i"
 
+#
+# --- DIALOGS -----------------------------------
+#
 msgid "Open..."
 msgstr "Open..."
 
@@ -405,9 +426,15 @@ msgstr ""
 msgid "Plugin '%s' loading error"
 msgstr "Plugin '%s' loading error"
 
+#
+# --- SEARCHBAR ---------------------------------
+#
 msgid "Case sensitive"
 msgstr "Case sensitive"
 
+#
+# --- SIDEPANEL ---------------------------------
+#
 msgid "Structure"
 msgstr "Structure"
 
@@ -420,6 +447,9 @@ msgstr "Graphics"
 msgid "Project content"
 msgstr "Project files"
 
+#
+# --- PLUGIN: CHANGECASE ------------------------
+#
 msgid "Change case"
 msgstr "Change case"
 
@@ -435,6 +465,9 @@ msgstr "Capitalize"
 msgid "Invert"
 msgstr "Invert"
 
+#
+# --- PLUGIN: STATS -----------------------------
+#
 msgid "Statistics"
 msgstr "Document statistics"
 
@@ -447,9 +480,15 @@ msgstr "Words:"
 msgid "Characters:"
 msgstr "Characters:"
 
+#
+# --- PLUGIN: IMGVIEW ---------------------------
+#
 msgid "Image files"
 msgstr "Image files"
 
+#
+# --- PLUGIN: PDFVIEW ---------------------------
+#
 msgid "Output files"
 msgstr "Output files (*.pdf *.div *.ps)"
 
@@ -474,6 +513,9 @@ msgstr "HTML files (*.html *.htm)"
 
 msgid "ShowHtmlHelp"
 msgstr "Show the LaTeX handbook"
+
+msgid "Handbook"
+msgstr "Handbook"
 
 msgid "opt_pluginwebview"
 msgstr "HTML viewer"

@@ -78,7 +78,7 @@ class WebView(euphorbia.Plugin):
     def help(self, *data):
         """Show the HTML help."""
         url = self.app.prefm.get_pref('pluginwebview_helpurl')
-        self.app.gui.do_open(url, 'webview', title="Help")
+        self.app.gui.do_open(url, 'webview', title=_("Handbook"), icon=gtk.STOCK_HELP)
         return
 
 
@@ -95,10 +95,13 @@ class WebkitTab(euphorbia.TabWrapper):
         self.type_id = "webview"
         self.iofile = fileobj
         t = fileobj.get_name()
+        if 'icon' in args:
+            self.set_icon(args['icon'])
+        else:
+            self.set_icon(*fileobj.get_icons())
         if 'title' in args:
             t = args['title']
         self.set_title(t)
-        self.set_icon(*fileobj.get_icons())
     
     def get_file_infos(self):
         """Return infos (file_name, file_obj, is_modified) about the file."""

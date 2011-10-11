@@ -54,6 +54,8 @@ def get_actions_list(cls):
         ('action_gomark', None, _("GoMark"), 'F2', None, cls.act_gomark),
         ('action_search', gtk.STOCK_FIND, None, None, None, cls.act_search),
         ('action_view', None, _("View")),
+        ('action_nexttab', gtk.STOCK_GO_FORWARD, None, 'F6', None, cls.act_nexttab),
+        ('action_prevtab', gtk.STOCK_GO_BACK, None, '<Shift>F6', None, cls.act_prevtab),
         ('action_hlight', gtk.STOCK_SELECT_COLOR, _("Syntax highlighting")),
         ('action_hlauto', None, _("Auto"), None, None, cls.act_hlight),
         ('action_hllatex', None, _("LaTeX"), None, None, cls.act_hlight),
@@ -270,6 +272,22 @@ class ActionsManager(object):
         """Callback for 'Show bottompanel' action."""
         p = self.app.prefm.get_pref('gui_bottompanelshow')
         self.do_showpanel(not p, 'bottom')
+        return
+    
+    def act_nexttab(self, *data):
+        """Callback for 'Next tab' action."""
+        if self.nbd.get_current_page() == self.nbd.get_n_pages()-1:
+            self.nbd.set_current_page(0)
+        else:
+            self.nbd.next_page()
+        return
+    
+    def act_prevtab(self, *data):
+        """Callback for 'Previous tab' action."""
+        if self.nbd.get_current_page() == 0:
+            self.nbd.set_current_page(-1)
+        else:
+            self.nbd.prev_page()
         return
     
     def act_hlight(self, *data):

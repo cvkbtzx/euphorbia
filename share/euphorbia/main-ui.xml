@@ -31,6 +31,9 @@
             <menuitem action="action_showsidepan" />
             <menuitem action="action_showbottompan" />
             <separator />
+            <menuitem action="action_nexttab" />
+            <menuitem action="action_prevtab" />
+            <separator />
             <menu name="menu_hlight" action="action_hlight">
                 <menuitem action="action_hlauto" />
                 <menuitem action="action_hllatex" />

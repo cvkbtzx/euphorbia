@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-10-09 17:56+0200\n"
+"POT-Creation-Date: 2011-10-11 23:05+0200\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -44,6 +44,9 @@ msgstr ""
 msgid "Tools"
 msgstr ""
 
+#
+# --- PLUGIN: PDFVIEW ---------------------------
+#
 msgid "Help"
 msgstr ""
 
@@ -144,9 +147,6 @@ msgid "toolbar_arrow"
 msgstr ""
 
 msgid "toolbar_iconsize"
-msgstr ""
-
-msgid "toolbar_tooltips"
 msgstr ""
 
 msgid "toolbar_style"
@@ -510,6 +510,9 @@ msgid "HTML files"
 msgstr ""
 
 msgid "ShowHtmlHelp"
+msgstr ""
+
+msgid "Handbook"
 msgstr ""
 
 msgid "opt_pluginwebview"

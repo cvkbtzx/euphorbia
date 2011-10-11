@@ -2,7 +2,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: Euphorbia 0.0.X\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2011-10-09 17:56+0200\n"
+"POT-Creation-Date: 2011-10-11 23:05+0200\n"
 "PO-Revision-Date: \n"
 "Last-Translator: Bzoloid <bzoloid@gmail.com>\n"
 "Language-Team: \n"
@@ -13,12 +13,18 @@ msgstr ""
 "X-Poedit-Language: French\n"
 "X-Poedit-SourceCharset: utf-8\n"
 
+#
+# --- TITLE -------------------------------------
+#
 msgid "Euphorbia"
 msgstr "Euphorbia"
 
 msgid "GTK LaTeX editor"
 msgstr "Éditeur LaTeX GTK"
 
+#
+# --- MENUS -------------------------------------
+#
 msgid "File"
 msgstr "_Fichier"
 
@@ -34,6 +40,9 @@ msgstr "_Projet"
 msgid "Tools"
 msgstr "_Outils"
 
+#
+# --- PLUGIN: PDFVIEW ---------------------------
+#
 msgid "Help"
 msgstr "A_ide"
 
@@ -58,6 +67,9 @@ msgstr "Automatique"
 msgid "None"
 msgstr "Aucune"
 
+#
+# --- PROJECT -----------------------------------
+#
 msgid "Add files"
 msgstr "Ajou_ter des fichiers..."
 
@@ -79,6 +91,9 @@ msgstr "_Inclure dans l'archive"
 msgid "Remove from project"
 msgstr "_Enlever du projet"
 
+#
+# --- PREFERENCES -------------------------------
+#
 msgid "Preferences"
 msgstr "Préférences"
 
@@ -91,6 +106,9 @@ msgstr "LaTeX"
 msgid "Plugins"
 msgstr "Plugins"
 
+#
+# --- OPTIONS -----------------------------------
+#
 msgid "opt_"
 msgstr "opt_"
 
@@ -126,9 +144,6 @@ msgstr "Flèche si barre trop petite"
 
 msgid "toolbar_iconsize"
 msgstr "Taille des icônes"
-
-msgid "toolbar_tooltips"
-msgstr "Infobulles"
 
 msgid "toolbar_style"
 msgstr "Style"
@@ -328,6 +343,9 @@ msgstr "après"
 msgid "l_home-always"
 msgstr "toujours"
 
+#
+# --- STATUSBAR ---------------------------------
+#
 msgid "signal_"
 msgstr "signal_"
 
@@ -360,6 +378,9 @@ msgstr "INS"
 msgid "%(ins)s L%(lin)i,C%(col)i"
 msgstr "%(ins)s L%(lin)i,C%(col)i"
 
+#
+# --- DIALOGS -----------------------------------
+#
 msgid "Open..."
 msgstr "Ouvrir..."
 
@@ -405,9 +426,15 @@ msgstr ""
 msgid "Plugin '%s' loading error"
 msgstr "Erreur de chargement du plugin '%s'"
 
+#
+# --- SEARCHBAR ---------------------------------
+#
 msgid "Case sensitive"
 msgstr "Respecter la casse"
 
+#
+# --- SIDEPANEL ---------------------------------
+#
 msgid "Structure"
 msgstr "Structure"
 
@@ -420,6 +447,9 @@ msgstr "Graphiques"
 msgid "Project content"
 msgstr "Fichiers du projet"
 
+#
+# --- PLUGIN: CHANGECASE ------------------------
+#
 msgid "Change case"
 msgstr "Modifier la casse"
 
@@ -435,6 +465,9 @@ msgstr "Titre"
 msgid "Invert"
 msgstr "Inverser"
 
+#
+# --- PLUGIN: STATS -----------------------------
+#
 msgid "Statistics"
 msgstr "Statistiques du document"
 
@@ -447,9 +480,15 @@ msgstr "Mots :"
 msgid "Characters:"
 msgstr "Caractères :"
 
+#
+# --- PLUGIN: IMGVIEW ---------------------------
+#
 msgid "Image files"
 msgstr "Fichiers images"
 
+#
+# --- PLUGIN: PDFVIEW ---------------------------
+#
 msgid "Output files"
 msgstr "Fichiers de sortie (*.pdf *.dvi *.ps)"
 
@@ -474,6 +513,9 @@ msgstr "Fichiers HTML (*.html *.htm)"
 
 msgid "ShowHtmlHelp"
 msgstr "Afficher le manuel LaTeX"
+
+msgid "Handbook"
+msgstr "Manuel"
 
 msgid "opt_pluginwebview"
 msgstr "Visionneur Html"
