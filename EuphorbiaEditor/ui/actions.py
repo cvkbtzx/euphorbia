@@ -396,8 +396,8 @@ class ActionsManager(object):
             self.project.save()
         pluglist = self.app.plugm.list_loaded_plugins()
         self.app.prefm.set_pref('plugins_list', pluglist)
-        self.app.plugm.stop_all_plugins()
         self.app.prefm.store()
+        self.app.plugm.stop_all_plugins()
         self.ev_destroy()
         return
 

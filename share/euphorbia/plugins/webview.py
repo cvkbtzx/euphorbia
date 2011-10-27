@@ -48,7 +48,7 @@ class WebView(euphorbia.Plugin):
         self.menu = None
         self.actgrp = gtk.ActionGroup('euphorbia')
         actions = [
-            ('action_html_help', None, _("ShowHtmlHelp"), None, None, self.help)
+            ('action_html_help', gtk.STOCK_DIALOG_INFO, _("ShowHtmlHelp"), None, None, self.help)
         ]
         self.actgrp.add_actions(actions)
     
