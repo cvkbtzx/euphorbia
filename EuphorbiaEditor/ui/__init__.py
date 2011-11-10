@@ -23,6 +23,7 @@
 
 import os.path
 import fnmatch
+import gobject
 import gtk
 import pango
 import gtksourceview2 as gtksv
@@ -117,7 +118,6 @@ class EuphorbiaGUI(actions.ActionsManager):
             ba.set_image(gtk.image_new_from_stock(gtk.STOCK_ADD, gtk.ICON_SIZE_MENU))
             ba.set_relief(gtk.RELIEF_NONE)
             ba.set_focus_on_click(False)
-            ba.set_name('buttonadd-euphorbia-small')
             ba.connect('clicked', self.act_new)
             af = gtk.AspectFrame(obey_child=False)
             af.set_shadow_type(gtk.SHADOW_NONE)
@@ -144,10 +144,11 @@ class EuphorbiaGUI(actions.ActionsManager):
         return
     
     def set_builder_names(self):
-        """Set widgets names from their builder ID."""
+        """Set widgets ID from their GtkBuilder ID."""
         for w in self.builder.get_objects():
-            if hasattr(w, 'set_name'):
-                w.set_name(gtk.Buildable.get_name(w))
+            if 'GtkBuildable' in map(gobject.type_name, gobject.type_interfaces(w)):
+                if hasattr(w, 'set_data'):
+                    w.set_data('id', gtk.Buildable.get_name(w))
         return
     
     def build_printers(self):
@@ -158,16 +159,16 @@ class EuphorbiaGUI(actions.ActionsManager):
         self.print_settings = gtk.PrintSettings()
         return
     
-    def get_widgets_by_name(self, wname, parent=None):
-        """Get widget(s) instance(s) from name."""
+    def get_widgets_by_id(self, wid, parent=None):
+        """Get widget(s) instance(s) from ID."""
         wlist = set()
         parent = parent if parent else self.win
-        if hasattr(parent, 'name'):
-            if parent.name == wname:
+        if hasattr(parent, 'get_data'):
+            if parent.get_data('id') == wid:
                 wlist.add(parent)
         if hasattr(parent, 'get_children'):
             for c in parent.get_children():
-                wlist.update(self.get_widgets_by_name(wname,c))
+                wlist.update(self.get_widgets_by_id(wid,c))
         return wlist
     
     def get_handler_from_path(self, path):

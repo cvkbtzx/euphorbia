@@ -168,7 +168,7 @@ class WebkitFrame(gtk.VBox):
     def build_toolbar(self, tb):
         """Add buttons to the toolbar."""
         accels = self.app.gui.uim.get_accel_group()
-        tb.set_name('toolbar_webview')
+        tb.set_data('id', "toolbar_webview")
         # Browse buttons
         t = gtk.ToolButton(gtk.STOCK_GO_BACK)
         t.set_expand(False)

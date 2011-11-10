@@ -337,7 +337,7 @@ class ActionsManager(object):
             a.block_activate_from(p)
             p.set_active(visible)
             a.unblock_activate_from(p)
-        w = self.get_widgets_by_name(panel+'panel').pop()
+        w = self.get_widgets_by_id(panel+'panel').pop()
         exe = w.show() if visible else w.hide()
         return
     

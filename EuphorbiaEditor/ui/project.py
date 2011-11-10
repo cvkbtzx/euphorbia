@@ -100,7 +100,7 @@ class ProjectManager(object):
             self.app.gui.uim.insert_action_group(self.actgrp, -1)
             self.menu = self.app.gui.uim.add_ui_from_string(MENU)
             # Side panel
-            sidepanel = self.app.gui.get_widgets_by_name('sidepanel').pop()
+            sidepanel = self.app.gui.get_widgets_by_id('sidepanel').pop()
             self.pb = ProjectBrowser(self)
             sidepanel.add_expander('project', _("Project content"), self.pb)
             sidepanel.reorder_child(sidepanel.expanders['project'], 0)
@@ -114,7 +114,7 @@ class ProjectManager(object):
         """Callback for 'Close' action."""
         self.app.gui.emit('closeprj')
         self.save()
-        sidepanel = self.app.gui.get_widgets_by_name('sidepanel').pop()
+        sidepanel = self.app.gui.get_widgets_by_id('sidepanel').pop()
         sidepanel.remove_expander('project')
         self.app.gui.uim.remove_ui(self.menu)
         self.app.gui.uim.remove_action_group(self.actgrp)
@@ -387,7 +387,7 @@ class ProjectBrowser(gtk.ScrolledWindow):
         gtk.ScrolledWindow.__init__(self)
         self.set_policy(gtk.POLICY_NEVER, gtk.POLICY_AUTOMATIC)
         self.set_shadow_type(gtk.SHADOW_NONE)
-        self.set_name("projectbrowser")
+        self.set_data('id', "projectbrowser")
         self.manager = manager
         self.build_treeview()
         self.add(self.tv)

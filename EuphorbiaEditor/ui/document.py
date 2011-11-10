@@ -394,7 +394,7 @@ class EditView(gtk.ScrolledWindow):
         self.buffer.set_modified(False)
         self.buffer.set_highlight_syntax(True)
         self.view = gtksv.View(self.buffer)
-        self.view.set_name('editview')
+        self.view.set_data('id', "editview")
         self.view.set_font = self.set_font
         self.view.set_max_undo_levels = self.buffer.set_max_undo_levels
         self.view.set_highlight_matching_brackets = self.buffer.set_highlight_matching_brackets

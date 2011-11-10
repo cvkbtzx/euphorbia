@@ -75,12 +75,12 @@ class PrefsManager(object):
     
     def connect_prefs_by_type(self, obj):
         """Connect all prefs matching an object type to this object."""
-        if not hasattr(obj, 'name'):
+        id = obj.get_data('id')
+        if id is None:
             return
-        name = obj.name
-        clst = self.types[name] if name in self.types else set([])
+        clst = self.types[id] if id in self.types else set([])
         for t,c in self.types.iteritems():
-            if name.startswith(t[:-1]) and t[-1]=='*':
+            if id.startswith(t[:-1]) and t[-1]=='*':
                 clst.update(c)
         for c in clst:
             self.connect_pref(obj, c)
@@ -88,9 +88,8 @@ class PrefsManager(object):
     
     def autoconnect_gtk(self, parentobj):
         """Scan GTK widgets recursively and connect prefs from type."""
-        if hasattr(parentobj, 'name'):
-            if parentobj.name:
-                self.connect_prefs_by_type(parentobj)
+        if hasattr(parentobj, 'get_data'):
+            self.connect_prefs_by_type(parentobj)
         if hasattr(parentobj, 'get_children'):
             for c in parentobj.get_children():
                 self.autoconnect_gtk(c)

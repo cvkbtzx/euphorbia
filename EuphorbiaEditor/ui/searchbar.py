@@ -32,7 +32,7 @@ class SearchBar(gtk.Toolbar):
     def __init__(self, app, accels):
         gtk.Toolbar.__init__(self)
         self.app = app
-        self.set_name('toolbar_search')
+        self.set_data('id', "toolbar_search")
         # Search entry
         t = gtk.ToolItem()
         t.set_expand(True)

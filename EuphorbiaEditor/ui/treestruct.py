@@ -34,7 +34,7 @@ class StructBrowser(gtk.ScrolledWindow):
         gtk.ScrolledWindow.__init__(self)
         self.set_policy(gtk.POLICY_NEVER, gtk.POLICY_AUTOMATIC)
         self.set_shadow_type(gtk.SHADOW_NONE)
-        self.set_name("structbrowser")
+        self.set_data('id', "structbrowser")
         self.activated_cb = None
         self.expand_level = 2
         self.tree = []
@@ -74,7 +74,7 @@ class StructBrowser(gtk.ScrolledWindow):
         self.tv.append_column(c)
         return
     
-    def set_data(self, tree):
+    def set_struct(self, tree):
         """Set tree rows from list."""
         self.tree = tree
         self.ts.clear()
@@ -137,7 +137,7 @@ if __name__ == '__main__':
                 y[2].append(z)
             x[2].append(y)
         data[0][2].append(x)
-    tds.set_data(data)
+    tds.set_struct(data)
     win.add(tds)
     win.show()
     gtk.main()

@@ -39,7 +39,7 @@ class SidePanel(gtk.VBox):
         gtk.VBox.__init__(self)
         self.expanders = {}
         self.switchsignal = 'clicked'
-        self.set_name('sidepanel')
+        self.set_data('id', "sidepanel")
         self.show()
     
     def add_expander(self, name, label, child):
@@ -228,11 +228,11 @@ class EuphorbiaSidePanel(SidePanel):
     def update_structbrowser(self, tab=None):
         """Update structbrowser widget from tab data."""
         if hasattr(tab, 'struct'):
-            self.structbrowser.set_data(tab.struct)
+            self.structbrowser.set_struct(tab.struct)
         elif len(self.app.gui.nbd.tab_list) == 0:
-            self.structbrowser.set_data([])
+            self.structbrowser.set_struct([])
         elif tab is not None:
-            self.structbrowser.set_data([])
+            self.structbrowser.set_struct([])
         return
     
     def ev_struct_activate(self, row):
