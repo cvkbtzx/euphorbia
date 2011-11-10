@@ -38,12 +38,13 @@ class SidePanel(gtk.VBox):
     def __init__(self):
         gtk.VBox.__init__(self)
         self.expanders = {}
+        self.switchsignal = 'clicked'
         self.set_name('sidepanel')
         self.show()
     
     def add_expander(self, name, label, child):
         """Add an Expander object to the panel."""
-        exp = Expander(label, child)
+        exp = Expander(label, child, self.switchsignal)
         self.pack_start(exp, expand=False, fill=True)
         self.expanders[name] = exp
         self.check_expand_status()
@@ -80,11 +81,11 @@ class SidePanel(gtk.VBox):
 class Expander(gtk.VBox):
     """Expander class for side panel (show/hide child widget)."""
     
-    def __init__(self, label, child):
+    def __init__(self, label, child, switchsignal):
         gtk.VBox.__init__(self)
         # Button
         button = gtk.Button()
-        button.connect('clicked', lambda w: self.ev_button_selected(w))
+        button.connect(switchsignal, lambda w: self.ev_button_selected(w))
         button.set_focus_on_click(False)
         button.set_relief(gtk.RELIEF_NONE)
         hbox = gtk.HBox()
@@ -138,6 +139,8 @@ class EuphorbiaSidePanel(SidePanel):
     def __init__(self, app, gui):
         SidePanel.__init__(self)
         self.app = app
+        ss = self.app.prefm.get_pref('sidepanel_switchonclick')
+        self.switchsignal = 'clicked' if ss else 'enter'
         tc = gtk.widget_get_default_style().text[gtk.STATE_NORMAL]
         textcolor = "".join(map(chr, [tc.red, tc.green, tc.blue]))
         self.structbrowser = treestruct.StructBrowser()

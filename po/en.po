@@ -208,6 +208,9 @@ msgstr "Structure expand level"
 msgid "sidepanel_symcolorfromtheme"
 msgstr "Symbols color from theme (needs restart)"
 
+msgid "sidepanel_switchonclick"
+msgstr "Deactivate switch on hover (restart)"
+
 msgid "files_trash"
 msgstr "Try to put in the trash"
 

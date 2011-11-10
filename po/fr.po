@@ -208,6 +208,9 @@ msgstr "Niveau d'expansion de la structure"
 msgid "sidepanel_symcolorfromtheme"
 msgstr "Couleur du thème pour les symboles (redémarrer)"
 
+msgid "sidepanel_switchonclick"
+msgstr "Désactiver le survol (redémarrer)"
+
 msgid "files_trash"
 msgstr "Mettre à la corbeille en supprimant"
 

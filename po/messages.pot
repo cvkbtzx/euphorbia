@@ -212,6 +212,9 @@ msgstr ""
 msgid "sidepanel_symcolorfromtheme"
 msgstr ""
 
+msgid "sidepanel_switchonclick"
+msgstr ""
+
 msgid "files_trash"
 msgstr ""
 
