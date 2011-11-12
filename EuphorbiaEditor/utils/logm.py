@@ -29,7 +29,7 @@ logger = logging.getLogger("euphorbia")
 
 #------------------------------------------------------------------------------
 
-def log_main(msg, ltype='debug'):
+def log_main(msg, ltype='info'):
     """Display log in stdout."""
     # ltype: 'debug','info','warning','error','critical'
     getattr(logger, ltype)(msg)
@@ -38,7 +38,7 @@ def log_main(msg, ltype='debug'):
 
 def log_null(*data):
     """Do not display log."""
-    return
+    pass
 
 
 #------------------------------------------------------------------------------
