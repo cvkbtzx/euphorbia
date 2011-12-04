@@ -25,7 +25,6 @@ import os.path
 import fnmatch
 import gobject
 import gtk
-import pango
 import gtksourceview2 as gtksv
 
 from . import actions

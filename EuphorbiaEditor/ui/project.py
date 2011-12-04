@@ -210,7 +210,7 @@ class ProjectManager(object):
             opts = {'highlight':hlight, 'encoding':enc, 'archive':arch}
             for op,v in DEFAULT_ITEM_OPTS.iteritems():
                 val = opts[op] if op in opts else v
-                self.set_opt(urim, op, v)
+                self.set_opt(urim, op, val)
             self.pb.update()
         return test
     

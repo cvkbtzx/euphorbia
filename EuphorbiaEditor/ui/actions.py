@@ -24,7 +24,6 @@
 import gtk
 
 from . import dialogs
-from . import document
 from ..utils import iofiles
 
 
@@ -338,7 +337,7 @@ class ActionsManager(object):
             p.set_active(visible)
             a.unblock_activate_from(p)
         w = self.get_widgets_by_id(panel+'panel').pop()
-        exe = w.show() if visible else w.hide()
+        w.show() if visible else w.hide()
         return
     
     def do_ask_save(self, tabs):

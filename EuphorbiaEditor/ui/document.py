@@ -26,7 +26,6 @@ import gtk
 import pango
 import gtksourceview2 as gtksv
 
-from . import dialogs
 from . import tabwrapper
 from ..utils import texparser
 

@@ -168,7 +168,7 @@ class FileManager(object):
     def get_app(self):
         """Get file's default application."""
         type = "" if self.mime is None else self.mime
-        return gio.app_info_get_default_for_type(self.mime, False)
+        return gio.app_info_get_default_for_type(type, False)
     
     def get_icons(self):
         """Get icon pixbuf."""
