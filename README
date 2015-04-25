@@ -26,8 +26,3 @@ Install:
 Install on Debian/Ubuntu:
     python setup.py install --install-layout=deb
 
-
-More infos:
-http://euphorbia.googlecode.com/
-
-

@@ -32,7 +32,7 @@ setup(
     long_description = "Euphorbia provides a powerful and extensible environment to edit and manage LaTeX documents.",
     author = "Bzoloid",
     author_email = "bzoloid@gmail.com",
-    url = "http://euphorbia.googlecode.com/",
+    url = "https://github.com/cvkbtzx/euphorbia",
     license = lic,
     packages = pkgs,
     scripts = binfiles,
